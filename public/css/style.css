@@ -1,0 +1,316 @@
+:root {
+    --primary-color: #000000;
+    --secondary-color: #ffffff;
+    --accent-color: #D4AF37; /* Gold */
+    --text-color: #333333;
+    --bg-light: #f9f9f9;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    background: var(--secondary-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-outline {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.btn-dark {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.btn-dark:hover {
+    opacity: 0.8;
+}
+
+/* Hero Section */
+.hero {
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('/images/hero_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 60px 80px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 800px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Price List */
+.price-list {
+    padding: 80px 10%;
+    background: var(--bg-light);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.price-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.price-card {
+    background: var(--secondary-color);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.price-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-img {
+    height: 350px;
+    overflow: hidden;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 25px;
+    text-align: center;
+}
+
+.card-content h3 {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+/* Collections */
+.collections {
+    padding: 80px 10%;
+}
+
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.collection-item {
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.collection-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+.collection-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Auth Pages */
+.auth-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-light);
+}
+
+.auth-box {
+    background: var(--secondary-color);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-box h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+}
+
+.auth-box .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 80px 10% 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.footer-col h4 {
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+.footer-col p, .footer-col a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.footer-col a:hover {
+    color: var(--accent-color);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid #333;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.copyright span {
+    color: var(--accent-color);
+}

@@ -1,0 +1,871 @@
+@extends('layouts.dashboard')
+
+@section('title', 'Main Menu')
+
+@section('sidebar')
+    <a href="{{ url('/menu-utama') }}" class="sidebar-item sidebar-item-active flex items-center px-5 py-3.5 transition-all text-white">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
+        </svg>
+        <span>Dashboard</span>
+    </a>
+    <a href="#booking-card" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008ZM0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
+        </svg>
+        <span>Riwayat Booking</span>
+    </a>
+    <a href="#gallery-card" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+        </svg>
+        <span>Galeri Foto</span>
+    </a>
+    <a href="#loyalty-card" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+        </svg>
+        <span>Poin Loyalitas</span>
+    </a>
+@endsection
+
+@section('content')
+    <!-- Luxurious Welcome Banner -->
+    <div class="bg-gradient-to-br from-primary-950 via-[#0c4a6e] to-primary-950 text-white p-8 sm:p-12 border border-white/10 rounded-[2rem] shadow-2xl mb-10 relative overflow-hidden animate-fade-in-up">
+        <!-- Decorative blur effect inside card -->
+        <div class="absolute -right-10 -top-10 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
+
+        <div class="relative z-10 max-w-2xl">
+            <span class="inline-flex items-center px-3 py-1 bg-white/10 backdrop-blur-md text-[#D4AF37] text-[8px] font-black uppercase tracking-[0.25em] rounded-md mb-4 border border-white/10">
+                Studio.mu Visual Art
+            </span>
+            <h3 class="text-3xl sm:text-5xl font-serif italic font-bold tracking-tight mb-4 text-white">
+                Halo, <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F59E0B] font-bold">{{ Auth::user()->name }}</span>!
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm font-medium tracking-wide leading-relaxed mb-8">
+                Selamat datang kembali di ruang visual Anda. Abadikan setiap momen berharga bersama tim fotografer handal kami, telusuri karya eksklusif di galeri, atau jadwalkan sesi pemotretan Anda berikutnya dengan mudah.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#creative-services" class="bg-white hover:bg-slate-50 text-primary-950 font-black uppercase tracking-[0.2em] text-[10px] py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-xl border-none">
+                    <span>Pesan Sesi Foto</span>
+                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats & Metrics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <!-- Card 1: Loyalty Points -->
+        <div id="loyalty-card" class="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white p-7 rounded-[1.8rem] border border-white/10 flex flex-col justify-between shadow-xl hover:shadow-2xl hover:border-amber-500/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden">
+            <div class="absolute right-[-20px] top-[-20px] w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Poin Loyalitas</span>
+                    <span class="px-2.5 py-1 bg-gradient-to-r from-[#D4AF37] to-[#F59E0B] text-slate-950 text-[8px] font-black uppercase tracking-widest rounded border-none shadow-md">GOLD MEMBER</span>
+                </div>
+                <h3 class="text-5xl font-serif italic font-bold text-white">
+                    450 <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F59E0B] text-xs font-sans font-black uppercase tracking-widest ml-1">pts</span>
+                </h3>
+            </div>
+            <div class="mt-8">
+                <div class="flex justify-between text-[9px] font-black uppercase tracking-wider text-slate-350 mb-2">
+                    <span>80% Menuju Free Booking</span>
+                    <span class="text-[#D4AF37] font-extrabold">50 Poin Lagi</span>
+                </div>
+                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-gradient-to-r from-[#D4AF37] to-[#F59E0B] h-full rounded-full" style="width: 80%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Upcoming Photo Sessions -->
+        <div id="booking-card" class="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white p-7 rounded-[1.8rem] border border-white/10 flex flex-col justify-between shadow-xl hover:shadow-2xl hover:border-primary-500/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-primary-500/10 rounded-full blur-2xl group-hover:bg-primary-500/20 transition-all duration-500"></div>
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Sesi Aktif</span>
+                    <div class="flex items-center gap-2">
+                        <span id="upcoming-session-status" class="px-2.5 py-0.5 bg-slate-800 border border-slate-700 text-slate-400 text-[8px] font-black uppercase tracking-widest rounded-lg hidden"></span>
+                        <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 relative z-10">
+                    <div class="w-12 h-12 bg-slate-800 border border-slate-700 rounded-2xl flex items-center justify-center text-primary-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316A2.192 2.192 0 0 0 14.502 4h-5c-.75 0-1.436.386-1.841 1.015l-.834 1.16Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-wider text-white">Sesi Foto Terdekat</h4>
+                        <p id="upcoming-session-detail" class="text-[11px] text-slate-350 font-semibold mt-0.5">Belum ada sesi pemotretan aktif.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 relative z-10">
+                <a href="#creative-services" class="text-primary-400 hover:text-primary-300 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-colors group">
+                    <span>Mulai Reservasi</span>
+                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Redesigned Services Section (Synced with Welcome Page) -->
+    <div id="creative-services" class="mb-6">
+        <h4 class="text-[10px] font-black uppercase tracking-[0.25em] mb-6 text-slate-600">Layanan Kreatif Studio.mu</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Service 1: Wedding & Pre-Wedding -->
+            <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(12,74,110,0.08)] hover:border-primary-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full blur-2xl group-hover:bg-primary-500/10 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ asset('img/prewedding_showcase.png') }}" alt="Wedding & Pre-Wedding" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2 group-hover:text-primary-900 transition-colors">Wedding & Pre-Wedding</h3>
+                        <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
+                            Abadikan janji suci dan kebahagiaan tak ternilai di hari pernikahan Anda dengan sentuhan artistik kami.
+                        </p>
+                        <ul class="text-[9px] font-black uppercase tracking-widest text-slate-500 space-y-1.5 mb-2">
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Full Day Coverage</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Cinematic Highlight</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Premium Photo Book</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-100 mt-auto relative z-10">
+                    <span class="inline-flex items-center px-3.5 py-2 bg-primary-50 text-primary-900 text-[10px] font-black uppercase tracking-wider rounded-xl border border-primary-100/60 shadow-sm">Mulai Rp 1.500.000</span>
+                    <button onclick="showServiceDetail('wedding')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95 border-none cursor-pointer">
+                        Lihat Detail
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service 2: Wisuda & Akademik -->
+            <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(12,74,110,0.08)] hover:border-primary-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full blur-2xl group-hover:bg-primary-500/10 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ asset('img/graduation_showcase.png') }}" alt="Wisuda & Akademik" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2 group-hover:text-primary-900 transition-colors">Wisuda & Akademik</h3>
+                        <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
+                            Rayakan pencapaian akademik Anda dengan sesi foto studio yang elegan dan penuh kebanggaan.
+                        </p>
+                        <ul class="text-[9px] font-black uppercase tracking-widest text-slate-500 space-y-1.5 mb-2">
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Studio & Outdoor</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Family Grouping</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Fast Editing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-100 mt-auto relative z-10">
+                    <span class="inline-flex items-center px-3.5 py-2 bg-primary-50 text-primary-900 text-[10px] font-black uppercase tracking-wider rounded-xl border border-primary-100/60 shadow-sm">Mulai Rp 850.000</span>
+                    <button onclick="showServiceDetail('graduation')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95 border-none cursor-pointer">
+                        Lihat Detail
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service 3: Komersial & Produk -->
+            <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(12,74,110,0.08)] hover:border-primary-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full blur-2xl group-hover:bg-primary-500/10 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ asset('img/commercial_showcase.png') }}" alt="Komersial & Produk" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2 group-hover:text-primary-900 transition-colors">Komersial & Produk</h3>
+                        <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
+                            Tingkatkan nilai brand Anda dengan visual produk yang profesional dan menarik perhatian audiens.
+                        </p>
+                        <ul class="text-[9px] font-black uppercase tracking-widest text-slate-500 space-y-1.5 mb-2">
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> High-End Retouching</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Concept Styling</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Professional Lighting</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-100 mt-auto relative z-10">
+                    <span class="inline-flex items-center px-3.5 py-2 bg-primary-50 text-primary-900 text-[10px] font-black uppercase tracking-wider rounded-xl border border-primary-100/60 shadow-sm">Mulai Rp 1.200.000</span>
+                    <button onclick="showServiceDetail('commercial')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95 border-none cursor-pointer">
+                        Lihat Detail
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service 4: Keluarga & Maternity -->
+            <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(12,74,110,0.08)] hover:border-primary-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full blur-2xl group-hover:bg-primary-500/10 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ asset('img/family_showcase.png') }}" alt="Keluarga & Maternity" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2 group-hover:text-primary-900 transition-colors">Keluarga & Maternity</h3>
+                        <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
+                            Abadikan kehangatan kasih sayang keluarga dan perjalanan berharga kehamilan Anda dalam potret penuh makna.
+                        </p>
+                        <ul class="text-[9px] font-black uppercase tracking-widest text-slate-500 space-y-1.5 mb-2">
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Studio & Home Session</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Wardrobe Consultation</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> High-Res Digital Files</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-100 mt-auto relative z-10">
+                    <span class="inline-flex items-center px-3.5 py-2 bg-primary-50 text-primary-900 text-[10px] font-black uppercase tracking-wider rounded-xl border border-primary-100/60 shadow-sm">Mulai Rp 950.000</span>
+                    <button onclick="showServiceDetail('family')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95 border-none cursor-pointer">
+                        Lihat Detail
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service 5: Potret Pribadi & Branding -->
+            <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(12,74,110,0.08)] hover:border-primary-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full blur-2xl group-hover:bg-primary-500/10 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ asset('img/personal_showcase.png') }}" alt="Potret Pribadi & Branding" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2 group-hover:text-primary-900 transition-colors">Potret Pribadi & Branding</h3>
+                        <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
+                            Tampilkan versi terbaik diri Anda untuk profil profesional, CV, LinkedIn, portofolio model, atau personal branding.
+                        </p>
+                        <ul class="text-[9px] font-black uppercase tracking-widest text-slate-500 space-y-1.5 mb-2">
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Corporate Headshot</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Model Portfolio</li>
+                            <li class="flex items-center gap-1.5"><span class="text-[#D4AF37] font-extrabold">•</span> Custom Backdrop</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-100 mt-auto relative z-10">
+                    <span class="inline-flex items-center px-3.5 py-2 bg-primary-50 text-primary-900 text-[10px] font-black uppercase tracking-wider rounded-xl border border-primary-100/60 shadow-sm">Mulai Rp 650.000</span>
+                    <button onclick="showServiceDetail('personal')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95 border-none cursor-pointer">
+                        Lihat Detail
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Luxurious Service Detail Modal (Visual Showcase matched with user reference) -->
+    <div id="service-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-6 opacity-0 pointer-events-none transition-all duration-300">
+        <!-- Close trigger by clicking backdrop -->
+        <div class="absolute inset-0 cursor-default" onclick="closeServiceModal()"></div>
+
+        <!-- Modal Card -->
+        <div class="modal-card bg-white border border-slate-200 rounded-[2rem] shadow-2xl w-full max-w-5xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 relative max-h-[95vh] overflow-y-auto z-10 p-6 sm:p-10 flex flex-col">
+            <!-- Close Button -->
+            <button onclick="closeServiceModal()" class="absolute top-4 right-4 z-20 w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200 transition-colors cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Breadcrumbs -->
+            <nav class="text-xs font-semibold text-slate-500 mb-6 flex items-center gap-1.5 font-sans tracking-wide">
+                <button onclick="closeServiceModal()" class="hover:text-primary-700 transition-colors cursor-pointer text-slate-500 font-semibold">Dashboard</button>
+                <span class="text-slate-400 font-bold font-serif">&rsaquo;</span>
+                <span id="modal-breadcrumb-title" class="text-slate-900 font-black"></span>
+            </nav>
+
+            <!-- Package Title Header Badge (Black Rectangle upgraded to pill badge) -->
+            <div class="mb-8 border-b border-slate-100 pb-4">
+                <span id="modal-header-badge" class="inline-block bg-slate-900/90 text-white px-5 py-2.5 font-black text-xs uppercase tracking-widest rounded-xl shadow-md border-none"></span>
+            </div>
+
+            <!-- Content Area (Grid Layout matching the reference image) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch flex-1">
+                <!-- Left: Beautiful Image Showcase with Carousel Overlays -->
+                <div class="lg:col-span-5 relative rounded-2xl overflow-hidden group min-h-[300px] lg:min-h-[420px] flex items-center justify-center bg-slate-100 border border-slate-200 shadow-inner">
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                    
+                    <!-- Left Arrow Indicator -->
+                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/40 hover:bg-slate-900/60 text-white flex items-center justify-center transition-all cursor-pointer">
+                        <svg class="w-6 h-6 stroke-[1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Right Arrow Indicator -->
+                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/40 hover:bg-slate-900/60 text-white flex items-center justify-center transition-all cursor-pointer">
+                        <svg class="w-6 h-6 stroke-[1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Dot Indicators -->
+                    <div id="modal-carousel-dots" class="absolute bottom-6 left-0 right-0 flex justify-center gap-1.5">
+                        <!-- Dynamically filled -->
+                    </div>
+                </div>
+
+                <!-- Right: Package Comparison Columns (Layanan / Paket Columns) -->
+                <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Column 1: Best Deal / Silver Package -->
+                    <div class="border-t border-slate-200 pt-4">
+                        <h4 id="col1-title" class="text-sm font-bold uppercase tracking-wider text-slate-900 mb-2"></h4>
+                        
+                        <!-- Price Container -->
+                        <div class="flex items-baseline gap-3 mb-6">
+                            <span id="col1-oldprice" class="text-lg font-normal text-slate-400 line-through tracking-wide font-sans"></span>
+                            <span id="col1-newprice" class="text-3xl font-bold text-primary-700 tracking-tight font-sans"></span>
+                        </div>
+
+                        <!-- Benefit Section -->
+                        <h5 class="text-xs font-bold uppercase tracking-wider text-slate-800 mb-4">Benefit</h5>
+                        <ul id="col1-features" class="space-y-3.5 text-xs font-medium text-slate-700 tracking-wide">
+                            <!-- Dynamically loaded -->
+                        </ul>
+                    </div>
+
+                    <!-- Column 2: Special Package / Gold Package -->
+                    <div class="border-t border-slate-200 pt-4">
+                        <h4 id="col2-title" class="text-sm font-bold uppercase tracking-wider text-slate-900 mb-2"></h4>
+                        
+                        <!-- Price Container -->
+                        <div class="flex items-baseline gap-3 mb-6">
+                            <span id="col2-oldprice" class="text-lg font-normal text-slate-400 line-through tracking-wide font-sans"></span>
+                            <span id="col2-newprice" class="text-3xl font-bold text-primary-700 tracking-tight font-sans"></span>
+                        </div>
+
+                        <!-- Benefit Section -->
+                        <h5 class="text-xs font-bold uppercase tracking-wider text-slate-800 mb-4">Benefit</h5>
+                        <ul id="col2-features" class="space-y-3.5 text-xs font-medium text-slate-700 tracking-wide">
+                            <!-- Dynamically loaded -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Box (Catatan) -->
+            <div id="modal-note-container" class="mt-8 border-t border-slate-100 pt-6 text-left hidden">
+                <h4 class="text-xs font-bold text-slate-800 tracking-wide mb-3 flex items-center gap-1">* Catatan :</h4>
+                <div id="modal-note-text" class="text-xs text-slate-600 font-medium leading-relaxed tracking-wide space-y-4 pl-1">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Booking Now Button at the bottom center -->
+            <div class="mt-12 flex justify-center border-t border-slate-200 pt-8">
+                <button onclick="bookService()" class="bg-primary-950 hover:bg-primary-800 text-white font-black uppercase tracking-[0.2em] text-[10px] py-4 px-10 rounded-2xl transition-all shadow-lg shadow-primary-950/20 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer">
+                    Booking Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Toast -->
+    <div id="booking-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-500 pointer-events-none max-w-md w-full">
+        <div class="bg-white/95 backdrop-blur-md text-slate-800 p-6 rounded-2xl border border-slate-200 shadow-2xl flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-green-50 text-green-700 border border-green-200 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-xs font-black uppercase tracking-wider text-green-700">Pemesanan Diajukan!</h4>
+                <p class="text-[11px] text-slate-700 font-semibold mt-1 leading-relaxed">
+                    Permintaan pemesanan Anda untuk layanan <span id="toast-service-name" class="text-slate-900 font-black"></span> telah berhasil diajukan. Sesi foto Anda ditambahkan ke jadwal aktif.
+                </p>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+<script>
+    const serviceData = {
+        wedding: {
+            title: 'Wedding & Pre-Wedding',
+            category: 'Wedding & Pre-Wedding',
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Reservasi disarankan dilakukan minimal 1 bulan sebelum hari H</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Biaya transport & akomodasi luar kota :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Ditanggung sepenuhnya oleh klien</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> H-3 konfirmasi rincian akomodasi</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> DP minimal 30% untuk penguncian tanggal jadwal</li>
+                </ul>
+            `,
+            slides: [
+                '{{ asset("img/prewedding_showcase.png") }}',
+                'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop'
+            ],
+            col1: {
+                title: 'BASIC PREWEDD',
+                oldPrice: '1.999k',
+                newPrice: '1.500k',
+                features: [
+                    '2 Background Indoor Studio',
+                    '2 Jam Sesi Photo',
+                    'Sudah termasuk Photographer & Crew',
+                    'Free 20 Edited Photos',
+                    'Foto unlimited / sepuasnya',
+                    'All Softcopy on Google Drive'
+                ]
+            },
+            col2: {
+                title: 'EXCLUSIVE WEDDING',
+                oldPrice: '3.999k',
+                newPrice: '3.200k',
+                features: [
+                    'Full Day Coverage (10 Jam)',
+                    '2 Professional Photographers',
+                    'Cinematic Highlight Video (1-3 Min)',
+                    '1 Premium Photo Book Exclusive (10R, 20 Halaman)',
+                    '50 Edited Photos Pilihan',
+                    'All Softcopy in Exclusive USB Drive'
+                ]
+            }
+        },
+        graduation: {
+            title: 'Wisuda & Akademik',
+            category: 'Wisuda & Akademik',
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Bisa untuk 1 - 2 busana (bawa sendiri)</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan orang :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : 50k</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : 35k</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Diatas 14 orang pakai studio 3 (di lantai atas)</li>
+                </ul>
+            `,
+            slides: [
+                '{{ asset("img/graduation_showcase.png") }}',
+                'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop'
+            ],
+            col1: {
+                title: 'BEST DEAL',
+                oldPrice: '1.199k',
+                newPrice: '850k',
+                features: [
+                    '2 Background Studio',
+                    '1 Jam Sesi Foto',
+                    'Sudah termasuk Photographer',
+                    'Max 6 orang (Keluarga Inti)',
+                    'Free 15 Edited Photos, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All Softcopy on Google drive (berlaku 2 Minggu)'
+                ]
+            },
+            col2: {
+                title: 'SPECIAL PACKAGE',
+                oldPrice: '1.599k',
+                newPrice: '1.200k',
+                features: [
+                    '3 Background Studio + Outdoor Sesi',
+                    '2 Jam Sesi Foto',
+                    'Sudah termasuk Photographer & Asisten',
+                    'Max 10 orang (Keluarga Besar)',
+                    '1 Cetak Frame ukuran 16R',
+                    '5 pcs Cetak ukuran 5R (tanpa frame)',
+                    'Free 25 Edited Photos, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All softcopy on Google drive (berlaku 1 Bulan)'
+                ]
+            }
+        },
+        commercial: {
+            title: 'Komersial & Produk',
+            category: 'Komersial & Produk',
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Pengiriman sampel produk minimal H-3 sesi pemotretan</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan Properti khusus :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Custom backdrop & model : Hubungi admin</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Makanan/Minuman segar disiapkan oleh klien</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Retouching di luar batas revisi dikenakan biaya tambahan</li>
+                </ul>
+            `,
+            slides: [
+                '{{ asset("img/commercial_showcase.png") }}',
+                'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop'
+            ],
+            col1: {
+                title: 'STARTER KIT',
+                oldPrice: '1.599k',
+                newPrice: '1.200k',
+                features: [
+                    'Minimalist Concept Styling',
+                    '15 Produk Unggulan Sesi',
+                    'Sudah termasuk Product Photographer',
+                    'High-End Retouching (10 Foto)',
+                    'Background Solid / Polos',
+                    'All Softcopy via Google Drive'
+                ]
+            },
+            col2: {
+                title: 'BRAND CHAMPION',
+                oldPrice: '2.999k',
+                newPrice: '2.400k',
+                features: [
+                    'Premium Concept & Storyboard',
+                    'Unlimited Produk Sesi (4 Jam)',
+                    'Model & Talent Friendly Setup',
+                    'High-End Retouching (30 Foto)',
+                    'Professional Lighting & Studio Rent',
+                    'Siap untuk Banner & E-Commerce'
+                ]
+            }
+        },
+        family: {
+            title: 'Family Package',
+            category: 'Family Package',
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Sesi foto maternity disarankan usia kehamilan 28-34 minggu</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan orang :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : 50k</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : 35k</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Kostum bebas rapi (bawa sendiri)</li>
+                </ul>
+            `,
+            slides: [
+                '{{ asset("img/family_showcase.png") }}',
+                'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1609234656388-0ff363383899?q=80&w=2070&auto=format&fit=crop'
+            ],
+            col1: {
+                title: 'BEST DEAL',
+                oldPrice: '699k',
+                newPrice: '500k',
+                features: [
+                    '2 Background Photo',
+                    '1 jam Photo Session',
+                    'Sudah termasuk Photographer',
+                    'Max 6 orang',
+                    'Free 10-15 Photo, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All Softcopy on Google drive (berlaku 2 Minggu)'
+                ]
+            },
+            col2: {
+                title: 'SPECIAL PACKAGE',
+                oldPrice: '999k',
+                newPrice: '800k',
+                features: [
+                    '2 Background Photo',
+                    '1 jam Photo Session',
+                    'Sudah termasuk Photographer',
+                    'Max 8 orang',
+                    '1 cetak Canvas + Frame ukuran 17R / kalau sudah di pasang frame ukurannya 40cm x 50 cm',
+                    '5 pcs cetak ukuran 5R (tanpa frame)',
+                    'Free 10-20 Photo, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All softcopy on drive (berlaku 2 Minggu)'
+                ]
+            }
+        },
+        personal: {
+            title: 'Potret Pribadi & Branding',
+            category: 'Potret Pribadi & Branding',
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Sudah termasuk konsultasi pose standar</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Pakaian & Busana ganti :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Klien membawa jas/pakaian formal sendiri</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Disediakan ruang ganti privat yang nyaman</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Tambahan make-up artist profesional disarankan konfirmasi H-3</li>
+                </ul>
+            `,
+            slides: [
+                '{{ asset("img/personal_showcase.png") }}',
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=2070&auto=format&fit=crop'
+            ],
+            col1: {
+                title: 'BASIC PORTRAIT',
+                oldPrice: '899k',
+                newPrice: '650k',
+                features: [
+                    '1 Background Pilihan',
+                    '45 Menit Sesi Foto',
+                    'Sudah termasuk Portrait Photographer',
+                    'Max 1 orang (Personal)',
+                    'Free 5 Edited Photos (LinkedIn Standard)',
+                    '1x Pergantian Pakaian',
+                    'All Softcopy on Google Drive'
+                ]
+            },
+            col2: {
+                title: 'PREMIUM BRANDING',
+                oldPrice: '1.499k',
+                newPrice: '1.100k',
+                features: [
+                    '3 Pilihan Background',
+                    '1.5 Jam Sesi Foto',
+                    'Sudah termasuk Senior Photographer',
+                    'Max 2 orang',
+                    'Free 15 Edited Photos (Premium Retouch)',
+                    '3x Pergantian Pakaian',
+                    'All softcopy on Google drive'
+                ]
+            }
+        }
+    };
+
+    let selectedService = '';
+    let currentSlides = [];
+    let activeSlideIndex = 0;
+
+    function formatFeatureText(text) {
+        if (text.includes('(berlaku')) {
+            const parts = text.split(' (berlaku');
+            return `${parts[0]}<br><strong class="font-bold text-primary-700">(berlaku ${parts[1].replace(')', '')})</strong>`;
+        }
+        if (text.includes('(tanpa frame)')) {
+            return text.replace('(tanpa frame)', '<strong class="font-bold text-primary-700">(tanpa frame)</strong>');
+        }
+        return text;
+    }
+
+    function updateCarousel() {
+        if (currentSlides.length === 0) return;
+        document.getElementById('modal-image').src = currentSlides[activeSlideIndex];
+        
+        const dotsContainer = document.getElementById('modal-carousel-dots');
+        dotsContainer.innerHTML = '';
+        currentSlides.forEach((slide, idx) => {
+            const dot = document.createElement('span');
+            dot.className = idx === activeSlideIndex 
+                ? 'w-7 h-[2px] bg-slate-900 transition-all duration-300' 
+                : 'w-3 h-[2px] bg-slate-400 transition-all duration-300';
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    function prevSlide() {
+        if (currentSlides.length <= 1) return;
+        activeSlideIndex = (activeSlideIndex - 1 + currentSlides.length) % currentSlides.length;
+        updateCarousel();
+    }
+
+    function nextSlide() {
+        if (currentSlides.length <= 1) return;
+        activeSlideIndex = (activeSlideIndex + 1) % currentSlides.length;
+        updateCarousel();
+    }
+
+    let currentServiceKey = '';
+
+    // Logged-in User Context
+    const loggedInUser = {
+        name: "{{ Auth::user()->name }}",
+        email: "{{ Auth::user()->email }}"
+    };
+
+    // Default Transactions for seeds
+    const defaultTransactions = [
+        { id: 'BOOK-1001', name: 'Budi Santoso', email: 'budi@gmail.com', service: 'Wedding & Pre-Wedding (EXCLUSIVE)', date: '2026-05-24 09:00', amount: 'Rp 3.200.000', status: 'Pending' },
+        { id: 'BOOK-1002', name: 'Siti Aminah', email: 'siti@gmail.com', service: 'Wisuda & Akademik (BEST DEAL)', date: '2026-05-25 13:00', amount: 'Rp 850.000', status: 'Confirmed' },
+        { id: 'BOOK-1003', name: 'Customer User', email: 'customer@gmail.com', service: 'Potret Pribadi & Branding (PREMIUM)', date: '2026-05-26 10:00', amount: 'Rp 1.100.000', status: 'Pending' },
+        { id: 'BOOK-1004', name: 'Budi Santoso', email: 'budi@gmail.com', service: 'Keluarga & Maternity (SPECIAL)', date: '2026-05-28 15:00', amount: 'Rp 800.000', status: 'Completed' },
+        { id: 'BOOK-1005', name: 'Siti Aminah', email: 'siti@gmail.com', service: 'Komersial & Produk (STARTER KIT)', date: '2026-05-30 11:00', amount: 'Rp 1.200.000', status: 'Cancelled' }
+    ];
+
+    // Renders time slots (09.00 - 22.00)
+    const timeSlots = ["09:00 WIB", "11:30 WIB", "14:00 WIB", "16:30 WIB", "19:00 WIB", "21:00 WIB"];
+
+    function loadCustomerBookings() {
+        // Trigger Toast if redirecting back from booking completion
+        const toastService = localStorage.getItem('booking_toast_service');
+        if (toastService) {
+            localStorage.removeItem('booking_toast_service');
+            document.getElementById('toast-service-name').textContent = toastService;
+            const toast = document.getElementById('booking-toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 6000);
+        }
+
+        const transactions = JSON.parse(localStorage.getItem('studio_transactions')) || defaultTransactions;
+        
+        // Find bookings matching the logged-in user's email, sort by date (newest first)
+        const myBookings = transactions.filter(tx => tx.email === loggedInUser.email);
+        
+        const detailEl = document.getElementById('upcoming-session-detail');
+        const statusEl = document.getElementById('upcoming-session-status');
+
+        if (myBookings.length > 0) {
+            // Find active/newest booking (Pending or Confirmed)
+            const activeBooking = myBookings.find(tx => tx.status === 'Pending' || tx.status === 'Confirmed') || myBookings[0];
+            
+            detailEl.innerHTML = `
+                <span class="block font-black text-white text-xs">${activeBooking.service}</span>
+                <span class="block font-sans text-[10px] text-slate-350 mt-1">${activeBooking.date}</span>
+                <span class="block font-sans text-[10px] text-primary-400 font-extrabold mt-0.5">${activeBooking.amount}</span>
+            `;
+            
+            // Set status badge class & text
+            statusEl.textContent = activeBooking.status;
+            statusEl.className = 'px-2.5 py-0.5 text-[8px] font-black uppercase tracking-widest rounded-lg border inline-block';
+            if (activeBooking.status === 'Pending') {
+                statusEl.className += ' bg-amber-500/10 text-amber-500 border-amber-500/20';
+            } else if (activeBooking.status === 'Confirmed') {
+                statusEl.className += ' bg-sky-500/10 text-sky-400 border-sky-500/20';
+            } else if (activeBooking.status === 'Completed') {
+                statusEl.className += ' bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+            } else {
+                statusEl.className += ' bg-rose-500/10 text-rose-450 border-rose-500/20';
+            }
+            statusEl.classList.remove('hidden');
+        } else {
+            detailEl.textContent = "Belum ada sesi pemotretan aktif.";
+            statusEl.classList.add('hidden');
+        }
+    }
+
+    // Call loadCustomerBookings on initialization
+    window.addEventListener('DOMContentLoaded', loadCustomerBookings);
+
+    function showServiceDetail(serviceKey) {
+        currentServiceKey = serviceKey;
+        const service = serviceData[serviceKey];
+        if (!service) return;
+
+        selectedService = service.title;
+        currentSlides = service.slides || [];
+        activeSlideIndex = 0;
+
+        // Fill breadcrumbs & header badge
+        document.getElementById('modal-breadcrumb-title').textContent = service.title;
+        document.getElementById('modal-header-badge').textContent = service.category;
+        
+        // Render image slider
+        updateCarousel();
+
+        // Fill Col 1 details
+        document.getElementById('col1-title').textContent = service.col1.title;
+        document.getElementById('col1-oldprice').textContent = service.col1.oldPrice;
+        document.getElementById('col1-newprice').textContent = service.col1.newPrice;
+        
+        const col1Container = document.getElementById('col1-features');
+        col1Container.innerHTML = '';
+        service.col1.features.forEach(feat => {
+            const li = document.createElement('li');
+            li.innerHTML = formatFeatureText(feat);
+            col1Container.appendChild(li);
+        });
+
+        // Fill Col 2 details
+        document.getElementById('col2-title').textContent = service.col2.title;
+        document.getElementById('col2-oldprice').textContent = service.col2.oldPrice;
+        document.getElementById('col2-newprice').textContent = service.col2.newPrice;
+        
+        const col2Container = document.getElementById('col2-features');
+        col2Container.innerHTML = '';
+        service.col2.features.forEach(feat => {
+            const li = document.createElement('li');
+            li.innerHTML = formatFeatureText(feat);
+            col2Container.appendChild(li);
+        });
+
+        // Fill Note if exists
+        const noteContainer = document.getElementById('modal-note-container');
+        const noteText = document.getElementById('modal-note-text');
+        
+        if (service.note) {
+            noteText.innerHTML = service.note;
+            noteContainer.classList.remove('hidden');
+        } else {
+            noteContainer.classList.add('hidden');
+        }
+
+        // Open modal with smooth transition
+        const modal = document.getElementById('service-modal');
+        const modalContent = modal.querySelector('.modal-card');
+
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+        
+        // Wait a tiny bit for transition to apply
+        setTimeout(() => {
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        }, 10);
+        
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeServiceModal() {
+        const modal = document.getElementById('service-modal');
+        const modalContent = modal.querySelector('.modal-card');
+
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+
+        setTimeout(() => {
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = '';
+        }, 300);
+    }
+
+    function bookService() {
+        closeServiceModal();
+        window.location.href = `/booking/${currentServiceKey}`;
+    }
+</script>
+@endsection
