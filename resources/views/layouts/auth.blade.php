@@ -120,7 +120,7 @@
         .auth-input {
             width: 100%;
             padding: 0.72rem 1rem 0.72rem 2.75rem;
-            border: 1.5px solid #cbd5e1;
+            border: 1.5px solid #D4AF37;
             border-radius: 10px;
             background: #ffffff;
             font-size: 0.875rem;

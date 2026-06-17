@@ -9,7 +9,7 @@
         </svg>
         <span>Dashboard</span>
     </a>
-    <a href="{{ url('/menu-utama') }}#booking-card" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+    <a href="{{ route('customer.history') }}" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
         <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008ZM0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"/>
         </svg>
@@ -21,7 +21,7 @@
         </svg>
         <span>Galeri Foto</span>
     </a>
-    <a href="{{ url('/menu-utama') }}#loyalty-card" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+    <a href="{{ route('customer.loyalty') }}" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
         <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
         </svg>
@@ -141,7 +141,7 @@
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2.5">Pilih Tanggal Sesi</label>
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <div class="flex-1 relative bg-white border border-slate-300 rounded-2xl p-1 focus-within:border-primary-500/40 focus-within:ring-4 focus-within:ring-primary-500/5 transition-all shadow-sm">
+                            <div class="flex-1 relative bg-white border border-primary-300 rounded-2xl p-1 focus-within:border-primary-500/40 focus-within:ring-4 focus-within:ring-primary-500/5 transition-all shadow-sm">
                                 <input type="date" id="booking-date" onchange="resetCheckedState()" class="w-full bg-transparent px-4 py-3 text-xs font-semibold focus:outline-none text-slate-800 cursor-pointer relative z-10" required>
                             </div>
                             <button type="button" onclick="checkDateAvailability()" class="px-6 py-3.5 bg-slate-900 hover:bg-slate-850 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm hover:shadow-md cursor-pointer border-none flex-shrink-0 active:scale-95 duration-150">
@@ -166,9 +166,78 @@
                     </div>
 
                     <!-- Custom Requests -->
-                    <div>
+                    <div class="mb-4">
                         <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2.5">Catatan Tambahan (Opsional)</label>
-                        <textarea id="booking-custom-requests" placeholder="Misal: request konsep pakaian tertentu, properti tambahan, dll." rows="3" class="w-full bg-white border border-slate-300 focus:bg-white rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-800 focus:border-primary-500/40 focus:ring-4 focus:ring-primary-500/5 transition-all duration-300 placeholder-slate-450 shadow-sm"></textarea>
+                        <textarea id="booking-custom-requests" placeholder="Misal: request konsep pakaian tertentu, properti tambahan, dll." rows="3" class="w-full bg-white border border-primary-300 focus:bg-white rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-800 focus:border-primary-500/40 focus:ring-4 focus:ring-primary-500/5 transition-all duration-300 placeholder-slate-450 shadow-sm"></textarea>
+                    </div>
+
+                    <!-- Payment Method Selection -->
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2.5">Pilih Metode Pembayaran</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="flex items-center gap-3.5 p-4 border-2 border-primary-300 rounded-2xl bg-white cursor-pointer hover:border-primary-500 hover:bg-slate-50 transition-all duration-150 has-[:checked]:border-primary-600 has-[:checked]:bg-primary-50/30 has-[:checked]:ring-4 has-[:checked]:ring-primary-500/10">
+                                <input type="radio" name="payment_method" value="Transfer" checked class="accent-primary-650 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-900">Transfer (Midtrans)</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold mt-0.5">Bayar otomatis via VA, E-wallet, dll.</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3.5 p-4 border-2 border-primary-300 rounded-2xl bg-white cursor-pointer hover:border-primary-500 hover:bg-slate-50 transition-all duration-150 has-[:checked]:border-primary-600 has-[:checked]:bg-primary-50/30 has-[:checked]:ring-4 has-[:checked]:ring-primary-500/10">
+                                <input type="radio" name="payment_method" value="Cash" class="accent-primary-650 w-4 h-4 cursor-pointer">
+                                <div>
+                                    <p class="text-xs font-bold text-slate-900">Cash (Tunai di Studio)</p>
+                                    <p class="text-[10px] text-slate-500 font-semibold mt-0.5">Bayar langsung di kasir studio.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Loyalty Reward Selection -->
+                    <div class="mt-4">
+                        <div class="flex justify-between items-center mb-2.5">
+                            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400">Tukarkan Poin Loyalitas (Opsional)</label>
+                            <span class="inline-flex items-center px-2.5 py-1 bg-amber-50 text-amber-800 text-[9px] font-black uppercase tracking-wider rounded-lg border border-amber-200 shadow-sm">
+                                Poin Anda: {{ $userPoints }} pts
+                            </span>
+                        </div>
+                        <div class="relative bg-white border border-primary-300 rounded-2xl p-1 focus-within:border-primary-500/40 focus-within:ring-4 focus-within:ring-primary-500/5 transition-all shadow-sm">
+                            <select id="booking-reward" onchange="calculatePointsDiscount()" class="w-full bg-transparent px-4 py-3 text-xs font-semibold focus:outline-none text-slate-800 cursor-pointer relative z-10">
+                                <option value="" data-discount="0" data-points="0">Tidak Menggunakan Reward (Kumpulkan Poin)</option>
+                                @foreach($rewards as $reward)
+                                    @php
+                                        $canRedeem = $userPoints >= $reward->points_required;
+                                    @endphp
+                                    <option value="{{ $reward->id }}" 
+                                            data-discount="{{ $reward->discount_amount }}" 
+                                            data-points="{{ $reward->points_required }}"
+                                            {{ !$canRedeem ? 'disabled' : '' }}>
+                                        {{ $reward->name }} (Butuh {{ $reward->points_required }} Poin) - {{ $canRedeem ? 'Tersedia' : 'Poin Tidak Cukup' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-1.5 font-medium leading-relaxed" id="reward-benefit-note">Pilih reward untuk memotong harga tagihan sesi foto Anda.</p>
+                    </div>
+
+                    <!-- Visual Invoice Breakdown -->
+                    <div id="booking-price-breakdown" class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3 shadow-sm text-slate-800 mt-4">
+                        <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-450 border-b border-slate-200/60 pb-2">Rincian Pembayaran</h4>
+                        <div class="flex justify-between items-center text-xs font-semibold text-slate-650">
+                            <span>Harga Sesi Paket</span>
+                            <span id="breakdown-original-price">Rp 0</span>
+                        </div>
+                        <div id="breakdown-discount-row" class="flex justify-between items-center text-xs font-semibold text-emerald-650 hidden">
+                            <span>Potongan Reward (Diskon)</span>
+                            <span id="breakdown-discount-amount">-Rp 0</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm font-bold text-slate-900 pt-2 border-t border-slate-200/60">
+                            <span>Total Pembayaran</span>
+                            <span id="breakdown-final-price" class="text-primary-700 font-sans font-bold text-sm">Rp 0</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[10px] font-bold text-slate-500 pt-1">
+                            <span>Poin Yang Akan Diperoleh</span>
+                            <span id="breakdown-points-earned" class="text-amber-800 font-extrabold">+0 pts</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -187,51 +256,62 @@
 @endsection
 
 @section('scripts')
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 <script>
     let isDateChecked = false;
 
-    const serviceData = {
-        wedding: {
-            title: 'Wedding & Pre-Wedding',
-            col1: { title: 'BASIC PREWEDD', newPrice: '1.500.000' },
-            col2: { title: 'EXCLUSIVE WEDDING', newPrice: '3.200.000' },
-            slides: [
-                '{{ asset("img/prewedding_showcase.png") }}'
-            ]
-        },
-        graduation: {
-            title: 'Wisuda & Akademik',
-            col1: { title: 'BEST DEAL', newPrice: '850.000' },
-            col2: { title: 'SPECIAL PACKAGE', newPrice: '1.200.000' },
-            slides: [
-                '{{ asset("img/graduation_showcase.png") }}'
-            ]
-        },
-        commercial: {
-            title: 'Komersial & Produk',
-            col1: { title: 'STARTER KIT', newPrice: '1.200.000' },
-            col2: { title: 'BRAND CHAMPION', newPrice: '2.400.000' },
-            slides: [
-                '{{ asset("img/commercial_showcase.png") }}'
-            ]
-        },
-        family: {
-            title: 'Keluarga & Maternity',
-            col1: { title: 'BEST DEAL', newPrice: '500.000' },
-            col2: { title: 'SPECIAL PACKAGE', newPrice: '800.000' },
-            slides: [
-                '{{ asset("img/family_showcase.png") }}'
-            ]
-        },
-        personal: {
-            title: 'Potret Pribadi & Branding',
-            col1: { title: 'BASIC PORTRAIT', newPrice: '650.000' },
-            col2: { title: 'PREMIUM BRANDING', newPrice: '1.100.000' },
-            slides: [
-                '{{ asset("img/personal_showcase.png") }}'
-            ]
+    const dbServices = @json($services);
+
+    function getServiceKey(service) {
+        const title = service.title.toLowerCase();
+        if (title.includes('wedding')) return 'wedding';
+        if (title.includes('wisuda') || title.includes('akademik') || title.includes('graduation')) return 'graduation';
+        if (title.includes('komersial') || title.includes('produk') || title.includes('commercial')) return 'commercial';
+        if (title.includes('keluarga') || title.includes('maternity') || title.includes('family')) return 'family';
+        if (title.includes('potret') || title.includes('branding') || title.includes('personal')) return 'personal';
+        return service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function getSlideUrl(slide) {
+        if (!slide) return 'https://images.unsplash.com/photo-1520850838145-4c6d291b1cd2?q=80&w=2070&auto=format&fit=crop';
+        if (slide.startsWith('http') || slide.startsWith('/')) {
+            return slide;
         }
-    };
+        return `/storage/${slide}`;
+    }
+
+    const serviceData = {};
+    dbServices.forEach(svc => {
+        const key = getServiceKey(svc);
+        
+        // Format slide paths
+        let resolvedSlides = [];
+        if (Array.isArray(svc.slides)) {
+            resolvedSlides = svc.slides.map(getSlideUrl);
+        }
+        
+        serviceData[key] = {
+            title: svc.title,
+            category: svc.title,
+            description: svc.description || '',
+            starting: svc.starting || '',
+            note: svc.note || '',
+            slides: resolvedSlides,
+            highlights: svc.highlights || [],
+            col1: {
+                title: svc.col1?.title || 'BASIC',
+                oldPrice: svc.col1?.oldPrice || svc.col1?.old || '',
+                newPrice: svc.col1?.newPrice || svc.col1?.new || '',
+                features: svc.col1?.features || []
+            },
+            col2: {
+                title: svc.col2?.title || 'PREMIUM',
+                oldPrice: svc.col2?.oldPrice || svc.col2?.old || '',
+                newPrice: svc.col2?.newPrice || svc.col2?.new || '',
+                features: svc.col2?.features || []
+            }
+        };
+    });
 
     const loggedInUser = {
         name: "{{ Auth::user()->name }}",
@@ -319,6 +399,7 @@
 
             document.getElementById('booking-selected-price').value = document.getElementById('booking-tier2-price').textContent;
         }
+        calculatePointsDiscount();
     }
 
     function selectBookingTime(time, element) {
@@ -467,29 +548,154 @@
         const service = serviceData[serviceKey] || serviceData.wedding;
         const packageName = tierVal === 'col1' ? service.col1.title : service.col2.title;
 
-        const txId = 'BOOK-' + Math.floor(1000 + Math.random() * 9000);
+        const paymentMethodEl = document.querySelector('input[name="payment_method"]:checked');
+        const paymentMethodVal = paymentMethodEl ? paymentMethodEl.value : 'Transfer';
+
+        const rewardSelect = document.getElementById('booking-reward');
+        const rewardIdVal = rewardSelect ? rewardSelect.value : '';
+
+        // Disable confirm button to prevent double submission
+        const confirmBtn = document.getElementById('booking-confirm-btn');
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Memproses...';
+
+        fetch("{{ route('booking.store') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                service_key: serviceKey,
+                service_title: service.title,
+                package_name: packageName,
+                date: dateVal,
+                time: timeVal,
+                price: priceVal,
+                requests: customRequests,
+                payment_method: paymentMethodVal,
+                reward_id: rewardIdVal ? parseInt(rewardIdVal) : null
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                if (data.snap_token) {
+                    // Trigger Midtrans Snap payment popup
+                    window.snap.pay(data.snap_token, {
+                        onSuccess: function(result) {
+                            // Confirm payment in backend (for local testing without ngrok)
+                            fetch(`/booking/${data.booking.id}/confirm-payment`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                }
+                            })
+                            .then(() => {
+                                window.location.href = `/payment/finish?order_id=${data.booking.id}`;
+                            })
+                            .catch(() => {
+                                window.location.href = `/payment/finish?order_id=${data.booking.id}`;
+                            });
+                        },
+                        onPending: function(result) {
+                            window.location.href = `{{ route('customer.history') }}?unpaid=1&pending_id=${data.booking.id}`;
+                        },
+                        onError: function(result) {
+                            window.location.href = `/payment/error?order_id=${data.booking.id}`;
+                        },
+                        onClose: function() {
+                            window.location.href = `{{ route('customer.history') }}?unpaid=1&pending_id=${data.booking.id}`;
+                        }
+                    });
+                } else if (data.booking) {
+                    if (parseInt(data.booking.amount) === 0 || data.booking.status === 'Confirmed') {
+                        // Redirect for free/fully points-discounted booking
+                        window.location.href = `{{ route('customer.history') }}?free_success=1&pending_id=${data.booking.id}`;
+                    } else if (data.booking.payment_method === 'Cash') {
+                        // Redirect for Cash booking
+                        window.location.href = `{{ route('customer.history') }}?cash_success=1&pending_id=${data.booking.id}`;
+                    } else {
+                        alert(data.message || 'Booking berhasil dibuat.');
+                        window.location.href = `{{ route('customer.history') }}`;
+                    }
+                } else {
+                    alert(data.message || 'Terjadi kesalahan saat membuat booking.');
+                    confirmBtn.disabled = false;
+                    confirmBtn.textContent = 'Konfirmasi Booking Sesi';
+                }
+            } else {
+                alert(data.message || 'Terjadi kesalahan saat membuat booking.');
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = 'Konfirmasi Booking Sesi';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'Terjadi kesalahan sistem saat menghubungi server.');
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Konfirmasi Booking Sesi';
+        });
+    }
+
+    function calculatePointsDiscount() {
+        const priceVal = document.getElementById('booking-selected-price').value;
+        const originalAmount = parsePriceToIntegerJS(priceVal);
         
-        const newTx = {
-            id: txId,
-            name: loggedInUser.name,
-            email: loggedInUser.email,
-            service: `${service.title} (${packageName})`,
-            date: `${dateVal} ${timeVal}`,
-            amount: priceVal,
-            status: 'Pending',
-            requests: customRequests
-        };
+        const rewardSelect = document.getElementById('booking-reward');
+        if (!rewardSelect) return;
+        const selectedOption = rewardSelect.options[rewardSelect.selectedIndex];
+        
+        const discountAmount = parseInt(selectedOption.getAttribute('data-discount') || 0);
+        const pointsRequired = parseInt(selectedOption.getAttribute('data-points') || 0);
+        
+        const finalAmount = Math.max(0, originalAmount - discountAmount);
+        const pointsEarned = Math.floor(finalAmount / 10000);
+        
+        // Update visual breakdown
+        document.getElementById('breakdown-original-price').textContent = formatRupiahJS(originalAmount);
+        
+        const discountRow = document.getElementById('breakdown-discount-row');
+        if (discountAmount > 0) {
+            document.getElementById('breakdown-discount-amount').textContent = '-' + formatRupiahJS(discountAmount);
+            discountRow.classList.remove('hidden');
+        } else {
+            discountRow.classList.add('hidden');
+        }
+        
+        document.getElementById('breakdown-final-price').textContent = formatRupiahJS(finalAmount);
+        document.getElementById('breakdown-points-earned').textContent = '+' + pointsEarned + ' pts';
+        
+        // Note display update
+        const noteEl = document.getElementById('reward-benefit-note');
+        if (discountAmount > 0) {
+            noteEl.innerHTML = `<span class="text-emerald-600 font-bold">Reward diterapkan!</span> Potongan sebesar <strong>${formatRupiahJS(discountAmount)}</strong> berhasil digunakan (potong ${pointsRequired} poin).`;
+        } else {
+            noteEl.textContent = 'Pilih reward untuk memotong harga tagihan sesi foto Anda.';
+        }
+    }
 
-        // Save transaction to local storage
-        let txList = JSON.parse(localStorage.getItem('studio_transactions')) || defaultTransactions;
-        txList.unshift(newTx);
-        localStorage.setItem('studio_transactions', JSON.stringify(txList));
+    function parsePriceToIntegerJS(priceStr) {
+        let clean = priceStr.toLowerCase().trim();
+        if (clean.slice(-1) === 'k') {
+            let numberPart = clean.slice(0, -1);
+            numberPart = numberPart.replace('rp', '').replace(/\./g, '').trim();
+            return parseInt(numberPart) * 1000;
+        }
+        let digits = clean.replace(/[^0-9]/g, '');
+        return parseInt(digits) || 0;
+    }
 
-        // Save toast flag for redirection display
-        localStorage.setItem('booking_toast_service', service.title);
-
-        // Redirect back to dashboard
-        window.location.href = "{{ route('customer.dashboard') }}";
+    function formatRupiahJS(number) {
+        return 'Rp ' + number.toLocaleString('id-ID');
     }
 
     // Run init

@@ -199,18 +199,7 @@
                 <!-- Decorative Elements -->
                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-amber-400 rounded-3xl -z-10 rotate-12 opacity-20"></div>
                 <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary-600 rounded-3xl -z-10 -rotate-12 opacity-20"></div>
-                
-                <div class="absolute top-1/2 -right-6 glass-card p-4 rounded-2xl shadow-xl animate-bounce">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center text-primary-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div>
-                            <p class="text-[10px] font-black uppercase text-slate-400">Status</p>
-                            <p class="text-xs font-bold">Booking Tersedia</p>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -224,161 +213,8 @@
                 <p class="text-slate-500 max-w-2xl mx-auto font-medium">Kami menyediakan berbagai layanan fotografi profesional untuk memenuhi kebutuhan visual Anda.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service 1: Wedding & Pre-Wedding -->
-                <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-100/50 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
-                    <div>
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="{{ asset('img/prewedding_showcase.png') }}" alt="Wedding & Pre-Wedding" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2">Wedding & Pre-Wedding</h3>
-                            <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
-                                Abadikan janji suci dan kebahagiaan tak ternilai di hari pernikahan Anda dengan sentuhan artistik kami.
-                            </p>
-                            <ul class="text-[9px] font-black uppercase tracking-widest text-slate-400 space-y-1 mb-2">
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Full Day Coverage</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Cinematic Highlight</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Premium Photo Book</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-50 mt-auto">
-                        <span class="text-xs font-black text-slate-950 uppercase tracking-widest">Mulai Rp 1.500.000</span>
-                        <button onclick="showServiceDetail('wedding')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95">
-                            Lihat Detail
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Service 2: Wisuda & Akademik -->
-                <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-100/50 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
-                    <div>
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="{{ asset('img/graduation_showcase.png') }}" alt="Wisuda & Akademik" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2">Wisuda & Akademik</h3>
-                            <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
-                                Rayakan pencapaian akademik Anda dengan sesi foto studio yang elegan dan penuh kebanggaan.
-                            </p>
-                            <ul class="text-[9px] font-black uppercase tracking-widest text-slate-400 space-y-1 mb-2">
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Studio & Outdoor</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Family Grouping</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Fast Editing</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-50 mt-auto">
-                        <span class="text-xs font-black text-slate-950 uppercase tracking-widest">Mulai Rp 850.000</span>
-                        <button onclick="showServiceDetail('graduation')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95">
-                            Lihat Detail
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Service 3: Komersial & Produk -->
-                <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-100/50 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
-                    <div>
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="{{ asset('img/commercial_showcase.png') }}" alt="Komersial & Produk" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2">Komersial & Produk</h3>
-                            <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
-                                Tingkatkan nilai brand Anda dengan visual produk yang profesional dan menarik perhatian audiens.
-                            </p>
-                            <ul class="text-[9px] font-black uppercase tracking-widest text-slate-400 space-y-1 mb-2">
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> High-End Retouching</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Concept Styling</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Professional Lighting</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-50 mt-auto">
-                        <span class="text-xs font-black text-slate-950 uppercase tracking-widest">Mulai Rp 1.200.000</span>
-                        <button onclick="showServiceDetail('commercial')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95">
-                            Lihat Detail
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Service 4: Keluarga & Maternity -->
-                <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-100/50 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
-                    <div>
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="{{ asset('img/family_showcase.png') }}" alt="Keluarga & Maternity" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2">Keluarga & Maternity</h3>
-                            <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
-                                Abadikan kehangatan kasih sayang keluarga dan perjalanan berharga kehamilan Anda dalam potret penuh makna.
-                            </p>
-                            <ul class="text-[9px] font-black uppercase tracking-widest text-slate-400 space-y-1 mb-2">
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Studio & Home Session</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Wardrobe Consultation</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> High-Res Digital Files</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-50 mt-auto">
-                        <span class="text-xs font-black text-slate-950 uppercase tracking-widest">Mulai Rp 950.000</span>
-                        <button onclick="showServiceDetail('family')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95">
-                            Lihat Detail
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Service 5: Potret Pribadi & Branding -->
-                <div class="group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-100/50 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
-                    <div>
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="{{ asset('img/personal_showcase.png') }}" alt="Potret Pribadi & Branding" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2">Potret Pribadi & Branding</h3>
-                            <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
-                                Tampilkan versi terbaik diri Anda untuk profil profesional, CV, LinkedIn, portofolio model, atau personal branding.
-                            </p>
-                            <ul class="text-[9px] font-black uppercase tracking-widest text-slate-400 space-y-1 mb-2">
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Corporate Headshot</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Model Portfolio</li>
-                                <li class="flex items-center gap-1.5"><span class="text-accent-gold">•</span> Custom Backdrop</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-50 mt-auto">
-                        <span class="text-xs font-black text-slate-950 uppercase tracking-widest">Mulai Rp 650.000</span>
-                        <button onclick="showServiceDetail('personal')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95">
-                            Lihat Detail
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+            <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Loaded dynamically from localStorage -->
             </div>
         </div>
     </section>
@@ -650,258 +486,115 @@
             }
         });
 
-        const serviceData = {
-            wedding: {
-                title: 'Wedding & Pre-Wedding',
-                category: 'Wedding & Pre-Wedding',
-                note: `
-                    <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0 text-left">
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Reservasi disarankan dilakukan minimal 1 bulan sebelum hari H</li>
-                        <li class="flex flex-col gap-1.5">
-                            <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Biaya transport & akomodasi luar kota :</span>
-                            <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Ditanggung sepenuhnya oleh klien</li>
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> H-3 konfirmasi rincian akomodasi</li>
-                            </ul>
-                        </li>
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> DP minimal 30% untuk penguncian tanggal jadwal</li>
-                    </ul>
-                `,
-                slides: [
-                    '{{ asset("img/prewedding_showcase.png") }}',
-                    'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop'
-                ],
-                col1: {
-                    title: 'BASIC PREWEDD',
-                    oldPrice: '1.999k',
-                    newPrice: '1.500k',
-                    features: [
-                        '2 Background Indoor Studio',
-                        '2 Jam Sesi Photo',
-                        'Sudah termasuk Photographer & Crew',
-                        'Free 20 Edited Photos',
-                        'Foto unlimited / sepuasnya',
-                        'All Softcopy on Google Drive'
-                    ]
-                },
-                col2: {
-                    title: 'EXCLUSIVE WEDDING',
-                    oldPrice: '3.999k',
-                    newPrice: '3.200k',
-                    features: [
-                        'Full Day Coverage (10 Jam)',
-                        '2 Professional Photographers',
-                        'Cinematic Highlight Video (1-3 Min)',
-                        '1 Premium Photo Book Exclusive (10R, 20 Halaman)',
-                        '50 Edited Photos Pilihan',
-                        'All Softcopy in Exclusive USB Drive'
-                    ]
-                }
-            },
-            graduation: {
-                title: 'Wisuda & Akademik',
-                category: 'Wisuda & Akademik',
-                note: `
-                    <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0 text-left">
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Bisa untuk 1 - 2 busana (bawa sendiri)</li>
-                        <li class="flex flex-col gap-1.5">
-                            <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan orang :</span>
-                            <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : 50k</li>
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : 35k</li>
-                            </ul>
-                        </li>
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Diatas 14 orang pakai studio 3 (di lantai atas)</li>
-                    </ul>
-                `,
-                slides: [
-                    '{{ asset("img/graduation_showcase.png") }}',
-                    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop'
-                ],
-                col1: {
-                    title: 'BEST DEAL',
-                    oldPrice: '1.199k',
-                    newPrice: '850k',
-                    features: [
-                        '2 Background Studio',
-                        '1 Jam Sesi Foto',
-                        'Sudah termasuk Photographer',
-                        'Max 6 orang (Keluarga Inti)',
-                        'Free 15 Edited Photos, edit tone warna',
-                        'Foto unlimited / sepuasnya',
-                        'All Softcopy on Google drive (berlaku 2 Minggu)'
-                    ]
-                },
-                col2: {
-                    title: 'SPECIAL PACKAGE',
-                    oldPrice: '1.599k',
-                    newPrice: '1.200k',
-                    features: [
-                        '3 Background Studio + Outdoor Sesi',
-                        '2 Jam Sesi Foto',
-                        'Sudah termasuk Photographer & Asisten',
-                        'Max 10 orang (Keluarga Besar)',
-                        '1 Cetak Frame ukuran 16R',
-                        '5 pcs Cetak ukuran 5R (tanpa frame)',
-                        'Free 25 Edited Photos, edit tone warna',
-                        'Foto unlimited / sepuasnya',
-                        'All softcopy on Google drive (berlaku 1 Month)'
-                    ]
-                }
-            },
-            commercial: {
-                title: 'Komersial & Produk',
-                category: 'Komersial & Produk',
-                note: `
-                    <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0 text-left">
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Pengiriman sampel produk minimal H-3 sesi pemotretan</li>
-                        <li class="flex flex-col gap-1.5">
-                            <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan Properti khusus :</span>
-                            <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Custom backdrop & model : Hubungi admin</li>
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Makanan/Minuman segar disiapkan oleh klien</li>
-                            </ul>
-                        </li>
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Retouching di luar batas revisi dikenakan biaya tambahan</li>
-                    </ul>
-                `,
-                slides: [
-                    '{{ asset("img/commercial_showcase.png") }}',
-                    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2070&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop'
-                ],
-                col1: {
-                    title: 'STARTER KIT',
-                    oldPrice: '1.599k',
-                    newPrice: '1.200k',
-                    features: [
-                        'Minimalist Concept Styling',
-                        '15 Produk Unggulan Sesi',
-                        'Sudah termasuk Product Photographer',
-                        'High-End Retouching (10 Foto)',
-                        'Background Solid / Polos',
-                        'All Softcopy via Google Drive'
-                    ]
-                },
-                col2: {
-                    title: 'BRAND CHAMPION',
-                    oldPrice: '2.999k',
-                    newPrice: '2.400k',
-                    features: [
-                        'Premium Concept & Storyboard',
-                        'Unlimited Produk Sesi (4 Jam)',
-                        'Model & Talent Friendly Setup',
-                        'High-End Retouching (30 Foto)',
-                        'Professional Lighting & Studio Rent',
-                        'Siap untuk Banner & E-Commerce'
-                    ]
-                }
-            },
-            family: {
-                title: 'Family Package',
-                category: 'Family Package',
-                note: `
-                    <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0 text-left">
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Sesi foto maternity disarankan usia kehamilan 28-34 minggu</li>
-                        <li class="flex flex-col gap-1.5">
-                            <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan orang :</span>
-                            <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : 50k</li>
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : 35k</li>
-                            </ul>
-                        </li>
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Kostum bebas rapi (bawa sendiri)</li>
-                    </ul>
-                `,
-                slides: [
-                    '{{ asset("img/family_showcase.png") }}',
-                    'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1609234656388-0ff363383899?q=80&w=2070&auto=format&fit=crop'
-                ],
-                col1: {
-                    title: 'BEST DEAL',
-                    oldPrice: '699k',
-                    newPrice: '500k',
-                    features: [
-                        '2 Background Photo',
-                        '1 jam Photo Session',
-                        'Sudah termasuk Photographer',
-                        'Max 6 orang',
-                        'Free 10-15 Photo, edit tone warna',
-                        'Foto unlimited / sepuasnya',
-                        'All Softcopy on Google drive (berlaku 2 Minggu)'
-                    ]
-                },
-                col2: {
-                    title: 'SPECIAL PACKAGE',
-                    oldPrice: '999k',
-                    newPrice: '800k',
-                    features: [
-                        '2 Background Photo',
-                        '1 jam Photo Session',
-                        'Sudah termasuk Photographer',
-                        'Max 8 orang',
-                        '1 cetak Canvas + Frame ukuran 17R / kalau sudah di pasang frame ukurannya 40cm x 50 cm',
-                        '5 pcs cetak ukuran 5R (tanpa frame)',
-                        'Free 10-20 Photo, edit tone warna',
-                        'Foto unlimited / sepuasnya',
-                        'All softcopy on drive (berlaku 2 Minggu)'
-                    ]
-                }
-            },
-            personal: {
-                title: 'Potret Pribadi & Branding',
-                category: 'Potret Pribadi & Branding',
-                note: `
-                    <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0 text-left">
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Sudah termasuk konsultasi pose standar</li>
-                        <li class="flex flex-col gap-1.5">
-                            <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Pakaian & Busana ganti :</span>
-                            <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Klien membawa jas/pakaian formal sendiri</li>
-                                <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Disediakan ruang ganti privat yang nyaman</li>
-                            </ul>
-                        </li>
-                        <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Tambahan make-up artist profesional disarankan konfirmasi H-3</li>
-                    </ul>
-                `,
-                slides: [
-                    '{{ asset("img/personal_showcase.png") }}',
-                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=2070&auto=format&fit=crop'
-                ],
-                col1: {
-                    title: 'BASIC PORTRAIT',
-                    oldPrice: '899k',
-                    newPrice: '650k',
-                    features: [
-                        '1 Background Pilihan',
-                        '45 Menit Sesi Foto',
-                        'Sudah termasuk Portrait Photographer',
-                        'Max 1 orang (Personal)',
-                        'Free 5 Edited Photos (LinkedIn Standard)',
-                        '1x Pergantian Pakaian',
-                        'All Softcopy on Google Drive'
-                    ]
-                },
-                col2: {
-                    title: 'PREMIUM BRANDING',
-                    oldPrice: '1.499k',
-                    newPrice: '1.100k',
-                    features: [
-                        '3 Pilihan Background',
-                        '1.5 Jam Sesi Foto',
-                        'Sudah termasuk Senior Photographer',
-                        'Max 2 orang',
-                        'Free 15 Edited Photos (Premium Retouch)',
-                        '3x Pergantian Pakaian',
-                        'All softcopy on Google drive'
-                    ]
-                }
+        const dbServices = @json($services);
+
+        function getServiceKey(service) {
+            const title = service.title.toLowerCase();
+            if (title.includes('wedding')) return 'wedding';
+            if (title.includes('wisuda') || title.includes('akademik') || title.includes('graduation')) return 'graduation';
+            if (title.includes('komersial') || title.includes('produk') || title.includes('commercial')) return 'commercial';
+            if (title.includes('keluarga') || title.includes('maternity') || title.includes('family')) return 'family';
+            if (title.includes('potret') || title.includes('branding') || title.includes('personal')) return 'personal';
+            return service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        }
+
+        function getSlideUrl(slide) {
+            if (!slide) return 'https://images.unsplash.com/photo-1520850838145-4c6d291b1cd2?q=80&w=2070&auto=format&fit=crop';
+            if (slide.startsWith('http') || slide.startsWith('/')) {
+                return slide;
             }
-        };
+            return `/storage/${slide}`;
+        }
+
+        const serviceData = {};
+        dbServices.forEach(svc => {
+            const key = getServiceKey(svc);
+            
+            // Format slide paths
+            let resolvedSlides = [];
+            if (Array.isArray(svc.slides)) {
+                resolvedSlides = svc.slides.map(getSlideUrl);
+            }
+            
+            serviceData[key] = {
+                title: svc.title,
+                category: svc.title,
+                description: svc.description || '',
+                starting: svc.starting || '',
+                note: svc.note || '',
+                slides: resolvedSlides,
+                highlights: svc.highlights || [],
+                col1: {
+                    title: svc.col1?.title || 'BASIC',
+                    oldPrice: svc.col1?.oldPrice || svc.col1?.old || '',
+                    newPrice: svc.col1?.newPrice || svc.col1?.new || '',
+                    features: svc.col1?.features || []
+                },
+                col2: {
+                    title: svc.col2?.title || 'PREMIUM',
+                    oldPrice: svc.col2?.oldPrice || svc.col2?.old || '',
+                    newPrice: svc.col2?.newPrice || svc.col2?.new || '',
+                    features: svc.col2?.features || []
+                }
+            };
+        });
+
+        function renderWelcomeServices() {
+            const grid = document.getElementById('services-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            
+            Object.keys(serviceData).forEach(key => {
+                const svc = serviceData[key];
+                const firstSlide = svc.slides && svc.slides.length > 0 ? svc.slides[0] : 'https://images.unsplash.com/photo-1520850838145-4c6d291b1cd2?q=80&w=2070&auto=format&fit=crop';
+                
+                // Build highlights bullets
+                let highlightsHtml = '';
+                const bullets = svc.highlights && svc.highlights.length > 0 ? svc.highlights : ['Kualitas Premium', 'Editing Cepat', 'Kreatif & Profesional'];
+                bullets.slice(0, 3).forEach(hl => {
+                    highlightsHtml += `
+                        <li class="flex items-center gap-1.5">
+                            <span class="text-accent-gold">•</span> ${hl}
+                        </li>
+                    `;
+                });
+                
+                const card = document.createElement('div');
+                card.className = "group bg-white border border-slate-200/80 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-100/50 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${firstSlide}" alt="${svc.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-2">${svc.title}</h3>
+                            <p class="text-xs text-slate-600 font-medium tracking-wide leading-relaxed mb-4">
+                                ${svc.description}
+                            </p>
+                            <ul class="text-[9px] font-black uppercase tracking-widest text-slate-400 space-y-1 mb-2">
+                                ${highlightsHtml}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 flex justify-between items-center border-t border-slate-50 mt-auto">
+                        <span class="text-xs font-black text-slate-950 uppercase tracking-widest">${svc.starting}</span>
+                        <button onclick="showServiceDetail('${key}')" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-600 to-primary-800 text-white font-black uppercase tracking-[0.2em] text-[9px] rounded-xl hover:from-primary-700 hover:to-primary-900 transition-all gap-1.5 shadow-md shadow-primary-500/20 transform hover:-translate-y-0.5 active:scale-95 border-none cursor-pointer">
+                            Lihat Detail
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderWelcomeServices();
+        });
 
         let selectedService = '';
         let currentSlides = [];

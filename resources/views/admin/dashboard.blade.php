@@ -3,48 +3,7 @@
 @section('title', 'Admin Workspace')
 
 @section('sidebar')
-    {{-- Dynamic Tab Buttons with high-fidelity visual styling matching the layout style --}}
-    <button onclick="switchTab('overview')" id="btn-overview" class="sidebar-item sidebar-item-active flex items-center w-full px-5 py-3.5 transition-all text-white text-left font-sans text-xs uppercase tracking-[0.18em] font-black">
-        <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
-        </svg>
-        <span>Overview</span>
-    </button>
-
-    <button onclick="switchTab('services')" id="btn-services" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
-        <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-        </svg>
-        <span>Kelola Layanan</span>
-    </button>
-
-    <button onclick="switchTab('transactions')" id="btn-transactions" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
-        <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-5.625-12h17.25c.621 0 1.125.504 1.125 1.125v13.5c0 .621-.504 1.125-1.125 1.125H3.375a1.125 1.125 0 0 1-1.125-1.125V3.375c0-.621.504-1.125 1.125-1.125Z" />
-        </svg>
-        <span>Kelola Transaksi</span>
-    </button>
-
-    <button onclick="switchTab('users')" id="btn-users" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
-        <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0 1 10.089 18M15 12.75a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Zm-8.907 4.966A9.28 9.28 0 0 1 10.09 18c.983 0 1.937-.153 2.836-.435a4.125 4.125 0 0 0-7.833-2.316ZM10.5 12.75a3.375 3.375 0 1 1 0-6.75 3.375 3.375 0 0 1 0 6.75Z" />
-        </svg>
-        <span>Kelola User</span>
-    </button>
-
-    <button onclick="switchTab('loyalty')" id="btn-loyalty" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
-        <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0V10.5m-2.25 13.5h13.5c.621 0 1.125-.504 1.125-1.125V11.25c0-.621-.504-1.125-1.125-1.125H5.25c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
-        </svg>
-        <span>Loyalty & Reward</span>
-    </button>
-
-    <button onclick="switchTab('holidays')" id="btn-holidays" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
-        <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5" />
-        </svg>
-        <span>Kelola Hari Libur</span>
-    </button>
+    @include('admin.partials.sidebar')
 @endsection
 
 @section('content')
@@ -101,7 +60,7 @@
                 <div class="flex justify-between items-start mb-3 relative z-10">
                     <div>
                         <p class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-700">Layanan Aktif</p>
-                        <h3 id="stat-services" class="text-3xl font-black mt-2 text-slate-900">0</h3>
+                        <h3 class="text-3xl font-black mt-2 text-slate-900">{{ $services->count() }}</h3>
                     </div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 text-amber-800 flex items-center justify-center border border-amber-200 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -123,7 +82,7 @@
                 <div class="flex justify-between items-start mb-3 relative z-10">
                     <div>
                         <p class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-700">Basis Pelanggan</p>
-                        <h3 id="stat-customers" class="text-3xl font-black mt-2 text-slate-900">0</h3>
+                        <h3 class="text-3xl font-black mt-2 text-slate-900">{{ $totalCustomers }}</h3>
                     </div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-50 to-violet-100 text-violet-850 flex items-center justify-center border border-violet-200 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -219,124 +178,49 @@
                 </div>
             </div>
         </div>
-      {{-- ── 2. MANAGE SERVICES PANEL ── --}}
-    <div id="tab-panel-services" class="tab-panel transition-opacity duration-300 opacity-0 hidden">
-        <div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
-            <div class="p-6 sm:p-8 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50">
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-1">Layanan Studio.mu</h4>
-                    <h2 class="text-2xl font-serif italic font-bold text-slate-900">Daftar Paket & Layanan Kreatif</h2>
-                </div>
-                <button onclick="openAddServiceModal()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-3.5 px-6 rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 flex items-center gap-1.5 hover:shadow-lg hover:shadow-amber-500/20 border border-amber-200">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                    TAMBAH LAYANAN BARU
-                </button>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                            <th class="px-6 py-4">Foto / Layanan</th>
-                            <th class="px-6 py-4">Mulai Harga</th>
-                            <th class="px-6 py-4">Deskripsi Singkat</th>
-                            <th class="px-6 py-4">Paket 1 (Silver/Basic)</th>
-                            <th class="px-6 py-4">Paket 2 (Gold/Special)</th>
-                            <th class="px-6 py-4 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="services-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-800 bg-white">
-                        <!-- Loaded dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
-    {{-- ── 3. MANAGE TRANSACTIONS PANEL ── --}}
-    <div id="tab-panel-transactions" class="tab-panel transition-opacity duration-300 opacity-0 hidden">
-        <div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
-            <div class="p-6 sm:p-8 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-6">
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-1">Transaksi Booking</h4>
-                    <h2 class="text-2xl font-serif italic font-bold text-slate-900">Konfirmasi Pemesanan Pelanggan</h2>
-                </div>
-                <!-- Search & Filters -->
-                <div class="flex flex-wrap gap-4 items-center">
-                    <div class="relative min-w-[200px]">
-                        <input type="text" id="search-transactions" oninput="renderTransactions()" placeholder="Cari nama / ID..." class="w-full bg-white border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs focus:outline-none font-semibold text-slate-900 transition-all duration-300">
-                    </div>
-                    <select id="filter-status" onchange="renderTransactions()" class="border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs focus:outline-none font-black uppercase tracking-widest text-slate-750 bg-white cursor-pointer transition-all duration-300">
-                        <option value="ALL">SEMUA STATUS</option>
-                        <option value="Pending">PENDING</option>
-                        <option value="Confirmed">CONFIRMED</option>
-                        <option value="Completed">COMPLETED</option>
-                        <option value="Cancelled">CANCELLED</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                            <th class="px-6 py-4">ID Booking</th>
-                            <th class="px-6 py-4">Pelanggan</th>
-                            <th class="px-6 py-4">Layanan / Sesi</th>
-                            <th class="px-6 py-4">Jadwal Sesi</th>
-                            <th class="px-6 py-4">Total Biaya</th>
-                            <th class="px-6 py-4">Status</th>
-                            <th class="px-6 py-4 text-center">Aksi Konfirmasi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactions-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-800 bg-white">
-                        <!-- Loaded dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
     {{-- ── 4. MANAGE USERS PANEL ── --}}
     <div id="tab-panel-users" class="tab-panel transition-opacity duration-300 opacity-0 hidden">
         <div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
-            <div class="p-6 sm:p-8 border-b border-slate-200 bg-slate-50 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-6">
+            <div class="p-8 sm:p-12 flex flex-col items-center justify-center text-center gap-6 min-h-[320px]">
+                <div class="w-16 h-16 rounded-3xl bg-amber-50 border border-amber-200 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0 1 10.089 18M15 12.75a3.375 3.375 0 1 0 0-6.75 3.375 3.375 0 0 0 0 6.75Zm-8.907 4.966A9.28 9.28 0 0 1 10.09 18c.983 0 1.937-.153 2.836-.435a4.125 4.125 0 0 0-7.833-2.316ZM10.5 12.75a3.375 3.375 0 1 1 0-6.75 3.375 3.375 0 0 1 0 6.75Z" />
+                    </svg>
+                </div>
                 <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-1">Manajemen Pengguna</h4>
-                    <h2 class="text-2xl font-serif italic font-bold text-slate-900">Kelola Akun Tim & Pelanggan</h2>
+                    <h2 class="text-2xl font-serif italic font-bold text-slate-900 mb-2">Kelola User</h2>
+                    <p class="text-sm text-slate-500 font-medium max-w-sm">
+                        Manajemen akun admin, fotografer, dan customer — termasuk kelola poin loyalty — kini tersedia di halaman tersendiri.
+                    </p>
                 </div>
-                <div class="flex flex-wrap gap-4 items-center">
-                    <div class="relative min-w-[200px]">
-                        <input type="text" id="search-users" oninput="renderUsers()" placeholder="Cari nama / email..." class="w-full bg-white border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs focus:outline-none font-semibold text-slate-900 transition-all duration-300">
+                <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <a href="{{ route('admin.users.index') }}"
+                        class="inline-flex items-center gap-2 bg-amber-800 hover:bg-amber-900 text-white font-black uppercase tracking-widest text-[10px] py-3.5 px-8 rounded-2xl transition-all shadow-md active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                        Buka Halaman Kelola User
+                    </a>
+                    <a href="{{ route('admin.users.create') }}"
+                        class="inline-flex items-center gap-2 border border-slate-200 hover:border-amber-400 text-slate-600 hover:text-amber-800 font-bold text-[10px] py-3.5 px-6 rounded-2xl transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                        Tambah User Baru
+                    </a>
+                </div>
+                <div class="grid grid-cols-3 gap-4 w-full max-w-sm mt-2">
+                    <div class="text-center p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                        <p class="text-xl font-black text-slate-900">{{ $totalUsers }}</p>
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">Total</p>
                     </div>
-                    <select id="filter-role" onchange="renderUsers()" class="border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs focus:outline-none font-black uppercase tracking-widest text-slate-755 bg-white cursor-pointer transition-all duration-300">
-                        <option value="ALL">SEMUA PERAN</option>
-                        <option value="admin">ADMIN</option>
-                        <option value="customer">CUSTOMER</option>
-                        <option value="photographer">PHOTOGRAPHER</option>
-                    </select>
-                    <button onclick="openAddUserModal()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-3.5 px-6 rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 flex items-center gap-1.5 hover:shadow-lg hover:shadow-amber-500/20 border border-amber-200">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                        TAMBAH USER BARU
-                    </button>
+                    <div class="text-center p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                        <p class="text-xl font-black text-slate-900">{{ $totalPhotographers }}</p>
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">Fotografer</p>
+                    </div>
+                    <div class="text-center p-3 bg-slate-50 rounded-2xl border border-slate-200">
+                        <p class="text-xl font-black text-slate-900">{{ $totalCustomers }}</p>
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">Customer</p>
+                    </div>
                 </div>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                            <th class="px-6 py-4">Inisial / Nama</th>
-                            <th class="px-6 py-4">Alamat Email</th>
-                            <th class="px-6 py-4">Peran</th>
-                            <th class="px-6 py-4">Tanggal Bergabung</th>
-                            <th class="px-6 py-4 text-center">Aksi Pengelolaan</th>
-                        </tr>
-                    </thead>
-                    <tbody id="users-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-800 bg-white">
-                        <!-- Loaded dynamically -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -544,7 +428,7 @@
 
     {{-- MODAL B: ADD/EDIT SERVICE MODAL --}}
     <div id="modal-service" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="modal-card bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl w-full max-w-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 relative z-10 p-9 flex flex-col max-h-[90vh] overflow-y-auto">
+        <div class="modal-card bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl w-full max-w-3xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 relative z-10 p-9 flex flex-col max-h-[90vh] overflow-y-auto">
             <button onclick="closeServiceModal()" class="absolute top-6 right-6 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all duration-300 hover:rotate-90 hover:scale-105 shadow-sm cursor-pointer">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
@@ -568,7 +452,19 @@
                     </div>
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Deskripsi Layanan</label>
-                        <textarea id="form-service-description" rows="3" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
+                        <textarea id="form-service-description" rows="2" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Slides Gambar (Satu URL per baris)</label>
+                        <textarea id="form-service-slides" rows="2" placeholder="Contoh:&#10;/img/prewedding_showcase.png&#10;https://images.unsplash.com/photo-..." class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Sorotan Utama / Bullet Card (Satu per baris)</label>
+                        <textarea id="form-service-highlights" rows="2" placeholder="Contoh:&#10;Full Day Coverage&#10;Cinematic Highlight" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Catatan Layanan (Teks / HTML)</label>
+                        <textarea id="form-service-note" rows="2" placeholder="Contoh:&#10;* Reservasi H-1 bulan&#10;* DP minimal 30%" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
                     </div>
                 </div>
 
@@ -579,7 +475,7 @@
                         <label class="block text-[9px] font-bold text-slate-650 uppercase tracking-widest mb-1.5">Judul Paket 1 (Silver)</label>
                         <input type="text" id="form-service-col1-title" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-3 mb-2">
                         <div>
                             <label class="block text-[9px] font-bold text-slate-650 uppercase tracking-widest mb-1.5">Harga Lama P1 (k)</label>
                             <input type="text" id="form-service-col1-old" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
@@ -589,12 +485,16 @@
                             <input type="text" id="form-service-col1-new" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                         </div>
                     </div>
+                    <div>
+                        <label class="block text-[9px] font-bold text-slate-650 uppercase tracking-widest mb-1.5">Fitur/Benefit Paket 1 (Satu per baris)</label>
+                        <textarea id="form-service-col1-features" rows="2" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
+                    </div>
                     
                     <div class="border-t border-slate-100 pt-2">
                         <label class="block text-[9px] font-bold text-slate-650 uppercase tracking-widest mb-1.5">Judul Paket 2 (Gold)</label>
                         <input type="text" id="form-service-col2-title" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-3 mb-2">
                         <div>
                             <label class="block text-[9px] font-bold text-slate-655 uppercase tracking-widest mb-1.5">Harga Lama P2 (k)</label>
                             <input type="text" id="form-service-col2-old" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
@@ -603,6 +503,10 @@
                             <label class="block text-[9px] font-bold text-slate-655 uppercase tracking-widest mb-1.5">Harga Baru P2 (k)</label>
                             <input type="text" id="form-service-col2-new" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                         </div>
+                    </div>
+                    <div>
+                        <label class="block text-[9px] font-bold text-slate-655 uppercase tracking-widest mb-1.5">Fitur/Benefit Paket 2 (Satu per baris)</label>
+                        <textarea id="form-service-col2-features" rows="2" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300"></textarea>
                     </div>
                 </div>
             </div>
@@ -643,60 +547,6 @@
     </div>
 
     {{-- MODAL D: INVOICE DETAIL / BILL MODAL --}}
-    <div id="modal-bill" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="modal-card bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 opacity-0 transition-all duration-300 relative z-10 p-9 flex flex-col">
-            <button onclick="closeBillModal()" class="absolute top-6 right-6 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all duration-300 hover:rotate-90 hover:scale-105 shadow-sm cursor-pointer">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            
-            <div id="bill-print-area" class="font-sans bg-white p-7 rounded-3xl border border-slate-200 shadow-inner relative overflow-hidden">
-                <!-- Receipt Header -->
-                <div class="text-center border-b-2 border-dashed border-slate-200 pb-6 mb-6">
-                    <h3 class="text-xl font-serif italic font-bold text-slate-900">Studio.mu</h3>
-                    <h4 class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-600 mt-1">Bukti Pemesanan Studio</h4>
-                    <p id="bill-booking-id" class="text-xs font-bold text-amber-800 uppercase tracking-widest mt-1.5 bg-amber-50 border border-amber-250 px-3 py-1 rounded-full inline-block">#BOOK-1001</p>
-                </div>
-
-                <!-- Receipt details -->
-                <div class="space-y-4.5 text-xs font-semibold text-slate-800 pb-6 border-b border-slate-200">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600 uppercase tracking-wider text-[9px]">Nama Klien</span>
-                        <span id="bill-client" class="text-slate-900 font-bold text-right">Budi Santoso</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600 uppercase tracking-wider text-[9px]">Email Klien</span>
-                        <span id="bill-email" class="text-slate-900 font-bold text-right text-[11px] font-sans">budi@gmail.com</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600 uppercase tracking-wider text-[9px]">Sesi Selesai / Jenis</span>
-                        <span id="bill-service" class="text-slate-900 font-bold text-right">Wedding & Pre-Wedding</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600 uppercase tracking-wider text-[9px]">Tanggal Pemotretan</span>
-                        <span id="bill-date" class="text-slate-900 font-bold text-right font-sans text-[11px]">2026-05-24 09:00</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600 uppercase tracking-wider text-[9px]">Status Booking</span>
-                        <span id="bill-status" class="px-3 py-1 rounded-full text-[8px] font-black tracking-widest uppercase border transition-all duration-300">PENDING</span>
-                    </div>
-                </div>
-
-                <!-- Receipt totals -->
-                <div class="pt-6 flex justify-between items-baseline mb-6">
-                    <span class="text-slate-700 font-black uppercase tracking-wider text-[10px]">Total Tagihan</span>
-                    <span id="bill-amount" class="text-3xl font-serif italic font-bold text-amber-850">Rp 0</span>
-                </div>
-
-                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-[10px] text-slate-700 text-center uppercase tracking-wider font-bold leading-relaxed">
-                    Terima kasih telah mempercayakan momen Anda bersama Studio.mu Visual Art.
-                </div>
-            </div>
-            
-            <button onclick="window.print()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-4 w-full rounded-2xl transition-all shadow-md shadow-amber-500/5 border border-amber-200 active:scale-95 mt-8">
-                CETAK INVOICE / BUKTI TAGIHAN
-            </button>
-        </div>
-    </div>
 
     {{-- TOAST ALERTS NOTIFICATIONS --}}
     <div id="alert-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-500 pointer-events-none max-w-sm w-full">
@@ -755,40 +605,285 @@
             category: 'Wedding & Pre-Wedding',
             starting: 'Mulai Rp 1.500.000',
             description: 'Abadikan janji suci dan kebahagiaan tak ternilai di hari pernikahan Anda dengan sentuhan artistik kami.',
-            col1: { title: 'BASIC PREWEDD', old: '1.999k', new: '1.500k' },
-            col2: { title: 'EXCLUSIVE WEDDING', old: '3.999k', new: '3.200k' }
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Reservasi disarankan dilakukan minimal 1 bulan sebelum hari H</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Biaya transport & akomodasi luar kota :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Ditanggung sepenuhnya oleh klien</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> H-3 konfirmasi rincian akomodasi</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> DP minimal 30% untuk penguncian tanggal jadwal</li>
+                </ul>
+            `,
+            slides: [
+                '/img/prewedding_showcase.png',
+                'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop'
+            ],
+            highlights: [
+                'Full Day Coverage',
+                'Cinematic Highlight',
+                'Premium Photo Book'
+            ],
+            col1: {
+                title: 'BASIC PREWEDD',
+                old: '1.999k',
+                new: '1.500k',
+                features: [
+                    '2 Background Indoor Studio',
+                    '2 Jam Sesi Photo',
+                    'Sudah termasuk Photographer & Crew',
+                    'Free 20 Edited Photos',
+                    'Foto unlimited / sepuasnya',
+                    'All Softcopy on Google Drive'
+                ]
+            },
+            col2: {
+                title: 'EXCLUSIVE WEDDING',
+                old: '3.999k',
+                new: '3.200k',
+                features: [
+                    'Full Day Coverage (10 Jam)',
+                    '2 Professional Photographers',
+                    'Cinematic Highlight Video (1-3 Min)',
+                    '1 Premium Photo Book Exclusive (10R, 20 Halaman)',
+                    '50 Edited Photos Pilihan',
+                    'All Softcopy in Exclusive USB Drive'
+                ]
+            }
         },
         graduation: {
             title: 'Wisuda & Akademik',
             category: 'Wisuda & Akademik',
             starting: 'Mulai Rp 850.000',
             description: 'Rayakan pencapaian akademik Anda dengan sesi foto studio yang elegan dan penuh kebanggaan.',
-            col1: { title: 'BEST DEAL', old: '1.199k', new: '850k' },
-            col2: { title: 'SPECIAL PACKAGE', old: '1.599k', new: '1.200k' }
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Bisa untuk 1 - 2 busana (bawa sendiri)</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan orang :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : 50k</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : 35k</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Diatas 14 orang pakai studio 3 (di lantai atas)</li>
+                </ul>
+            `,
+            slides: [
+                '/img/graduation_showcase.png',
+                'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop'
+            ],
+            highlights: [
+                'Studio & Outdoor',
+                'Family Grouping',
+                'Fast Editing'
+            ],
+            col1: {
+                title: 'BEST DEAL',
+                old: '1.199k',
+                new: '850k',
+                features: [
+                    '2 Background Studio',
+                    '1 Jam Sesi Foto',
+                    'Sudah termasuk Photographer',
+                    'Max 6 orang (Keluarga Inti)',
+                    'Free 15 Edited Photos, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All Softcopy on Google drive (berlaku 2 Minggu)'
+                ]
+            },
+            col2: {
+                title: 'SPECIAL PACKAGE',
+                old: '1.599k',
+                new: '1.200k',
+                features: [
+                    '3 Background Studio + Outdoor Sesi',
+                    '2 Jam Sesi Foto',
+                    'Sudah termasuk Photographer & Asisten',
+                    'Max 10 orang (Keluarga Besar)',
+                    '1 Cetak Frame ukuran 16R',
+                    '5 pcs Cetak ukuran 5R (tanpa frame)',
+                    'Free 25 Edited Photos, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All softcopy on Google drive (berlaku 1 Bulan)'
+                ]
+            }
         },
         commercial: {
             title: 'Komersial & Produk',
             category: 'Komersial & Produk',
             starting: 'Mulai Rp 1.200.000',
             description: 'Tingkatkan nilai brand Anda dengan visual produk yang profesional dan menarik perhatian audiens.',
-            col1: { title: 'STARTER KIT', old: '1.599k', new: '1.200k' },
-            col2: { title: 'BRAND CHAMPION', old: '2.999k', new: '2.400k' }
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Pengiriman sampel produk minimal H-3 sesi pemotretan</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan Properti khusus :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Custom backdrop & model : Hubungi admin</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Makanan/Minuman segar disiapkan oleh klien</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Retouching di luar batas revisi dikenakan biaya tambahan</li>
+                </ul>
+            `,
+            slides: [
+                '/img/commercial_showcase.png',
+                'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop'
+            ],
+            highlights: [
+                'High-End Retouching',
+                'Concept Styling',
+                'Professional Lighting'
+            ],
+            col1: {
+                title: 'STARTER KIT',
+                old: '1.599k',
+                new: '1.200k',
+                features: [
+                    'Minimalist Concept Styling',
+                    '15 Produk Unggulan Sesi',
+                    'Sudah termasuk Product Photographer',
+                    'High-End Retouching (10 Foto)',
+                    'Background Solid / Polos',
+                    'All Softcopy via Google Drive'
+                ]
+            },
+            col2: {
+                title: 'BRAND CHAMPION',
+                old: '2.999k',
+                new: '2.400k',
+                features: [
+                    'Premium Concept & Storyboard',
+                    'Unlimited Produk Sesi (4 Jam)',
+                    'Model & Talent Friendly Setup',
+                    'High-End Retouching (30 Foto)',
+                    'Professional Lighting & Studio Rent',
+                    'Siap untuk Banner & E-Commerce'
+                ]
+            }
         },
         family: {
             title: 'Keluarga & Maternity',
             category: 'Family Package',
             starting: 'Mulai Rp 500.000',
             description: 'Abadikan kehangatan kasih sayang keluarga dan perjalanan berharga kehamilan Anda dalam potret penuh makna.',
-            col1: { title: 'BEST DEAL', old: '699k', new: '500k' },
-            col2: { title: 'SPECIAL PACKAGE', old: '999k', new: '800k' }
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-650 font-bold">•</span> Sesi foto maternity disarankan usia kehamilan 28-34 minggu</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-650 font-bold">•</span> Penambahan orang :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/85 font-bold">›</span> Dewasa : 50k</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/85 font-bold">›</span> Anak-anak : 35k</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-655 font-bold">•</span> Kostum bebas rapi (bawa sendiri)</li>
+                </ul>
+            `,
+            slides: [
+                '/img/family_showcase.png',
+                'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1609234656388-0ff363383899?q=80&w=2070&auto=format&fit=crop'
+            ],
+            highlights: [
+                'Studio & Home Session',
+                'Wardrobe Consultation',
+                'High-Res Digital Files'
+            ],
+            col1: {
+                title: 'BEST DEAL',
+                old: '699k',
+                new: '500k',
+                features: [
+                    '2 Background Photo',
+                    '1 jam Photo Session',
+                    'Sudah termasuk Photographer',
+                    'Max 6 orang',
+                    'Free 10-15 Photo, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All Softcopy on Google drive (berlaku 2 Minggu)'
+                ]
+            },
+            col2: {
+                title: 'SPECIAL PACKAGE',
+                old: '999k',
+                new: '800k',
+                features: [
+                    '2 Background Photo',
+                    '1 jam Photo Session',
+                    'Sudah termasuk Photographer',
+                    'Max 8 orang',
+                    '1 cetak Canvas + Frame ukuran 17R / kalau sudah di pasang frame ukurannya 40cm x 50 cm',
+                    '5 pcs cetak ukuran 5R (tanpa frame)',
+                    'Free 10-20 Photo, edit tone warna',
+                    'Foto unlimited / sepuasnya',
+                    'All softcopy on drive (berlaku 2 Minggu)'
+                ]
+            }
         },
         personal: {
             title: 'Potret Pribadi & Branding',
             category: 'Potret Pribadi & Branding',
             starting: 'Mulai Rp 650.000',
             description: 'Tampilkan versi terbaik diri Anda untuk profil profesional, CV, LinkedIn, portofolio model, atau personal branding.',
-            col1: { title: 'BASIC PORTRAIT', old: '899k', new: '650k' },
-            col2: { title: 'PREMIUM BRANDING', old: '1.499k', new: '1.100k' }
+            note: `
+                <ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Sudah termasuk konsultasi pose standar</li>
+                    <li class="flex flex-col gap-1.5">
+                        <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Pakaian & Busana ganti :</span>
+                        <ul class="pl-6 space-y-1 mt-0.5 list-none">
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Klien membawa jas/pakaian formal sendiri</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Disediakan ruang ganti privat yang nyaman</li>
+                        </ul>
+                    </li>
+                    <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Tambahan make-up artist profesional disarankan konfirmasi H-3</li>
+                </ul>
+            `,
+            slides: [
+                '/img/personal_showcase.png',
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2070&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=2070&auto=format&fit=crop'
+            ],
+            highlights: [
+                'Corporate Headshot',
+                'Model Portfolio',
+                'Custom Backdrop'
+            ],
+            col1: {
+                title: 'BASIC PORTRAIT',
+                old: '899k',
+                new: '650k',
+                features: [
+                    '1 Background Pilihan',
+                    '45 Menit Sesi Foto',
+                    'Sudah termasuk Portrait Photographer',
+                    'Max 1 orang (Personal)',
+                    'Free 5 Edited Photos (LinkedIn Standard)',
+                    '1x Pergantian Pakaian',
+                    'All Softcopy on Google Drive'
+                ]
+            },
+            col2: {
+                title: 'PREMIUM BRANDING',
+                old: '1.499k',
+                new: '1.100k',
+                features: [
+                    '3 Pilihan Background',
+                    '1.5 Jam Sesi Foto',
+                    'Sudah termasuk Senior Photographer',
+                    'Max 2 orang',
+                    'Free 15 Edited Photos (Premium Retouch)',
+                    '3x Pergantian Pakaian',
+                    'All softcopy on Google drive'
+                ]
+            }
         }
     };
 
@@ -811,12 +906,19 @@
         { date: "2026-06-01", desc: "Hari Lahir Pancasila (Studio Libur)" }
     ];
 
-    // Local Storage State Loader
-    let users = @json($users);
-    let services = JSON.parse(localStorage.getItem('studio_services')) || defaultServices;
-    let transactions = JSON.parse(localStorage.getItem('studio_transactions')) || defaultTransactions;
-    let loyalty = JSON.parse(localStorage.getItem('studio_loyalty')) || defaultLoyalty;
-    let pointMultiplier = parseInt(localStorage.getItem('studio_points_mult')) || 10000;
+    // Database State Loader
+    let users = @json($allUsers);
+    let transactions = @json($bookings);
+    let loyalty = @json($customers);
+    @php
+        $settingsPath = storage_path('app/settings.json');
+        $multiplier = 10000;
+        if (file_exists($settingsPath)) {
+            $settings = json_decode(file_get_contents($settingsPath), true);
+            $multiplier = $settings['points_multiplier'] ?? 10000;
+        }
+    @endphp
+    let pointMultiplier = {{ $multiplier }};
     let holidays = JSON.parse(localStorage.getItem('studio_holidays')) || defaultHolidays;
 
     // Toast Alert Trigger
@@ -875,275 +977,12 @@
             pendingBadge.className = 'text-[9px] font-black text-slate-400 mt-4 inline-block uppercase tracking-widest bg-slate-800/50 px-2.5 py-1 rounded border border-slate-700/50';
         }
 
-        document.getElementById('stat-services').textContent = Object.keys(services).length;
+        document.getElementById('stat-services').textContent = {{ \App\Models\Service::count() }};
         document.getElementById('stat-customers').textContent = users.filter(u => u.role === 'customer').length;
     }
 
 
-    /* ─── TAB 2: MANAGE SERVICES FUNCTIONS ─── */
-    function renderServices() {
-        const tbody = document.getElementById('services-table-body');
-        tbody.innerHTML = '';
 
-        Object.keys(services).forEach(key => {
-            const svc = services[key];
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-slate-50 transition-all duration-350 border-b border-slate-200';
-            tr.innerHTML = `
-                <td class="px-6 py-5">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-12 h-12 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-center font-serif text-[11px] font-black uppercase text-amber-800 shadow-md shadow-amber-100/50 flex-shrink-0 tracking-wider leading-none p-1">
-                            ${(svc.title || '').substring(0, 3)}
-                        </div>
-                        <div>
-                            <p class="font-serif italic font-bold text-slate-900 text-[14px] leading-tight">${svc.title || ''}</p>
-                            <p class="text-[9px] font-black text-slate-500 uppercase tracking-[0.18em] mt-1">${svc.category || ''}</p>
-                        </div>
-                    </div>
-                </td>
-                <td class="px-6 py-5 font-bold text-amber-800 font-sans text-xs">${svc.starting}</td>
-                <td class="px-6 py-5 text-slate-700 text-[11px] leading-relaxed max-w-xs font-semibold">${svc.description}</td>
-                <td class="px-6 py-5 font-semibold text-slate-800">
-                    <span class="text-[9px] font-black uppercase tracking-wider block text-slate-500 mb-1">${svc.col1.title}</span>
-                    <span class="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 inline-block">Rp ${svc.col1.new} <span class="text-[10px] text-slate-400 font-semibold line-through ml-1">(${svc.col1.old})</span></span>
-                </td>
-                <td class="px-6 py-5 font-semibold text-slate-800">
-                    <span class="text-[9px] font-black uppercase tracking-wider block text-slate-500 mb-1">${svc.col2.title}</span>
-                    <span class="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 inline-block">Rp ${svc.col2.new} <span class="text-[10px] text-slate-400 font-semibold line-through ml-1">(${svc.col2.old})</span></span>
-                </td>
-                <td class="px-6 py-5 text-center">
-                    <div class="flex items-center justify-center gap-2">
-                        <button onclick="openEditServiceModal('${key}')" class="px-4 py-2 bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Edit</button>
-                        <button onclick="deleteService('${key}')" class="px-4 py-2 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Hapus</button>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function openEditServiceModal(key) {
-        const svc = services[key];
-        if (!svc) return;
-
-        document.getElementById('modal-service-title').textContent = 'Edit Layanan: ' + svc.title;
-        document.getElementById('form-service-key').value = key;
-        
-        document.getElementById('form-service-title').value = svc.title;
-        document.getElementById('form-service-category').value = svc.category;
-        document.getElementById('form-service-starting').value = svc.starting;
-        document.getElementById('form-service-description').value = svc.description;
-
-        document.getElementById('form-service-col1-title').value = svc.col1.title;
-        document.getElementById('form-service-col1-old').value = svc.col1.old;
-        document.getElementById('form-service-col1-new').value = svc.col1.new;
-
-        document.getElementById('form-service-col2-title').value = svc.col2.title;
-        document.getElementById('form-service-col2-old').value = svc.col2.old;
-        document.getElementById('form-service-col2-new').value = svc.col2.new;
-
-        openModal('modal-service');
-    }
-
-    function openAddServiceModal() {
-        document.getElementById('modal-service-title').textContent = 'Tambah Layanan Baru';
-        document.getElementById('form-service-key').value = '';
-        
-        document.getElementById('form-service-title').value = '';
-        document.getElementById('form-service-category').value = '';
-        document.getElementById('form-service-starting').value = 'Mulai Rp 500.000';
-        document.getElementById('form-service-description').value = '';
-
-        document.getElementById('form-service-col1-title').value = 'BASIC DEALS';
-        document.getElementById('form-service-col1-old').value = '999k';
-        document.getElementById('form-service-col1-new').value = '500k';
-
-        document.getElementById('form-service-col2-title').value = 'PREMIUM CHOICES';
-        document.getElementById('form-service-col2-old').value = '1.499k';
-        document.getElementById('form-service-col2-new').value = '1.000k';
-
-        openModal('modal-service');
-    }
-
-    function saveService() {
-        const keyInput = document.getElementById('form-service-key').value;
-        const title = document.getElementById('form-service-title').value.trim();
-        const category = document.getElementById('form-service-category').value.trim();
-        const starting = document.getElementById('form-service-starting').value.trim();
-        const description = document.getElementById('form-service-description').value.trim();
-
-        const col1Title = document.getElementById('form-service-col1-title').value.trim();
-        const col1Old = document.getElementById('form-service-col1-old').value.trim();
-        const col1New = document.getElementById('form-service-col1-new').value.trim();
-
-        const col2Title = document.getElementById('form-service-col2-title').value.trim();
-        const col2Old = document.getElementById('form-service-col2-old').value.trim();
-        const col2New = document.getElementById('form-service-col2-new').value.trim();
-
-        if (!title || !category || !starting) {
-            alert('Mohon isi semua data yang diwajibkan!');
-            return;
-        }
-
-        let key = keyInput;
-        if (!key) {
-            // Generate simple unique key
-            key = 'svc_' + Date.now();
-        }
-
-        services[key] = {
-            title: title,
-            category: category,
-            starting: starting,
-            description: description,
-            col1: { title: col1Title, old: col1Old, new: col1New },
-            col2: { title: col2Title, old: col2Old, new: col2New }
-        };
-
-        persistData('studio_services', services);
-        renderServices();
-        closeServiceModal();
-        triggerToast('Data Layanan Berhasil Disimpan!');
-    }
-
-    function deleteService(key) {
-        if (!confirm('Apakah Anda yakin ingin menghapus layanan ini?')) return;
-        delete services[key];
-        persistData('studio_services', services);
-        renderServices();
-        triggerToast('Layanan Telah Dihapus dari Database.');
-    }
-
-    function closeServiceModal() {
-        closeModal('modal-service');
-    }
-
-
-    /* ─── TAB 3: MANAGE TRANSACTIONS FUNCTIONS ─── */
-    function renderTransactions() {
-        const tbody = document.getElementById('transactions-table-body');
-        tbody.innerHTML = '';
-
-        const searchQuery = document.getElementById('search-transactions').value.toLowerCase();
-        const statusFilter = document.getElementById('filter-status').value;
-
-        transactions.forEach((tx, idx) => {
-            // Filter logic
-            const matchesSearch = tx.name.toLowerCase().includes(searchQuery) || tx.id.toLowerCase().includes(searchQuery) || tx.service.toLowerCase().includes(searchQuery);
-            const matchesStatus = statusFilter === 'ALL' || tx.status === statusFilter;
-
-            if (matchesSearch && matchesStatus) {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition-all duration-350 border-b border-slate-200';
-
-                // Status visual badges
-                let badgeClass = '';
-                if (tx.status === 'Pending') badgeClass = 'bg-amber-50 text-amber-800 border-amber-200';
-                else if (tx.status === 'Confirmed') badgeClass = 'bg-sky-50 text-sky-800 border-sky-200';
-                else if (tx.status === 'Completed') badgeClass = 'bg-emerald-50 text-emerald-800 border-emerald-200';
-                else if (tx.status === 'Cancelled') badgeClass = 'bg-rose-50 text-rose-800 border-rose-200';
-
-                // Approve buttons based on status
-                let actionButtons = '';
-                if (tx.status === 'Pending') {
-                    actionButtons = `
-                        <button onclick="updateTxStatus(${idx}, 'Confirmed')" class="px-3.5 py-2 bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-600 hover:text-white font-black uppercase text-[9px] tracking-wider rounded-full transition-all duration-300 active:scale-95 shadow-sm">Setujui</button>
-                        <button onclick="updateTxStatus(${idx}, 'Cancelled')" class="px-3.5 py-2 bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-600 hover:text-white font-black uppercase text-[9px] tracking-wider rounded-full transition-all duration-300 active:scale-95 ml-1.5 shadow-sm">Tolak</button>
-                    `;
-                } else if (tx.status === 'Confirmed') {
-                    actionButtons = `
-                        <button onclick="updateTxStatus(${idx}, 'Completed')" class="px-3.5 py-2 bg-amber-600 text-white font-black uppercase text-[9px] tracking-wider rounded-full hover:bg-amber-700 border border-amber-700 shadow-md shadow-amber-900/10 transition-all duration-300 active:scale-95">Selesaikan</button>
-                    `;
-                } else {
-                    actionButtons = `<span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest font-sans">—</span>`;
-                }
-
-                tr.innerHTML = `
-                    <td class="px-6 py-5 font-bold text-slate-900 font-sans tracking-wide text-[13px]">${tx.id}</td>
-                    <td class="px-6 py-5">
-                        <div>
-                            <p class="font-bold text-slate-900 text-[13px] leading-snug">${tx.name}</p>
-                            <p class="text-[10px] text-slate-600 font-bold tracking-wide mt-0.5">${tx.email}</p>
-                        </div>
-                    </td>
-                    <td class="px-6 py-5 font-bold text-slate-800 text-[12px]">${tx.service}</td>
-                    <td class="px-6 py-5 font-semibold text-slate-700 font-sans text-xs">${tx.date}</td>
-                    <td class="px-6 py-5 font-bold text-amber-800 font-sans text-xs">${tx.amount}</td>
-                    <td class="px-6 py-5">
-                        <span class="px-3 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-full border ${badgeClass} inline-block leading-none shadow-sm">
-                            ${tx.status}
-                        </span>
-                    </td>
-                    <td class="px-6 py-5 text-center">
-                        <div class="flex items-center justify-center gap-1.5">
-                            ${actionButtons}
-                            <button onclick="viewReceipt(${idx})" class="px-3.5 py-2 bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-600 hover:text-white font-black uppercase text-[9px] tracking-wider rounded-full transition-all duration-300 active:scale-95 shadow-sm">Tagihan</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            }
-        });
-    }
-
-    function updateTxStatus(index, newStatus) {
-        const oldStatus = transactions[index].status;
-        transactions[index].status = newStatus;
-        persistData('studio_transactions', transactions);
-        renderTransactions();
-        
-        // Add points manually to loyalty points if status changed to 'Completed'
-        if (newStatus === 'Completed') {
-            const tx = transactions[index];
-            const numericPrice = parseInt(tx.amount.replace(/[^0-9]/g, ''));
-            const earnedPoints = Math.floor(numericPrice / pointMultiplier);
-
-            if (earnedPoints > 0) {
-                // Find or create customer entry in loyalty
-                let customer = loyalty.find(c => c.email.toLowerCase() === tx.email.toLowerCase());
-                if (customer) {
-                    customer.points += earnedPoints;
-                } else {
-                    loyalty.push({ name: tx.name, email: tx.email, points: earnedPoints });
-                }
-                persistData('studio_loyalty', loyalty);
-                renderLoyalty();
-                triggerToast(`Booking ${tx.id} Selesai! Pelanggan mendapatkan +${earnedPoints} Poin Loyalitas.`);
-                return;
-            }
-        }
-        
-        triggerToast(`Status Booking ${transactions[index].id} Diperbarui ke ${newStatus}.`);
-    }
-
-    function viewReceipt(index) {
-        const tx = transactions[index];
-        if (!tx) return;
-
-        // Populate receipt values
-        document.getElementById('bill-booking-id').textContent = '#' + tx.id;
-        document.getElementById('bill-client').textContent = tx.name;
-        document.getElementById('bill-email').textContent = tx.email;
-        document.getElementById('bill-service').textContent = tx.service;
-        document.getElementById('bill-date').textContent = tx.date;
-        document.getElementById('bill-amount').textContent = tx.amount;
-
-        const statusLabel = document.getElementById('bill-status');
-        statusLabel.textContent = tx.status;
-        
-        // Receipt badge styling
-        statusLabel.className = 'px-2.5 py-1 rounded text-[8px] font-black tracking-widest uppercase border ';
-        if (tx.status === 'Pending') statusLabel.className += 'bg-amber-50 text-amber-800 border-amber-200';
-        else if (tx.status === 'Confirmed') statusLabel.className += 'bg-sky-50 text-sky-800 border-sky-200';
-        else if (tx.status === 'Completed') statusLabel.className += 'bg-emerald-50 text-emerald-800 border-emerald-200';
-        else if (tx.status === 'Cancelled') statusLabel.className += 'bg-rose-50 text-rose-800 border-rose-200';
-
-        openModal('modal-bill');
-    }
-
-    function closeBillModal() {
-        closeModal('modal-bill');
-    }
 
 
     /* ─── TAB 4: MANAGE USERS FUNCTIONS ─── */
@@ -1443,23 +1282,54 @@
         }
 
         let customer = loyalty.find(c => c.email.toLowerCase() === email.toLowerCase());
-        if (customer) {
-            if (method === 'ADD') {
-                customer.points += value;
-                triggerToast(`Berhasil menambahkan +${value} poin untuk ${customer.name}.`);
-            } else {
-                if (customer.points < value) {
-                    alert('Poin pelanggan tidak mencukupi untuk pengurangan ini!');
-                    return;
-                }
-                customer.points -= value;
-                triggerToast(`Berhasil mengurangi -${value} poin untuk ${customer.name}.`);
-            }
+        if (!customer) return;
 
-            persistData('studio_loyalty', loyalty);
-            renderLoyalty();
-            closePointsModal();
+        if (method !== 'ADD' && customer.points < value) {
+            alert('Poin pelanggan tidak mencukupi untuk pengurangan ini!');
+            return;
         }
+
+        const actionVal = method === 'ADD' ? 'add' : 'sub';
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch(`/admin/users/${customer.id}/points`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                points: value,
+                action: actionVal
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                customer.points = data.user.points;
+                
+                if (method === 'ADD') {
+                    triggerToast(`Berhasil menambahkan +${value} poin untuk ${customer.name}.`);
+                } else {
+                    triggerToast(`Berhasil mengurangi -${value} poin untuk ${customer.name}.`);
+                }
+
+                renderLoyalty();
+                closePointsModal();
+            } else {
+                alert(data.message || 'Gagal menyesuaikan poin.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'Terjadi kesalahan sistem saat menghubungi server.');
+        });
     }
 
     function quickRedeemVoucher(email) {
@@ -1489,10 +1359,39 @@
             return;
         }
 
-        customer.points -= cost;
-        persistData('studio_loyalty', loyalty);
-        renderLoyalty();
-        triggerToast(`Sukses! ${customer.name} menukarkan ${cost} poin dengan "${giftName}".`);
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch(`/admin/users/${customer.id}/points`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                points: cost,
+                action: 'sub'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                customer.points = data.user.points;
+                renderLoyalty();
+                triggerToast(`Sukses! ${customer.name} menukarkan ${cost} poin dengan "${giftName}".`);
+            } else {
+                alert('Gagal memproses penukaran voucher.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan sistem saat menghubungi server.');
+        });
     }
 
     function saveLoyaltySettings() {
@@ -1501,9 +1400,38 @@
             alert('Rasio pengali poin harus berupa angka minimal Rp 100!');
             return;
         }
-        pointMultiplier = multInput;
-        localStorage.setItem('studio_points_mult', pointMultiplier);
-        triggerToast('Konfigurasi rasio loyalitas berhasil diperbarui!');
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch("{{ route('admin.settings.multiplier') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                multiplier: multInput
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                pointMultiplier = multInput;
+                triggerToast('Konfigurasi rasio loyalitas berhasil diperbarui!');
+            } else {
+                alert('Gagal memperbarui konfigurasi rasio loyalitas.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan sistem saat menghubungi server.');
+        });
     }
 
     function closePointsModal() {
@@ -1638,8 +1566,6 @@
     // INITIALIZER
     window.addEventListener('DOMContentLoaded', () => {
         updateOverviewStats();
-        renderServices();
-        renderTransactions();
         renderUsers();
         renderLoyalty();
         renderHolidays();
