@@ -138,6 +138,14 @@
         .auth-input::placeholder { color: #94a3b8; font-weight: 400; }
         .auth-input-pr { padding-right: 3rem; }
 
+        /* Force grey font classes to dark black/slate, excluding elements inside dark areas (like the left panel) */
+        .text-slate-400:not(.auth-left *),
+        .text-slate-500:not(.auth-left *),
+        .text-gray-400:not(.auth-left *),
+        .text-gray-500:not(.auth-left *) {
+            color: #0f172a !important;
+        }
+
         /* Scrollbar */
         .auth-right::-webkit-scrollbar { width: 5px; }
         .auth-right::-webkit-scrollbar-track { background: transparent; }

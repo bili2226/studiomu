@@ -15,7 +15,7 @@
         </svg>
         <span>Riwayat Booking</span>
     </a>
-    <a href="{{ url('/menu-utama') }}#gallery-card" class="sidebar-item flex items-center px-5 py-3.5 text-black hover:text-black transition-all font-bold">
+    <a href="{{ route('customer.gallery') }}" class="sidebar-item flex items-center px-5 py-3.5 text-black hover:text-black transition-all font-bold">
         <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
         </svg>
@@ -176,6 +176,25 @@
                     <p id="detail-modal-requests" class="text-xs font-bold text-black mt-1 italic p-3.5 bg-slate-50 border-2 border-black rounded-xl leading-relaxed"></p>
                 </div>
 
+                <div id="detail-modal-addons-container" class="hidden">
+                    <h4 class="text-[9px] font-black uppercase tracking-wider text-black">Layanan Tambahan (Add-ons)</h4>
+                    <div id="detail-modal-addons-list" class="mt-1.5 p-3.5 bg-slate-50 border-2 border-black rounded-xl flex flex-col gap-2"></div>
+                </div>
+
+                <div id="detail-modal-result-link-container" class="hidden">
+                    <h4 class="text-[9px] font-black uppercase tracking-wider text-black">Link Hasil Foto</h4>
+                    <div class="mt-1 p-4 bg-emerald-50 border-2 border-black rounded-xl flex items-center justify-between gap-3">
+                        <span class="text-xs font-bold text-emerald-800">Tautan hasil foto telah tersedia! Silakan klik tombol untuk melihat hasil foto Anda.</span>
+                        <a id="detail-modal-result-link" href="#" target="_blank" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 flex-shrink-0">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            </svg>
+                            <span>Lihat Hasil Foto</span>
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Explanation Box container -->
                 <div id="detail-modal-explanation-box" class="p-5 rounded-2xl border-2 flex items-start gap-4">
                     <div id="detail-modal-explanation-icon" class="w-10 h-10 rounded-xl border-2 flex items-center justify-center flex-shrink-0">
@@ -297,6 +316,11 @@
                         <span class="text-slate-500 uppercase tracking-wider text-[9px] flex-shrink-0">Status</span>
                         <span id="bill-status" class="px-2.5 py-0.5 rounded-full text-[8px] font-black tracking-widest uppercase border inline-block leading-none"></span>
                     </div>
+                    
+                    <div id="bill-addons-section" class="hidden border-t border-dashed border-black pt-3.5 mt-3.5 space-y-2">
+                        <span class="text-slate-500 uppercase tracking-wider text-[9px] block">Layanan Tambahan (Add-ons)</span>
+                        <div id="bill-addons-list" class="space-y-1.5"></div>
+                    </div>
                 </div>
 
                 <!-- Receipt totals -->
@@ -332,6 +356,23 @@
         const myBookings = transactions.filter(tx => tx.email === loggedInUser.email);
         
         renderBookingHistory(myBookings);
+    }
+
+    function buildAddonsHtml(addons) {
+        if (!addons || !Array.isArray(addons) || addons.length === 0) return '';
+        let html = '<div class="mt-1.5 flex flex-wrap gap-1">';
+        addons.forEach(addon => {
+            if (addon.qty > 0) {
+                html += `
+                    <span class="inline-flex items-center px-1.5 py-0.5 bg-slate-100 border-2 border-black rounded text-[9px] text-black font-bold">
+                        + ${addon.name} (${addon.qty}x)
+                    </span>
+                `;
+            }
+        });
+        html += '</div>';
+        if (html === '<div class="mt-1.5 flex flex-wrap gap-1"></div>') return '';
+        return html;
     }
 
     function renderBookingHistory(myBookings) {
@@ -397,18 +438,35 @@
                 }
             }
 
+            // Escape quotes in JSON string for inline attribute safely
+            const addonsStr = JSON.stringify(tx.addons || []).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+
             // Build Invoice button html
             const invoiceBtnHtml = `
-                <button onclick="showBill('${tx.id}', '${tx.name.replace(/'/g, "\\'")}', '${tx.email.replace(/'/g, "\\'")}', '${tx.service.replace(/'/g, "\\'")}', '${tx.date}', '${tx.amount}', '${tx.status}', '${tx.payment_method}', '${tx.discount}')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border-2 border-slate-300 hover:border-black hover:text-black font-bold text-[9px] uppercase tracking-widest rounded-lg transition-all duration-150 active:scale-95 cursor-pointer">
+                <button onclick="showBill('${tx.id}', '${tx.name.replace(/'/g, "\\'")}', '${tx.email.replace(/'/g, "\\'")}', '${tx.service.replace(/'/g, "\\'")}', '${tx.date}', '${tx.amount}', '${tx.status}', '${tx.payment_method}', '${tx.discount}', '${addonsStr}')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border-2 border-slate-300 hover:border-black hover:text-black font-bold text-[9px] uppercase tracking-widest rounded-lg transition-all duration-150 active:scale-95 cursor-pointer">
                     Invoice
                 </button>
             `;
 
             const mobileInvoiceBtnHtml = `
-                <button onclick="showBill('${tx.id}', '${tx.name.replace(/'/g, "\\'")}', '${tx.email.replace(/'/g, "\\'")}', '${tx.service.replace(/'/g, "\\'")}', '${tx.date}', '${tx.amount}', '${tx.status}', '${tx.payment_method}', '${tx.discount}')" class="px-3.5 py-2 bg-slate-100 border border-slate-300 hover:border-black hover:text-black text-slate-700 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer">
+                <button onclick="showBill('${tx.id}', '${tx.name.replace(/'/g, "\\'")}', '${tx.email.replace(/'/g, "\\'")}', '${tx.service.replace(/'/g, "\\'")}', '${tx.date}', '${tx.amount}', '${tx.status}', '${tx.payment_method}', '${tx.discount}', '${addonsStr}')" class="px-3.5 py-2 bg-slate-100 border border-slate-300 hover:border-black hover:text-black text-slate-700 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all cursor-pointer">
                     Invoice
                 </button>
             `;
+
+            // Build result link button html
+            let resultLinkBtnHtml = '';
+            if (tx.result_link) {
+                resultLinkBtnHtml = `
+                    <a href="${tx.result_link}" target="_blank" class="px-3 py-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-black text-[9px] uppercase tracking-widest rounded-lg shadow-sm transition-all duration-150 active:scale-95 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                        <span>Lihat Hasil</span>
+                    </a>
+                `;
+            }
 
             // Desktop Row
             const row = document.createElement('tr');
@@ -417,6 +475,7 @@
                 <td class="py-4 font-black text-black">${tx.id}</td>
                 <td class="py-4">
                     <span class="block text-black font-black">${tx.service}</span>
+                    ${buildAddonsHtml(tx.addons)}
                 </td>
                 <td class="py-4 text-black font-bold">${tx.payment_method || 'Transfer'}</td>
                 <td class="py-4 text-black font-bold">${tx.date} WIB</td>
@@ -434,6 +493,7 @@
                         </button>
                         ${invoiceBtnHtml}
                         ${payButtonHtml}
+                        ${resultLinkBtnHtml}
                     </div>
                 </td>
             `;
@@ -447,6 +507,7 @@
                     <div>
                         <span class="block text-[10px] text-black font-black uppercase tracking-widest">${tx.id}</span>
                         <h4 class="text-sm font-black text-black mt-0.5">${tx.service}</h4>
+                        ${buildAddonsHtml(tx.addons)}
                     </div>
                     <div class="flex flex-col items-end gap-1.5">
                         <span class="${statusClass}">${statusText}</span>
@@ -473,6 +534,7 @@
                     </button>
                     ${mobileInvoiceBtnHtml}
                     ${payButtonHtml}
+                    ${resultLinkBtnHtml}
                 </div>
             `;
             mobileList.appendChild(card);
@@ -491,6 +553,44 @@
         document.getElementById('detail-modal-amount').textContent = tx.amount;
         document.getElementById('detail-modal-customer-name').textContent = tx.name;
         document.getElementById('detail-modal-requests').textContent = tx.requests ? tx.requests : 'Tidak ada catatan tambahan.';
+
+        // Setup detail modal addons list
+        const addonsContainer = document.getElementById('detail-modal-addons-container');
+        const addonsList = document.getElementById('detail-modal-addons-list');
+        addonsList.innerHTML = '';
+        
+        let hasActiveAddons = false;
+        if (tx.addons && Array.isArray(tx.addons)) {
+            tx.addons.forEach(addon => {
+                if (addon.qty > 0) {
+                    hasActiveAddons = true;
+                    const item = document.createElement('div');
+                    item.className = 'flex justify-between items-center text-xs font-bold text-black';
+                    item.innerHTML = `
+                        <span>${addon.name} <span class="text-slate-500 font-medium">x${addon.qty}</span></span>
+                        <span class="font-sans">Rp ${(addon.price * addon.qty).toLocaleString('id-ID')}</span>
+                    `;
+                    addonsList.appendChild(item);
+                }
+            });
+        }
+        
+        if (hasActiveAddons) {
+            addonsContainer.classList.remove('hidden');
+        } else {
+            addonsContainer.classList.add('hidden');
+        }
+
+        // Result Link Section setup
+        const resultContainer = document.getElementById('detail-modal-result-link-container');
+        const resultLink = document.getElementById('detail-modal-result-link');
+        if (tx.result_link) {
+            resultContainer.classList.remove('hidden');
+            resultLink.href = tx.result_link;
+        } else {
+            resultContainer.classList.add('hidden');
+            resultLink.href = '#';
+        }
 
         document.getElementById('detail-modal-discount').textContent = tx.discount_raw > 0 ? `-${tx.discount}` : 'Rp 0';
         document.getElementById('detail-modal-points-used').textContent = (tx.points_used || 0) + ' pts';
@@ -513,7 +613,7 @@
         invoiceBtn.onclick = () => {
             closeBookingDetailModal();
             setTimeout(() => {
-                showBill(tx.id, tx.name, tx.email, tx.service, tx.date, tx.amount, tx.status, tx.payment_method, tx.discount);
+                showBill(tx.id, tx.name, tx.email, tx.service, tx.date, tx.amount, tx.status, tx.payment_method, tx.discount, JSON.stringify(tx.addons || []));
             }, 300);
         };
 
@@ -792,7 +892,7 @@
         }
     }
 
-    function showBill(id, client, email, service, date, amount, status, paymentMethod, discount) {
+    function showBill(id, client, email, service, date, amount, status, paymentMethod, discount, addonsJson) {
         document.getElementById('bill-booking-id').textContent = '#' + id;
         document.getElementById('bill-client').textContent = client;
         document.getElementById('bill-email').textContent = email;
@@ -824,6 +924,40 @@
         else if (status === 'Confirmed') statusLabel.className += 'bg-sky-50 text-sky-800 border-sky-200';
         else if (status === 'Completed') statusLabel.className += 'bg-emerald-50 text-emerald-800 border-emerald-200';
         else if (status === 'Cancelled') statusLabel.className += 'bg-rose-50 text-rose-800 border-rose-200';
+
+        // Render Addons in Invoice
+        const addonsSection = document.getElementById('bill-addons-section');
+        const addonsList = document.getElementById('bill-addons-list');
+        addonsList.innerHTML = '';
+        
+        let addons = [];
+        try {
+            addons = JSON.parse(addonsJson || '[]');
+        } catch (e) {
+            console.error('Error parsing addons JSON:', e);
+        }
+        
+        let hasActiveAddons = false;
+        if (addons && addons.length > 0) {
+            addons.forEach(addon => {
+                if (addon.qty > 0) {
+                    hasActiveAddons = true;
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center text-[11px] text-black font-bold';
+                    div.innerHTML = `
+                        <span>${addon.name} <span class="text-slate-500 font-medium">x${addon.qty}</span></span>
+                        <span class="font-sans">Rp ${(addon.price * addon.qty).toLocaleString('id-ID')}</span>
+                    `;
+                    addonsList.appendChild(div);
+                }
+            });
+        }
+        
+        if (hasActiveAddons) {
+            addonsSection.classList.remove('hidden');
+        } else {
+            addonsSection.classList.add('hidden');
+        }
 
         const modal = document.getElementById('modal-bill');
         const modalContent = modal.querySelector('.modal-card');

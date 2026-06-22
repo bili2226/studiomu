@@ -141,10 +141,62 @@
             </div>
         </div>
 
+        {{-- Addons / Layanan Tambahan --}}
+        <div class="mb-8 p-6 bg-slate-50 border border-amber-300 rounded-2xl">
+            <h5 class="text-[11px] font-black uppercase tracking-widest text-slate-800 mb-4 pb-2 border-b border-amber-300">Layanan Tambahan (Add-ons)</h5>
+            <p class="text-[10px] text-slate-500 mb-4">Tambahkan item opsional yang dapat dipilih pelanggan saat memesan layanan ini (contoh: Makeup, Hairdo, Cetak Foto, dll.).</p>
+            
+            <div id="addons-container" class="space-y-3">
+                <!-- Addon rows will be appended here dynamically -->
+            </div>
+            
+            <button type="button" onclick="addAddonRow()" class="mt-4 inline-flex items-center gap-1.5 bg-white border border-amber-300 hover:border-amber-400 hover:bg-amber-50/50 text-amber-800 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                <span>Tambah Add-on</span>
+            </button>
+        </div>
+
         <div class="flex items-center gap-4 border-t border-amber-300 pt-6">
             <button type="submit" id="btn-update-layanan" class="bg-amber-800 hover:bg-amber-900 text-white font-black uppercase tracking-widest text-[10px] py-3.5 px-8 rounded-2xl transition-all shadow-md active:scale-95">Update Layanan</button>
             <a href="{{ route('admin.services.index') }}" class="text-slate-500 hover:text-slate-700 font-bold text-xs">Batal</a>
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    let addonIndex = 0;
+
+    function addAddonRow(name = '', price = '') {
+        const container = document.getElementById('addons-container');
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-3 bg-white p-3 border border-amber-250 rounded-xl addon-row';
+        div.innerHTML = `
+            <div class="flex-1">
+                <input type="text" name="addons[${addonIndex}][name]" value="${name}" placeholder="Nama Add-on (misal: Makeup)" required class="w-full bg-slate-50 border border-amber-250 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-800">
+            </div>
+            <div class="w-1/3">
+                <input type="number" name="addons[${addonIndex}][price]" value="${price}" placeholder="Harga (Rp)" required class="w-full bg-slate-50 border border-amber-250 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-800">
+            </div>
+            <button type="button" onclick="this.closest('.addon-row').remove()" class="text-rose-600 hover:text-rose-800 p-2 cursor-pointer transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                </svg>
+            </button>
+        `;
+        container.appendChild(div);
+        addonIndex++;
+    }
+
+    // Load existing addons
+    const existingAddons = @json($service->addons ?? []);
+    if (existingAddons && existingAddons.length > 0) {
+        existingAddons.forEach(addon => {
+            addAddonRow(addon.name, addon.price);
+        });
+    }
+</script>
 @endsection

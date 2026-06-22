@@ -178,6 +178,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
     {{-- ── 4. MANAGE USERS PANEL ── --}}
@@ -225,167 +226,7 @@
         </div>
     </div>
 
-    {{-- ── 5. LOYALTY & REWARDS PANEL ── --}}
-    <div id="tab-panel-loyalty" class="tab-panel transition-opacity duration-300 opacity-0 hidden">
-        <!-- Settings Loyalty Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-stretch">
-            <!-- Points Multiplier Setup -->
-            <div class="lg:col-span-4 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50 flex flex-col justify-between">
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-2">Skema Loyalitas</h4>
-                    <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-6">Konfigurasi Rasio Poin</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-750 mb-2">Nilai Transaksi per 1 Poin</label>
-                            <div class="relative rounded-2xl border border-slate-200 focus-within:border-amber-600 focus-within:ring-4 focus-within:ring-amber-500/10 overflow-hidden flex items-center px-4 bg-slate-50 transition-all duration-300">
-                                <span class="text-xs font-black text-slate-700 mr-2">Rp</span>
-                                <input type="number" id="setting-multiplier" value="10000" class="w-full bg-transparent py-3.5 text-xs font-semibold focus:outline-none text-slate-900">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-750 mb-2">Tier Leveling (Silver/Gold)</label>
-                            <p class="text-slate-700 text-[11px] leading-relaxed font-semibold">Silver Member di atas 150 poin, Gold Member di atas 400 poin secara otomatis disematkan pada data member.</p>
-                        </div>
-                    </div>
-                </div>
-                <button onclick="saveLoyaltySettings()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-4 w-full rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 mt-8 border border-amber-200">
-                    SIMPAN PENGATURAN LOYALITAS
-                </button>
-            </div>
 
-            <!-- Loyalty Catalogue Table -->
-            <div class="lg:col-span-8 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50">
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700">Katalog Voucher</h4>
-                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mt-1">Reward Penukaran Poin</h3>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                                <th class="px-4 py-4">Kode Voucher</th>
-                                <th class="px-4 py-4">Nama Reward</th>
-                                <th class="px-4 py-4">Biaya Poin</th>
-                                <th class="px-4 py-4">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 font-semibold text-slate-800 bg-white">
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="px-4 py-3.5"><span class="bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-black uppercase tracking-widest font-sans inline-block shadow-sm">V-100</span></td>
-                                <td class="px-4 py-3.5 text-slate-900">Voucher Diskon Rp 100.000 (Semua Sesi)</td>
-                                <td class="px-4 py-3.5"><span class="text-amber-800 font-extrabold font-sans text-[10px] bg-amber-50 border border-amber-200 rounded-full px-3 py-1 inline-block shadow-sm">100 PTS</span></td>
-                                <td class="px-4 py-3.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider inline-block shadow-sm">AKTIF</span></td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="px-4 py-3.5"><span class="bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-black uppercase tracking-widest font-sans inline-block shadow-sm">F-16R</span></td>
-                                <td class="px-4 py-3.5 text-slate-900">Cetak Canvas + Frame Ukuran 16R Premium</td>
-                                <td class="px-4 py-3.5"><span class="text-amber-800 font-extrabold font-sans text-[10px] bg-amber-50 border border-amber-200 rounded-full px-3 py-1 inline-block shadow-sm">200 PTS</span></td>
-                                <td class="px-4 py-3.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider inline-block shadow-sm">AKTIF</span></td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="px-4 py-3.5"><span class="bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-black uppercase tracking-widest font-sans inline-block shadow-sm">B-CUST</span></td>
-                                <td class="px-4 py-3.5 text-slate-900">Bebas Ganti Custom Background Studio (3 Pilihan)</td>
-                                <td class="px-4 py-3.5"><span class="text-amber-800 font-extrabold font-sans text-[10px] bg-amber-50 border border-amber-200 rounded-full px-3 py-1 inline-block shadow-sm">150 PTS</span></td>
-                                <td class="px-4 py-3.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider inline-block shadow-sm">AKTIF</span></td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="px-4 py-3.5"><span class="bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-black uppercase tracking-widest font-sans inline-block shadow-sm">F-ALB</span></td>
-                                <td class="px-4 py-3.5 text-slate-900">Cetak Premium Leather Album (20 Halaman)</td>
-                                <td class="px-4 py-3.5"><span class="text-amber-800 font-extrabold font-sans text-[10px] bg-amber-50 border border-amber-200 rounded-full px-3 py-1 inline-block shadow-sm">300 PTS</span></td>
-                                <td class="px-4 py-3.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider inline-block shadow-sm">AKTIF</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Loyalty Points Table balance -->
-        <div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
-            <div class="p-6 sm:p-8 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-1">Database Poin</h4>
-                    <h2 class="text-2xl font-serif italic font-bold text-slate-900">Informasi Point Loyalitas Pelanggan</h2>
-                </div>
-                <input type="text" id="search-loyalty" oninput="renderLoyalty()" placeholder="Cari pelanggan..." class="border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs focus:outline-none font-semibold min-w-[200px] bg-white text-slate-900 transition-all duration-300">
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                            <th class="px-6 py-4">Pelanggan</th>
-                            <th class="px-6 py-4">Alamat Email</th>
-                            <th class="px-6 py-4">Total Poin Terkumpul</th>
-                            <th class="px-6 py-4">Tingkat Membership (Tier)</th>
-                            <th class="px-6 py-4 text-center">Aksi Penyesuaian</th>
-                        </tr>
-                    </thead>
-                    <tbody id="loyalty-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-800 bg-white">
-                        <!-- Loaded dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    {{-- ── 6. MANAGE HOLIDAYS PANEL ── --}}
-    <div id="tab-panel-holidays" class="tab-panel transition-opacity duration-300 opacity-0 hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-stretch">
-            
-            <!-- Add Holiday Form -->
-            <div class="lg:col-span-4 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50 flex flex-col justify-between">
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-2">Operasional Studio</h4>
-                    <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-6">Tambah Hari Libur</h3>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-750 mb-2">Pilih Tanggal</label>
-                            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-1 focus-within:border-amber-600 focus-within:ring-4 focus-within:ring-amber-500/10 overflow-hidden flex items-center transition-all duration-300 shadow-sm">
-                                <input type="date" id="holiday-form-date" class="w-full bg-transparent px-4 py-3 text-xs font-semibold focus:outline-none text-slate-900 cursor-pointer">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-755 mb-2">Keterangan / Alasan Libur</label>
-                            <input type="text" id="holiday-form-desc" placeholder="Contoh: Libur Idul Fitri, Tutup Rutin" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300 shadow-sm">
-                        </div>
-                    </div>
-                </div>
-                <button onclick="saveHoliday()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-4 w-full rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 mt-8 border border-amber-200">
-                    SIMPAN HARI LIBUR TOKO
-                </button>
-            </div>
-
-            <!-- Holidays List Table -->
-            <div class="lg:col-span-8 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50">
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700">Daftar Penutupan Toko</h4>
-                        <h3 class="text-xl font-serif italic font-bold text-slate-900 mt-1">Jadwal Hari Libur Studio</h3>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <thead>
-                            <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                                <th class="px-4 py-4 w-12">No</th>
-                                <th class="px-4 py-4 w-44">Tanggal Libur</th>
-                                <th class="px-4 py-4">Keterangan / Alasan</th>
-                                <th class="px-4 py-4 text-center w-28">Aksi Pengelolaan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="holidays-table-body" class="divide-y divide-slate-100 font-semibold text-slate-800 bg-white">
-                            <!-- Loaded dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
 
     {{-- ══ MODALS ══ --}}
@@ -517,35 +358,6 @@
         </div>
     </div>
 
-    {{-- MODAL C: CUSTOM LOYALTY MANUAL POINTS ADJUSTMENT MODAL --}}
-    <div id="modal-points" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="modal-card bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl w-full max-w-md overflow-hidden transform scale-95 opacity-0 transition-all duration-300 relative z-10 p-9 flex flex-col">
-            <button onclick="closePointsModal()" class="absolute top-6 right-6 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all duration-300 hover:rotate-90 hover:scale-105 shadow-sm cursor-pointer">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <h3 id="modal-points-title" class="text-2xl font-serif italic font-bold text-slate-900 mb-1">Sesuaikan Poin Pelanggan</h3>
-            <p id="modal-points-subtitle" class="text-xs text-slate-700 mb-6 font-semibold tracking-wide"></p>
-            <input type="hidden" id="form-points-email">
-            <div class="space-y-5">
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Metode Penyesuaian</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <button onclick="setPointsMethod('ADD')" id="btn-points-add" class="py-3.5 px-4 bg-amber-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center shadow-md shadow-amber-500/10 border border-amber-600">TAMBAH (+)</button>
-                        <button onclick="setPointsMethod('SUB')" id="btn-points-sub" class="py-3.5 px-4 border border-slate-200 hover:border-slate-350 font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center text-slate-500 hover:text-slate-700 bg-slate-50">KURANG (-)</button>
-                    </div>
-                    <input type="hidden" id="form-points-method" value="ADD">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Jumlah Poin</label>
-                    <input type="number" id="form-points-value" value="50" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
-                </div>
-            </div>
-            <button onclick="savePointsAdjust()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-4 w-full rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 mt-8 border border-amber-200">
-                KONFIRMASI PENYESUAIAN POIN
-            </button>
-        </div>
-    </div>
-
     {{-- MODAL D: INVOICE DETAIL / BILL MODAL --}}
 
     {{-- TOAST ALERTS NOTIFICATIONS --}}
@@ -585,8 +397,10 @@
         });
 
         const activeBtn = document.getElementById(`btn-${tabId}`);
-        activeBtn.classList.add('sidebar-item-active', 'text-white');
-        activeBtn.classList.remove('text-slate-500');
+        if (activeBtn) {
+            activeBtn.classList.add('sidebar-item-active', 'text-white');
+            activeBtn.classList.remove('text-slate-500');
+        }
     }
 
     // Default Seed Data
@@ -895,31 +709,10 @@
         { id: 'BOOK-1005', name: 'Siti Aminah', email: 'siti@gmail.com', service: 'Komersial & Produk (STARTER KIT)', date: '2026-05-30 11:00', amount: 'Rp 1.200.000', status: 'Cancelled' }
     ];
 
-    const defaultLoyalty = [
-        { name: 'Budi Santoso', email: 'budi@gmail.com', points: 450 },
-        { name: 'Siti Aminah', email: 'siti@gmail.com', points: 180 },
-        { name: 'Customer User', email: 'customer@gmail.com', points: 50 }
-    ];
-
-    const defaultHolidays = [
-        { date: "2026-05-29", desc: "Hari Raya Waisak (Studio Libur)" },
-        { date: "2026-06-01", desc: "Hari Lahir Pancasila (Studio Libur)" }
-    ];
-
     // Database State Loader
     let users = @json($allUsers);
     let transactions = @json($bookings);
-    let loyalty = @json($customers);
-    @php
-        $settingsPath = storage_path('app/settings.json');
-        $multiplier = 10000;
-        if (file_exists($settingsPath)) {
-            $settings = json_decode(file_get_contents($settingsPath), true);
-            $multiplier = $settings['points_multiplier'] ?? 10000;
-        }
-    @endphp
-    let pointMultiplier = {{ $multiplier }};
-    let holidays = JSON.parse(localStorage.getItem('studio_holidays')) || defaultHolidays;
+    let dbRewards = @json($rewards->where('status', 'active')->values());
 
     // Toast Alert Trigger
     function triggerToast(message) {
@@ -988,10 +781,13 @@
     /* ─── TAB 4: MANAGE USERS FUNCTIONS ─── */
     function renderUsers() {
         const tbody = document.getElementById('users-table-body');
+        if (!tbody) return;
         tbody.innerHTML = '';
 
-        const searchQuery = document.getElementById('search-users').value.toLowerCase();
-        const roleFilter = document.getElementById('filter-role').value;
+        const searchUsersEl = document.getElementById('search-users');
+        const searchQuery = searchUsersEl ? searchUsersEl.value.toLowerCase() : '';
+        const filterRoleEl = document.getElementById('filter-role');
+        const roleFilter = filterRoleEl ? filterRoleEl.value : 'ALL';
 
         users.forEach((usr, idx) => {
             const matchesSearch = usr.name.toLowerCase().includes(searchQuery) || usr.email.toLowerCase().includes(searchQuery);
@@ -1184,7 +980,6 @@
 
                 updateOverviewStats();
                 renderUsers();
-                renderLoyalty();
                 triggerToast(`Akun ${name} Telah Dihapus dari Database.`);
             } else {
                 alert(data.message || 'Gagal menghapus user.');
@@ -1196,336 +991,12 @@
         });
     }
 
-    function closeUserModal() {
-        closeModal('modal-user');
-    }
-
-
-    /* ─── TAB 5: LOYALTY & REWARDS FUNCTIONS ─── */
-    function renderLoyalty() {
-        const tbody = document.getElementById('loyalty-table-body');
-        tbody.innerHTML = '';
-
-        const searchQuery = document.getElementById('search-loyalty').value.toLowerCase();
-
-        loyalty.forEach(c => {
-            if (c.name.toLowerCase().includes(searchQuery) || c.email.toLowerCase().includes(searchQuery)) {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition-all duration-350 border-b border-slate-200';
-
-                // Determine Tier badge
-                let tier = 'BRONZE MEMBER';
-                let tierBadge = 'bg-slate-50 text-slate-700 border-slate-200';
-                if (c.points >= 400) {
-                    tier = 'GOLD MEMBER';
-                    tierBadge = 'bg-amber-50 text-amber-800 border-amber-300 shadow-sm shadow-amber-100';
-                } else if (c.points >= 150) {
-                    tier = 'SILVER MEMBER';
-                    tierBadge = 'bg-slate-100 text-slate-800 border-slate-300 shadow-sm';
-                }
-
-                tr.innerHTML = `
-                    <td class="px-6 py-5 font-bold text-slate-900 text-[13px]">${c.name}</td>
-                    <td class="px-6 py-5 font-semibold text-slate-700 font-sans text-xs">${c.email}</td>
-                    <td class="px-6 py-5 font-bold text-slate-900 font-sans">
-                        <span class="text-base text-amber-800 font-extrabold">${c.points}</span>
-                        <span class="text-[9px] text-slate-650 font-black uppercase tracking-wider ml-1">pts</span>
-                    </td>
-                    <td class="px-6 py-5">
-                        <span class="px-3 py-1.5 rounded-full text-[9px] font-black tracking-widest uppercase border ${tierBadge} inline-block leading-none">
-                            ${tier}
-                        </span>
-                    </td>
-                    <td class="px-6 py-5 text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <button onclick="openPointsAdjustModal('${c.email}', '${c.name}')" class="px-3.5 py-2 bg-slate-50 text-slate-800 border border-slate-300 hover:bg-slate-950 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Sesuaikan Poin</button>
-                            <button onclick="quickRedeemVoucher('${c.email}')" class="px-3.5 py-2 bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Klaim Reward</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            }
-        });
-    }
-
-    function openPointsAdjustModal(email, name) {
-        document.getElementById('modal-points-subtitle').textContent = `Pelanggan: ${name} (${email})`;
-        document.getElementById('form-points-email').value = email;
-        document.getElementById('form-points-value').value = '50';
-        setPointsMethod('ADD');
-        openModal('modal-points');
-    }
-
-    function setPointsMethod(method) {
-        document.getElementById('form-points-method').value = method;
-        
-        const addBtn = document.getElementById('btn-points-add');
-        const subBtn = document.getElementById('btn-points-sub');
-
-        if (method === 'ADD') {
-            addBtn.className = 'py-3.5 px-4 bg-amber-600 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center shadow-md shadow-amber-900/10 border border-amber-600';
-            subBtn.className = 'py-3.5 px-4 border border-slate-200 hover:border-slate-300 font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100';
-        } else {
-            subBtn.className = 'py-3.5 px-4 bg-amber-600 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center shadow-md shadow-amber-900/10 border border-amber-600';
-            addBtn.className = 'py-3.5 px-4 border border-slate-200 hover:border-slate-300 font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100';
-        }
-    }
-
-    function savePointsAdjust() {
-        const email = document.getElementById('form-points-email').value;
-        const method = document.getElementById('form-points-method').value;
-        const value = parseInt(document.getElementById('form-points-value').value);
-
-        if (isNaN(value) || value <= 0) {
-            alert('Jumlah poin harus berupa angka positif!');
-            return;
-        }
-
-        let customer = loyalty.find(c => c.email.toLowerCase() === email.toLowerCase());
-        if (!customer) return;
-
-        if (method !== 'ADD' && customer.points < value) {
-            alert('Poin pelanggan tidak mencukupi untuk pengurangan ini!');
-            return;
-        }
-
-        const actionVal = method === 'ADD' ? 'add' : 'sub';
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        fetch(`/admin/users/${customer.id}/points`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                points: value,
-                action: actionVal
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw err; });
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                customer.points = data.user.points;
-                
-                if (method === 'ADD') {
-                    triggerToast(`Berhasil menambahkan +${value} poin untuk ${customer.name}.`);
-                } else {
-                    triggerToast(`Berhasil mengurangi -${value} poin untuk ${customer.name}.`);
-                }
-
-                renderLoyalty();
-                closePointsModal();
-            } else {
-                alert(data.message || 'Gagal menyesuaikan poin.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert(error.message || 'Terjadi kesalahan sistem saat menghubungi server.');
-        });
-    }
-
-    function quickRedeemVoucher(email) {
-        let customer = loyalty.find(c => c.email.toLowerCase() === email.toLowerCase());
-        if (!customer) return;
-
-        // Prompt simple redeem choice
-        const choice = prompt(`Tukarkan poin untuk ${customer.name} (${customer.points} pts):\n\nKetik kode voucher:\n"V-100" (Diskon 100k - Biaya 100 pts)\n"F-16R" (Cetak Canvas Frame 16R - Biaya 200 pts)\n"B-CUST" (Custom Background - Biaya 150 pts)\n"F-ALB" (Premium Album - Biaya 300 pts)`);
-        
-        if (!choice) return;
-        const code = choice.toUpperCase().trim();
-
-        let cost = 0;
-        let giftName = '';
-
-        if (code === 'V-100') { cost = 100; giftName = 'Voucher Diskon Rp 100.000'; }
-        else if (code === 'F-16R') { cost = 200; giftName = 'Cetak Frame 16R Premium'; }
-        else if (code === 'B-CUST') { cost = 150; giftName = 'Bebas Ganti Custom Background'; }
-        else if (code === 'F-ALB') { cost = 300; giftName = 'Cetak Premium Leather Album'; }
-        else {
-            alert('Kode voucher tidak ditemukan!');
-            return;
-        }
-
-        if (customer.points < cost) {
-            alert(`Poin tidak cukup! ${customer.name} hanya memiliki ${customer.points} poin.`);
-            return;
-        }
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        fetch(`/admin/users/${customer.id}/points`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                points: cost,
-                action: 'sub'
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw err; });
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                customer.points = data.user.points;
-                renderLoyalty();
-                triggerToast(`Sukses! ${customer.name} menukarkan ${cost} poin dengan "${giftName}".`);
-            } else {
-                alert('Gagal memproses penukaran voucher.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan sistem saat menghubungi server.');
-        });
-    }
-
-    function saveLoyaltySettings() {
-        const multInput = parseInt(document.getElementById('setting-multiplier').value);
-        if (isNaN(multInput) || multInput <= 100) {
-            alert('Rasio pengali poin harus berupa angka minimal Rp 100!');
-            return;
-        }
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        fetch("{{ route('admin.settings.multiplier') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                multiplier: multInput
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw err; });
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                pointMultiplier = multInput;
-                triggerToast('Konfigurasi rasio loyalitas berhasil diperbarui!');
-            } else {
-                alert('Gagal memperbarui konfigurasi rasio loyalitas.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan sistem saat menghubungi server.');
-        });
-    }
-
     function closePointsModal() {
         closeModal('modal-points');
     }
 
 
-    /* ─── TAB 6: MANAGE HOLIDAYS FUNCTIONS ─── */
-    function renderHolidays() {
-        const tbody = document.getElementById('holidays-table-body');
-        if (!tbody) return;
-        tbody.innerHTML = '';
 
-        if (holidays.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="4" class="px-4 py-6 text-center text-slate-500 font-semibold italic text-xs">Belum ada hari libur toko yang ditambahkan.</td>
-                </tr>
-            `;
-            return;
-        }
-
-        holidays.forEach((h, idx) => {
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
-            
-            const dateStr = typeof h === 'string' ? h : h.date;
-            const descStr = typeof h === 'string' ? 'Studio Libur Rutin' : h.desc;
-
-            let formattedDate = dateStr;
-            try {
-                const dateObj = new Date(dateStr);
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                formattedDate = dateObj.toLocaleDateString('id-ID', options);
-            } catch (e) {
-                console.error(e);
-            }
-
-            tr.innerHTML = `
-                <td class="px-4 py-4 text-slate-700 font-sans text-xs">${idx + 1}</td>
-                <td class="px-4 py-4 font-bold text-slate-900 font-sans text-xs">${formattedDate}</td>
-                <td class="px-4 py-4 text-slate-700 text-xs font-semibold">${descStr}</td>
-                <td class="px-4 py-4 text-center">
-                    <button onclick="deleteHoliday(${idx})" class="px-3.5 py-2 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Hapus</button>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function saveHoliday() {
-        const dateInput = document.getElementById('holiday-form-date');
-        const descInput = document.getElementById('holiday-form-desc');
-
-        const dateVal = dateInput.value;
-        const descVal = descInput.value.trim() || 'Studio Libur';
-
-        if (!dateVal) {
-            alert('Silakan tentukan tanggal libur terlebih dahulu!');
-            return;
-        }
-
-        const exists = holidays.some(h => {
-            const existingDate = typeof h === 'string' ? h : h.date;
-            return existingDate === dateVal;
-        });
-
-        if (exists) {
-            alert('Tanggal libur tersebut sudah terdaftar!');
-            return;
-        }
-
-        holidays.push({ date: dateVal, desc: descVal });
-        persistHolidays();
-        renderHolidays();
-
-        dateInput.value = '';
-        descInput.value = '';
-
-        triggerToast('Hari Libur Toko Berhasil Ditambahkan!');
-    }
-
-    function deleteHoliday(index) {
-        if (!confirm('Apakah Anda yakin ingin menghapus hari libur ini? Toko akan dibuka kembali pada tanggal tersebut.')) return;
-        
-        holidays.splice(index, 1);
-        persistHolidays();
-        renderHolidays();
-        triggerToast('Hari Libur Toko Telah Dihapus.');
-    }
-
-    function persistHolidays() {
-        localStorage.setItem('studio_holidays', JSON.stringify(holidays));
-    }
 
 
     /* ─── BASE MODAL CONTROLLER UTILS ─── */
@@ -1567,11 +1038,7 @@
     window.addEventListener('DOMContentLoaded', () => {
         updateOverviewStats();
         renderUsers();
-        renderLoyalty();
-        renderHolidays();
-        
-        // Load initial multiplier setting
-        document.getElementById('setting-multiplier').value = pointMultiplier;
+        switchTab('overview');
     });
 </script>
 @endsection

@@ -15,6 +15,7 @@ class Service extends Model
         'highlights',
         'col1',
         'col2',
+        'addons',
     ];
 
     protected $casts = [
@@ -22,5 +23,6 @@ class Service extends Model
         'highlights' => 'array',
         'col1' => 'array',
         'col2' => 'array',
+        'addons' => 'array',
     ];
 }

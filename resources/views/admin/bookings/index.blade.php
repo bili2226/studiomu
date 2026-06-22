@@ -16,18 +16,41 @@
     </div>
 @endif
 
+@if (session('error'))
+    <div class="mb-6 flex items-center gap-3 px-5 py-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-700 text-xs font-semibold">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        {{ session('error') }}
+    </div>
+@endif
+
+@if (session('info'))
+    <div class="mb-6 flex items-center gap-3 px-5 py-4 bg-sky-50 border border-sky-200 rounded-2xl text-sky-700 text-xs font-semibold">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        {{ session('info') }}
+    </div>
+@endif
+
 {{-- Page Header --}}
 <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div>
         <p class="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400 mb-1">Manajemen Transaksi</p>
         <h1 class="text-2xl font-serif italic font-bold text-slate-900">Kelola Transaksi</h1>
     </div>
+    <div class="flex-shrink-0">
+        <form method="POST" action="{{ route('admin.bookings.autoAssign') }}" onsubmit="return confirm('Apakah Anda yakin ingin membagikan sesi pemotretan terkonfirmasi yang belum memiliki fotografer secara merata?')">
+            @csrf
+            <button type="submit" class="bg-gradient-to-r from-sky-650 to-sky-750 hover:from-sky-700 hover:to-sky-800 text-white font-black uppercase tracking-widest text-[10px] px-6 py-3.5 rounded-2xl transition-all shadow-md shadow-sky-900/10 active:scale-95 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94-3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
+                Bagi Sesi Secara Merata
+            </button>
+        </form>
+    </div>
 </div>
 
 {{-- Stats Cards / Filter Quick Links --}}
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
     {{-- Card 1: Pending --}}
-    <a href="{{ route('admin.bookings.index', ['status' => 'Pending', 'search' => $search]) }}"
+    <a href="{{ route('admin.bookings.index', ['status' => 'Pending', 'search' => $search, 'date_range' => $dateRange]) }}"
         class="group bg-white border-2 {{ $status === 'Pending' ? 'border-amber-400 bg-amber-50/40' : 'border-amber-300 hover:border-amber-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-2 text-amber-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
@@ -37,7 +60,7 @@
     </a>
 
     {{-- Card 2: Confirmed --}}
-    <a href="{{ route('admin.bookings.index', ['status' => 'Confirmed', 'search' => $search]) }}"
+    <a href="{{ route('admin.bookings.index', ['status' => 'Confirmed', 'search' => $search, 'date_range' => $dateRange]) }}"
         class="group bg-white border-2 {{ $status === 'Confirmed' ? 'border-sky-400 bg-sky-50/40' : 'border-amber-300 hover:border-sky-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center mx-auto mb-2 text-sky-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>
@@ -47,7 +70,7 @@
     </a>
 
     {{-- Card 3: Completed --}}
-    <a href="{{ route('admin.bookings.index', ['status' => 'Completed', 'search' => $search]) }}"
+    <a href="{{ route('admin.bookings.index', ['status' => 'Completed', 'search' => $search, 'date_range' => $dateRange]) }}"
         class="group bg-white border-2 {{ $status === 'Completed' ? 'border-emerald-400 bg-emerald-50/40' : 'border-amber-300 hover:border-emerald-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-2 text-emerald-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
@@ -57,7 +80,7 @@
     </a>
 
     {{-- Card 4: Cancelled --}}
-    <a href="{{ route('admin.bookings.index', ['status' => 'Cancelled', 'search' => $search]) }}"
+    <a href="{{ route('admin.bookings.index', ['status' => 'Cancelled', 'search' => $search, 'date_range' => $dateRange]) }}"
         class="group bg-white border-2 {{ $status === 'Cancelled' ? 'border-rose-400 bg-rose-50/40' : 'border-amber-300 hover:border-rose-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center mx-auto mb-2 text-rose-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
@@ -72,50 +95,61 @@
     
     {{-- Search & Filter Bar --}}
     <div class="p-5 sm:p-6 border-b border-slate-100 bg-slate-50/60">
-        <form method="GET" action="{{ route('admin.bookings.index') }}" class="flex flex-col sm:flex-row gap-3">
+        <form method="GET" action="{{ route('admin.bookings.index') }}" class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
             {{-- Search bar --}}
             <div class="relative flex-1">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                     <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
                 <input type="text" name="search" value="{{ $search }}" placeholder="Cari ID booking, nama, email, atau layanan..."
-                    class="w-full pl-10 pr-4 py-2.5 bg-white border border-amber-300 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 rounded-xl text-xs font-semibold text-slate-900 focus:outline-none transition-all placeholder:font-normal placeholder:text-slate-400">
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-amber-300 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 rounded-xl text-xs font-semibold text-slate-900 focus:outline-none transition-all placeholder:font-normal placeholder:text-slate-400">
             </div>
 
-            {{-- Status Filters --}}
-            <div class="flex items-center gap-2 flex-wrap">
-                @php
-                    $statuses = [
-                        '' => 'Semua',
-                        'Pending' => 'Pending',
-                        'Confirmed' => 'Terkonfirmasi',
-                        'Completed' => 'Selesai',
-                        'Cancelled' => 'Dibatalkan',
-                    ];
-                @endphp
-                @foreach($statuses as $key => $label)
-                    <label class="cursor-pointer">
-                        <input type="radio" name="status" value="{{ $key }}" {{ $status === $key ? 'checked' : '' }} class="sr-only peer">
-                        <span class="inline-flex items-center px-3.5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all cursor-pointer
-                            peer-checked:bg-amber-800 peer-checked:text-white peer-checked:border-amber-800
-                            {{ $status !== $key ? 'bg-white text-slate-600 border-amber-300 hover:border-amber-400 hover:text-amber-800' : '' }}">
-                            {{ $label }}
-                        </span>
-                    </label>
-                @endforeach
+            {{-- Dropdown Filters --}}
+            <div class="flex flex-col sm:flex-row items-stretch gap-3">
+                {{-- Status Dropdown --}}
+                <div class="relative flex-1 sm:flex-none sm:w-44">
+                    <select name="status" onchange="this.form.submit()"
+                        class="w-full appearance-none bg-white border border-amber-300 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 rounded-xl text-xs font-bold text-slate-800 pl-4 pr-10 py-3 focus:outline-none transition-all cursor-pointer">
+                        <option value="">Semua Status</option>
+                        <option value="Pending" {{ $status === 'Pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="Confirmed" {{ $status === 'Confirmed' ? 'selected' : '' }}>Terkonfirmasi</option>
+                        <option value="Completed" {{ $status === 'Completed' ? 'selected' : '' }}>Selesai</option>
+                        <option value="Cancelled" {{ $status === 'Cancelled' ? 'selected' : '' }}>Dibatalkan</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+                    </div>
+                </div>
+
+                {{-- Date Range Dropdown --}}
+                <div class="relative flex-1 sm:flex-none sm:w-44">
+                    <select name="date_range" onchange="this.form.submit()"
+                        class="w-full appearance-none bg-white border border-amber-300 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 rounded-xl text-xs font-bold text-slate-800 pl-4 pr-10 py-3 focus:outline-none transition-all cursor-pointer">
+                        <option value="">Semua Waktu</option>
+                        <option value="today" {{ $dateRange === 'today' ? 'selected' : '' }}>Hari Ini</option>
+                        <option value="this_week" {{ $dateRange === 'this_week' ? 'selected' : '' }}>Minggu Ini</option>
+                        <option value="this_month" {{ $dateRange === 'this_month' ? 'selected' : '' }}>Bulan Ini</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+                    </div>
+                </div>
             </div>
 
-            {{-- Submit and Reset --}}
-            <button type="submit" class="bg-amber-800 hover:bg-amber-900 text-white font-black uppercase tracking-widest text-[10px] px-5 py-2.5 rounded-xl transition-all flex-shrink-0 active:scale-95 shadow-sm">
-                Filter
-            </button>
-            @if ($search || $status)
-                <a href="{{ route('admin.bookings.index') }}"
-                    class="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 font-bold text-[10px] px-3 py-2.5 rounded-xl border border-amber-300 hover:border-slate-400 transition-all flex-shrink-0">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
-                    Reset
-                </a>
-            @endif
+            {{-- Submit and Reset buttons --}}
+            <div class="flex items-center gap-2">
+                <button type="submit" class="bg-amber-800 hover:bg-amber-900 text-white font-black uppercase tracking-widest text-[10px] px-6 py-3 rounded-xl transition-all active:scale-95 shadow-sm h-11 flex items-center justify-center">
+                    Filter
+                </button>
+                @if ($search || $status || $dateRange)
+                    <a href="{{ route('admin.bookings.index') }}"
+                        class="flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800 font-bold text-[10px] px-4 py-3 rounded-xl border border-amber-300 hover:border-slate-400 transition-all h-11">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                        Reset
+                    </a>
+                @endif
+            </div>
         </form>
     </div>
 
@@ -123,7 +157,7 @@
     <div class="px-6 pt-4 pb-2">
         <p class="text-[10px] font-semibold text-slate-400">
             Menampilkan <strong class="text-slate-700">{{ $bookings->count() }}</strong> transaksi
-            @if ($search) • pencarian "<strong class="text-amber-805">{{ $search }}</strong>" @endif
+            @if ($search) • pencarian "<strong class="text-amber-800">{{ $search }}</strong>" @endif
             @if ($status) 
                 • status "<strong class="text-amber-800">
                     @if($status === 'Confirmed')
@@ -136,6 +170,19 @@
                         {{ $status }}
                     @endif
                 </strong>" 
+            @endif
+            @if ($dateRange)
+                • waktu "<strong class="text-amber-800">
+                    @if($dateRange === 'today')
+                        Hari Ini
+                    @elseif($dateRange === 'this_week')
+                        Minggu Ini
+                    @elseif($dateRange === 'this_month')
+                        Bulan Ini
+                    @else
+                        {{ $dateRange }}
+                    @endif
+                </strong>"
             @endif
         </p>
     </div>
@@ -158,6 +205,7 @@
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Layanan & Sesi</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Metode</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Jadwal Sesi</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Fotografer</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Total Biaya</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Status</th>
                             <th class="text-right text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pt-2">Aksi Pengelolaan</th>
@@ -181,7 +229,20 @@
 
                             {{-- Layanan & Sesi --}}
                             <td class="py-4 pr-4 text-slate-800 text-xs">
-                                {{ $booking->service_name }}
+                                <div>
+                                    <p class="font-bold text-slate-900 leading-snug">{{ $booking->service_name }}</p>
+                                    @if(!empty($booking->addons) && is_array($booking->addons))
+                                        <div class="mt-1.5 flex flex-wrap gap-1">
+                                            @foreach($booking->addons as $addon)
+                                                @if(($addon['qty'] ?? 0) > 0)
+                                                    <span class="inline-flex items-center px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[9px] text-slate-650 font-bold">
+                                                        + {{ $addon['name'] }} ({{ $addon['qty'] }}x)
+                                                    </span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
                             </td>
 
                             {{-- Metode --}}
@@ -191,7 +252,27 @@
 
                             {{-- Jadwal Sesi --}}
                             <td class="py-4 pr-4 text-slate-600 font-sans text-xs">
-                                {{ $booking->booking_date->format('d M Y, H:i') }}
+                                {{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}
+                            </td>
+
+                            {{-- Fotografer --}}
+                            <td class="py-4 pr-4">
+                                @if($booking->status === 'Cancelled')
+                                    <span class="text-[10px] text-slate-400 font-semibold italic">Dibatalkan</span>
+                                @else
+                                    <form action="{{ route('admin.bookings.assign', $booking->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        <select name="photographer_id" onchange="this.form.submit()" 
+                                            class="bg-white border border-amber-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/10 rounded-xl text-[11px] font-bold text-slate-800 px-3 py-1.5 focus:outline-none transition-all cursor-pointer">
+                                            <option value="">-- Pilih Fotografer --</option>
+                                            @foreach($photographers as $photo)
+                                                <option value="{{ $photo->id }}" {{ $booking->photographer_id == $photo->id ? 'selected' : '' }}>
+                                                    {{ $photo->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                @endif
                             </td>
 
                             {{-- Total Biaya --}}
@@ -253,7 +334,7 @@
                                     @endif
 
                                     <button type="button"
-                                        onclick="showBill('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y, H:i') }}', 'Rp {{ number_format($booking->amount, 0, ',', '.') }}', '{{ $booking->status }}', '{{ $booking->payment_method ?? 'Transfer' }}', 'Rp {{ number_format($booking->discount, 0, ',', '.') }}')"
+                                        onclick="showBill('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}', 'Rp {{ number_format($booking->amount, 0, ',', '.') }}', '{{ $booking->status }}', '{{ $booking->payment_method ?? 'Transfer' }}', 'Rp {{ number_format($booking->discount, 0, ',', '.') }}', '{{ e(json_encode($booking->addons ?? [])) }}')"
                                         class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-amber-300 hover:border-slate-350 font-bold rounded-xl text-[9px] uppercase tracking-wider transition-all duration-300 active:scale-95">
                                         Tagihan
                                     </button>
@@ -313,6 +394,11 @@
                 <div class="flex justify-between items-center gap-3">
                     <span class="text-slate-500 uppercase tracking-wider text-[9px] flex-shrink-0">Status</span>
                     <span id="bill-status" class="px-2.5 py-0.5 rounded-full text-[8px] font-black tracking-widest uppercase border inline-block leading-none"></span>
+                </div>
+                
+                <div id="bill-addons-section" class="hidden border-t border-dashed border-amber-300 pt-3.5 mt-3.5 space-y-2">
+                    <span class="text-slate-500 uppercase tracking-wider text-[9px] block">Layanan Tambahan (Add-ons)</span>
+                    <div id="bill-addons-list" class="space-y-1.5"></div>
                 </div>
             </div>
 
@@ -380,7 +466,7 @@
 @section('scripts')
 <script>
     // Modal Utils
-    function showBill(id, client, email, service, date, amount, status, paymentMethod, discount) {
+    function showBill(id, client, email, service, date, amount, status, paymentMethod, discount, addonsJson) {
         document.getElementById('bill-booking-id').textContent = '#' + id;
         document.getElementById('bill-client').textContent = client;
         document.getElementById('bill-email').textContent = email;
@@ -412,6 +498,40 @@
         else if (status === 'Confirmed') statusLabel.className += 'bg-sky-50 text-sky-800 border-sky-200';
         else if (status === 'Completed') statusLabel.className += 'bg-emerald-50 text-emerald-800 border-emerald-200';
         else if (status === 'Cancelled') statusLabel.className += 'bg-rose-50 text-rose-800 border-rose-200';
+
+        // Render Addons
+        const addonsSection = document.getElementById('bill-addons-section');
+        const addonsList = document.getElementById('bill-addons-list');
+        addonsList.innerHTML = '';
+        
+        let addons = [];
+        try {
+            addons = JSON.parse(addonsJson || '[]');
+        } catch (e) {
+            console.error('Error parsing addons JSON:', e);
+        }
+        
+        let hasActiveAddons = false;
+        if (addons && addons.length > 0) {
+            addons.forEach(addon => {
+                if (addon.qty > 0) {
+                    hasActiveAddons = true;
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center text-[11px] text-slate-800 font-bold';
+                    div.innerHTML = `
+                        <span>${addon.name} <span class="text-slate-500 font-medium">x${addon.qty}</span></span>
+                        <span class="font-sans">Rp ${(addon.price * addon.qty).toLocaleString('id-ID')}</span>
+                    `;
+                    addonsList.appendChild(div);
+                }
+            });
+        }
+        
+        if (hasActiveAddons) {
+            addonsSection.classList.remove('hidden');
+        } else {
+            addonsSection.classList.add('hidden');
+        }
 
         openModal('modal-bill');
     }

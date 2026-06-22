@@ -15,7 +15,7 @@
         </svg>
         <span>Riwayat Booking</span>
     </a>
-    <a href="#gallery-card" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+    <a href="{{ route('customer.gallery') }}" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
         <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
         </svg>
@@ -138,12 +138,14 @@
 
 
     <!-- Redesigned Services Section (Synced with Welcome Page) -->
-    <div id="creative-services" class="mb-6">
+    <div id="creative-services" class="mb-12">
         <h4 class="text-[10px] font-black uppercase tracking-[0.25em] mb-6 text-slate-600">Layanan Kreatif Studio.mu</h4>
         <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Loaded dynamically -->
         </div>
     </div>
+
+
 
     <!-- Luxurious Service Detail Modal (Visual Showcase matched with user reference) -->
     <div id="service-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-6 opacity-0 pointer-events-none transition-all duration-300">
@@ -439,7 +441,7 @@
     ];
 
     // Renders time slots (09.00 - 22.00)
-    const timeSlots = ["09:00 WIB", "11:30 WIB", "14:00 WIB", "16:30 WIB", "19:00 WIB", "21:00 WIB"];
+    const timeSlots = ["09.00 - 10.00", "11.30 - 12.30", "14.00 - 15.00", "16.30 - 17.30", "19.00 - 20.00", "21.00 - 22.00"];
 
     function loadCustomerBookings() {
         // Trigger Toast if redirecting back from booking completion

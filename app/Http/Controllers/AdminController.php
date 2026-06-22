@@ -19,6 +19,7 @@ class AdminController extends Controller
         $totalUsers = User::count();
         $totalCustomers = User::where('role', 'customer')->count();
         $totalPhotographers = User::where('role', 'photographer')->count();
+        $rewards = \App\Models\Reward::orderBy('points_required')->get();
 
         // Fetch bookings & customers for the admin dashboard
         $bookings = \App\Models\Booking::with('user')->orderBy('created_at', 'desc')->get()->map(function($booking) {
@@ -53,7 +54,7 @@ class AdminController extends Controller
             ];
         });
 
-        return view('admin.dashboard', compact('services', 'totalUsers', 'totalCustomers', 'totalPhotographers', 'bookings', 'customers', 'allUsers'));
+        return view('admin.dashboard', compact('services', 'totalUsers', 'totalCustomers', 'totalPhotographers', 'bookings', 'customers', 'allUsers', 'rewards'));
     }
 
     /**
@@ -63,8 +64,9 @@ class AdminController extends Controller
     {
         $status = $request->query('status', '');
         $search = trim($request->query('search', ''));
+        $dateRange = $request->query('date_range', '');
 
-        $query = \App\Models\Booking::with('user')->orderBy('created_at', 'desc');
+        $query = \App\Models\Booking::with(['user', 'photographer'])->orderBy('created_at', 'desc');
 
         if ($status && in_array($status, ['Pending', 'Confirmed', 'Completed', 'Cancelled'])) {
             $query->where('status', $status);
@@ -81,6 +83,15 @@ class AdminController extends Controller
             });
         }
 
+        if ($dateRange === 'today') {
+            $query->whereDate('booking_date', \Carbon\Carbon::today());
+        } elseif ($dateRange === 'this_week') {
+            $query->whereBetween('booking_date', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()]);
+        } elseif ($dateRange === 'this_month') {
+            $query->whereMonth('booking_date', \Carbon\Carbon::now()->month)
+                  ->whereYear('booking_date', \Carbon\Carbon::now()->year);
+        }
+
         $bookings = $query->get();
 
         $totalPending   = \App\Models\Booking::where('status', 'Pending')->count();
@@ -88,10 +99,86 @@ class AdminController extends Controller
         $totalCompleted = \App\Models\Booking::where('status', 'Completed')->count();
         $totalCancelled = \App\Models\Booking::where('status', 'Cancelled')->count();
 
+        $photographers = User::where('role', 'photographer')->orderBy('name')->get();
+
         return view('admin.bookings.index', compact(
-            'bookings', 'status', 'search',
-            'totalPending', 'totalConfirmed', 'totalCompleted', 'totalCancelled'
+            'bookings', 'status', 'search', 'dateRange',
+            'totalPending', 'totalConfirmed', 'totalCompleted', 'totalCancelled',
+            'photographers'
         ));
+    }
+
+    /**
+     * Manually assign photographer to a booking.
+     */
+    public function assignPhotographer(Request $request, $id)
+    {
+        $booking = \App\Models\Booking::findOrFail($id);
+        
+        $request->validate([
+            'photographer_id' => 'nullable|exists:users,id,role,photographer',
+        ]);
+
+        $booking->photographer_id = $request->photographer_id;
+        $booking->save();
+
+        $photographerName = $booking->photographer ? $booking->photographer->name : 'Tidak Ada';
+
+        return redirect()->route('admin.bookings.index')
+            ->with('success', 'Fotografer untuk booking ' . $booking->id . ' berhasil diatur ke ' . $photographerName . '!');
+    }
+
+    /**
+     * Automatically assign unassigned Confirmed bookings to photographers evenly.
+     */
+    public function autoAssignPhotographers(Request $request)
+    {
+        // Get all photographers
+        $photographers = User::where('role', 'photographer')->get();
+
+        if ($photographers->isEmpty()) {
+            return redirect()->route('admin.bookings.index')
+                ->with('error', 'Tidak ada fotografer terdaftar untuk dibagikan sesi!');
+        }
+
+        // Get all Confirmed bookings that do not have photographer assigned yet
+        $unassignedBookings = \App\Models\Booking::where('status', 'Confirmed')
+            ->whereNull('photographer_id')
+            ->orderBy('booking_date', 'asc')
+            ->get();
+
+        if ($unassignedBookings->isEmpty()) {
+            return redirect()->route('admin.bookings.index')
+                ->with('info', 'Tidak ada booking terkonfirmasi yang membutuhkan pembagian fotografer.');
+        }
+
+        // We want to distribute them evenly. Let's count how many bookings each photographer has currently.
+        $photographerLoads = [];
+        foreach ($photographers as $photo) {
+            $load = \App\Models\Booking::where('photographer_id', $photo->id)
+                ->whereIn('status', ['Confirmed', 'Pending'])
+                ->count();
+            $photographerLoads[$photo->id] = $load;
+        }
+
+        $assignedCount = 0;
+        foreach ($unassignedBookings as $booking) {
+            // Find the photographer with the least load
+            asort($photographerLoads);
+            reset($photographerLoads);
+            $photographerId = key($photographerLoads);
+
+            // Assign the booking
+            $booking->photographer_id = $photographerId;
+            $booking->save();
+
+            // Increment their load in our tracking array
+            $photographerLoads[$photographerId]++;
+            $assignedCount++;
+        }
+
+        return redirect()->route('admin.bookings.index')
+            ->with('success', 'Berhasil membagikan ' . $assignedCount . ' sesi pemotretan secara merata kepada fotografer!');
     }
 
     // ─────────────────────────────────────────
@@ -257,6 +344,32 @@ class AdminController extends Controller
     }
 
     /**
+     * Display a listing of holidays and session slots.
+     */
+    public function holidaysIndex()
+    {
+        return view('admin.holidays.index');
+    }
+
+    /**
+     * Display a listing of customer loyalty balances and settings.
+     */
+    public function loyaltyIndex()
+    {
+        $rewards = \App\Models\Reward::orderBy('points_required')->get();
+        $customers = User::where('role', 'customer')->orderBy('points', 'desc')->get()->map(function($customer) {
+            return [
+                'id' => $customer->id,
+                'name' => $customer->name,
+                'email' => $customer->email,
+                'points' => $customer->points
+            ];
+        });
+
+        return view('admin.loyalty.index', compact('rewards', 'customers'));
+    }
+
+    /**
      * Display a listing of the services.
      */
     public function servicesIndex()
@@ -315,6 +428,14 @@ class AdminController extends Controller
                 'new'      => $request->input('col2_new', ''),
                 'features' => array_values(array_filter(array_map('trim', explode("\n", $request->input('col2_features', '')))))
             ],
+            'addons' => array_values(array_filter(array_map(function($addon) {
+                return [
+                    'name' => trim($addon['name'] ?? ''),
+                    'price' => (int) ($addon['price'] ?? 0)
+                ];
+            }, $request->input('addons', [])), function($item) {
+                return $item['name'] !== '';
+            })),
         ];
 
         \App\Models\Service::create($data);
@@ -386,6 +507,14 @@ class AdminController extends Controller
                 'new'      => $request->input('col2_new', ''),
                 'features' => array_values(array_filter(array_map('trim', explode("\n", $request->input('col2_features', '')))))
             ],
+            'addons' => array_values(array_filter(array_map(function($addon) {
+                return [
+                    'name' => trim($addon['name'] ?? ''),
+                    'price' => (int) ($addon['price'] ?? 0)
+                ];
+            }, $request->input('addons', [])), function($item) {
+                return $item['name'] !== '';
+            })),
         ];
 
         $service->update($data);

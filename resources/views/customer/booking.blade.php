@@ -137,6 +137,14 @@
                         <input type="hidden" id="booking-selected-price" value="">
                     </div>
 
+                    <!-- Addons/Layanan Tambahan Container -->
+                    <div id="booking-addons-section" class="hidden mb-6">
+                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2.5">Layanan Tambahan (Opsional)</label>
+                        <div id="booking-addons-list" class="space-y-4 bg-slate-50 border border-slate-200 rounded-2xl p-5 shadow-sm text-slate-850">
+                            <!-- Dynamic addon items will be rendered here -->
+                        </div>
+                    </div>
+
                     <!-- Datepicker & Cek Button -->
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2.5">Pilih Tanggal Sesi</label>
@@ -226,6 +234,10 @@
                             <span>Harga Sesi Paket</span>
                             <span id="breakdown-original-price">Rp 0</span>
                         </div>
+                        <div id="breakdown-addons-row" class="flex justify-between items-center text-xs font-semibold text-slate-650 hidden">
+                            <span>Layanan Tambahan (Add-ons)</span>
+                            <span id="breakdown-addons-price">Rp 0</span>
+                        </div>
                         <div id="breakdown-discount-row" class="flex justify-between items-center text-xs font-semibold text-emerald-650 hidden">
                             <span>Potongan Reward (Diskon)</span>
                             <span id="breakdown-discount-amount">-Rp 0</span>
@@ -259,6 +271,7 @@
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 <script>
     let isDateChecked = false;
+    let selectedAddons = [];
 
     const dbServices = @json($services);
 
@@ -326,7 +339,8 @@
         { id: 'BOOK-1005', name: 'Siti Aminah', email: 'siti@gmail.com', service: 'Komersial & Produk (STARTER KIT)', date: '2026-05-30 11:00', amount: 'Rp 1.200.000', status: 'Cancelled' }
     ];
 
-    const timeSlots = ["09:00 WIB", "11:30 WIB", "14:00 WIB", "16:30 WIB", "19:00 WIB", "21:00 WIB"];
+    const defaultTimeSlots = ["09.00 - 10.00", "11.30 - 12.30", "14.00 - 15.00", "16.30 - 17.30", "19.00 - 20.00", "21.00 - 22.00"];
+    const timeSlots = JSON.parse(localStorage.getItem('studio_time_slots')) || defaultTimeSlots;
     const serviceKey = "{{ $serviceKey }}";
 
     function initBookingPage() {
@@ -360,8 +374,68 @@
             timeGrid.appendChild(btn);
         });
 
+        // Render Addons
+        const activeService = dbServices.find(svc => getServiceKey(svc) === serviceKey) || dbServices[0];
+        const addonsSection = document.getElementById('booking-addons-section');
+        const addonsList = document.getElementById('booking-addons-list');
+        addonsList.innerHTML = '';
+        
+        const addons = activeService ? activeService.addons : null;
+        if (addons && addons.length > 0) {
+            addonsSection.classList.remove('hidden');
+            addons.forEach((addon, idx) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center pb-3 border-b border-slate-200/55 last:pb-0 last:border-b-0';
+                
+                const formattedPrice = formatRupiahJS(addon.price);
+                
+                itemDiv.innerHTML = `
+                    <div class="flex-1 text-left">
+                        <span class="text-xs font-bold text-slate-800">${addon.name}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold block mt-0.5">${formattedPrice}</span>
+                    </div>
+                    <div class="flex items-center gap-3.5 select-none">
+                        <button type="button" onclick="changeAddonQty(${idx}, -1)" class="w-7 h-7 rounded-full border border-slate-350 flex items-center justify-center text-slate-700 bg-white hover:bg-slate-100/50 cursor-pointer active:scale-90 duration-150">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                            </svg>
+                        </button>
+                        <span id="addon-qty-${idx}" class="text-xs font-black w-4 text-center text-slate-900">0</span>
+                        <button type="button" onclick="changeAddonQty(${idx}, 1)" class="w-7 h-7 rounded-full border border-slate-350 flex items-center justify-center text-slate-700 bg-white hover:bg-slate-100/50 cursor-pointer active:scale-90 duration-150">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                addonsList.appendChild(itemDiv);
+            });
+            
+            selectedAddons = addons.map(addon => ({
+                name: addon.name,
+                price: addon.price,
+                qty: 0
+            }));
+        } else {
+            addonsSection.classList.add('hidden');
+            selectedAddons = [];
+        }
+
         // Default selection
         selectBookingTier('col1');
+    }
+
+    function changeAddonQty(index, change) {
+        if (!selectedAddons[index]) return;
+        const currentQty = selectedAddons[index].qty;
+        const newQty = Math.max(0, currentQty + change);
+        selectedAddons[index].qty = newQty;
+        
+        // Update UI counter
+        document.getElementById(`addon-qty-${index}`).textContent = newQty;
+        
+        // Recalculate price
+        calculatePointsDiscount();
     }
 
     function selectBookingTier(tier) {
@@ -575,7 +649,8 @@
                 price: priceVal,
                 requests: customRequests,
                 payment_method: paymentMethodVal,
-                reward_id: rewardIdVal ? parseInt(rewardIdVal) : null
+                reward_id: rewardIdVal ? parseInt(rewardIdVal) : null,
+                addons: selectedAddons.filter(a => a.qty > 0)
             })
         })
         .then(response => {
@@ -650,6 +725,13 @@
         const priceVal = document.getElementById('booking-selected-price').value;
         const originalAmount = parsePriceToIntegerJS(priceVal);
         
+        let addonsTotal = 0;
+        selectedAddons.forEach(addon => {
+            addonsTotal += addon.qty * addon.price;
+        });
+
+        const totalBeforeDiscount = originalAmount + addonsTotal;
+        
         const rewardSelect = document.getElementById('booking-reward');
         if (!rewardSelect) return;
         const selectedOption = rewardSelect.options[rewardSelect.selectedIndex];
@@ -657,12 +739,20 @@
         const discountAmount = parseInt(selectedOption.getAttribute('data-discount') || 0);
         const pointsRequired = parseInt(selectedOption.getAttribute('data-points') || 0);
         
-        const finalAmount = Math.max(0, originalAmount - discountAmount);
+        const finalAmount = Math.max(0, totalBeforeDiscount - discountAmount);
         const pointsEarned = Math.floor(finalAmount / 10000);
         
         // Update visual breakdown
         document.getElementById('breakdown-original-price').textContent = formatRupiahJS(originalAmount);
         
+        const addonsRow = document.getElementById('breakdown-addons-row');
+        if (addonsTotal > 0) {
+            document.getElementById('breakdown-addons-price').textContent = formatRupiahJS(addonsTotal);
+            addonsRow.classList.remove('hidden');
+        } else {
+            addonsRow.classList.add('hidden');
+        }
+
         const discountRow = document.getElementById('breakdown-discount-row');
         if (discountAmount > 0) {
             document.getElementById('breakdown-discount-amount').textContent = '-' + formatRupiahJS(discountAmount);

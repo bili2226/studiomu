@@ -63,7 +63,7 @@
                 </div>
                 <div class="flex justify-between items-center border-b-2 border-black/5 pb-3">
                     <span class="text-[9px] font-black uppercase tracking-wider text-black">Jadwal Sesi</span>
-                    <span class="text-xs font-bold text-black">{{ $booking->booking_date->format('Y-m-d H:i') }} WIB</span>
+                    <span class="text-xs font-bold text-black">{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }} WIB</span>
                 </div>
                 <div class="flex justify-between items-center border-b-2 border-black/5 pb-3">
                     <span class="text-[9px] font-black uppercase tracking-wider text-black">Total Nominal</span>

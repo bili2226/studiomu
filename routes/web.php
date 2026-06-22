@@ -33,12 +33,14 @@ Route::middleware('auth')->group(function () {
                 'name' => $booking->user->name ?? 'User Terhapus',
                 'email' => $booking->user->email ?? '',
                 'service' => $booking->service_name,
-                'date' => $booking->booking_date->format('Y-m-d H:i'),
+                'date' => $booking->booking_date->format('d M Y') . ', ' . $booking->booking_date->format('H.i') . ' - ' . $booking->booking_date->copy()->addHour()->format('H.i'),
                 'amount' => 'Rp ' . number_format($booking->amount, 0, ',', '.'),
                 'status' => $booking->status,
                 'requests' => $booking->requests ?? '',
                 'snap_token' => $booking->snap_token ?? '',
-                'payment_method' => $booking->payment_method ?? 'Transfer'
+                'payment_method' => $booking->payment_method ?? 'Transfer',
+                'result_link' => $booking->result_link ?? '',
+                'photographer_name' => $booking->photographer->name ?? 'Belum Ditugaskan'
             ];
         }) : collect();
         $rewards = \App\Models\Reward::active()->orderBy('points_required')->get();
@@ -62,6 +64,27 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/riwayat-booking', [BookingController::class, 'historyIndex'])->name('customer.history')->middleware('role:customer');
 
+    Route::get('/galeri-foto', function () {
+        $user = Auth::user();
+        $bookings = $user ? $user->bookings()->orderBy('created_at', 'desc')->get()->map(function($booking) {
+            return [
+                'id' => $booking->id,
+                'name' => $booking->user->name ?? 'User Terhapus',
+                'email' => $booking->user->email ?? '',
+                'service' => $booking->service_name,
+                'date' => $booking->booking_date->format('d M Y') . ', ' . $booking->booking_date->format('H.i') . ' - ' . $booking->booking_date->copy()->addHour()->format('H.i'),
+                'amount' => 'Rp ' . number_format($booking->amount, 0, ',', '.'),
+                'status' => $booking->status,
+                'requests' => $booking->requests ?? '',
+                'snap_token' => $booking->snap_token ?? '',
+                'payment_method' => $booking->payment_method ?? 'Transfer',
+                'result_link' => $booking->result_link ?? '',
+                'photographer_name' => $booking->photographer->name ?? 'Belum Ditugaskan'
+            ];
+        }) : collect();
+        return view('customer.gallery', compact('bookings'));
+    })->name('customer.gallery')->middleware('role:customer');
+
     Route::get('/booking/{service}', function ($service) {
         $rewards = \App\Models\Reward::active()->orderBy('points_required')->get();
         $services = \App\Models\Service::all();
@@ -74,9 +97,14 @@ Route::middleware('auth')->group(function () {
     })->name('customer.booking')->middleware('role:customer');
 
     Route::get('/admin/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard')->middleware('role:admin');
+    Route::get('/admin/holidays', [\App\Http\Controllers\AdminController::class, 'holidaysIndex'])->name('admin.holidays.index')->middleware('role:admin');
+    Route::get('/admin/loyalty', [\App\Http\Controllers\AdminController::class, 'loyaltyIndex'])->name('admin.loyalty.index')->middleware('role:admin');
+
 
     // Admin Booking/Transaction Management Routes
     Route::get('/admin/bookings', [\App\Http\Controllers\AdminController::class, 'bookingsIndex'])->name('admin.bookings.index')->middleware('role:admin');
+    Route::post('/admin/bookings/{id}/assign', [\App\Http\Controllers\AdminController::class, 'assignPhotographer'])->name('admin.bookings.assign')->middleware('role:admin');
+    Route::post('/admin/bookings/auto-assign', [\App\Http\Controllers\AdminController::class, 'autoAssignPhotographers'])->name('admin.bookings.autoAssign')->middleware('role:admin');
 
     // Admin User Management Routes
     Route::get('/admin/users', [\App\Http\Controllers\AdminController::class, 'usersIndex'])->name('admin.users.index')->middleware('role:admin');
@@ -105,8 +133,25 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/rewards/{id}', [\App\Http\Controllers\RewardController::class, 'destroy'])->name('admin.rewards.destroy')->middleware('role:admin');
 
     Route::get('/photographer/jadwal', function () {
-        return view('photographer.dashboard');
+        $photographer = Auth::user();
+        $bookings = \App\Models\Booking::with('user')
+            ->where('photographer_id', $photographer->id)
+            ->orderBy('booking_date', 'asc')
+            ->get();
+        
+        $completedCount = $bookings->where('status', 'Completed')->count();
+        $pendingCount = $bookings->where('status', 'Confirmed')->count();
+
+        return view('photographer.dashboard', compact('bookings', 'completedCount', 'pendingCount'));
     })->name('photographer.dashboard')->middleware('role:photographer');
+
+    Route::post('/photographer/bookings/{id}/complete', [\App\Http\Controllers\BookingController::class, 'completeSession'])
+        ->name('photographer.bookings.complete')
+        ->middleware('role:photographer');
+
+    Route::post('/photographer/bookings/{id}/result-link', [\App\Http\Controllers\BookingController::class, 'updateResultLink'])
+        ->name('photographer.bookings.resultLink')
+        ->middleware('role:photographer');
 
     // Customer Booking Routes
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store')->middleware('role:customer');

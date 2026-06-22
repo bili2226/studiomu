@@ -13,12 +13,15 @@ class Booking extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'photographer_id',
         'service_name',
         'booking_date',
         'amount',
         'payment_method',
         'status',
         'requests',
+        'addons',
+        'result_link',
         'snap_token',
         'discount',
         'points_used',
@@ -33,6 +36,7 @@ class Booking extends Model
         'points_used' => 'integer',
         'points_earned' => 'integer',
         'points_credited' => 'boolean',
+        'addons' => 'array',
     ];
 
     /**
@@ -41,6 +45,14 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the photographer assigned to the booking.
+     */
+    public function photographer()
+    {
+        return $this->belongsTo(User::class, 'photographer_id');
     }
 
     /**

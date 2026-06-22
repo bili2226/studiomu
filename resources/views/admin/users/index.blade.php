@@ -84,27 +84,17 @@
             </div>
 
             {{-- Role Filter --}}
-            <div class="flex items-center gap-2 flex-wrap">
-                @php
-                    $roles = [
-                        ''             => 'Semua',
-                        'admin'        => 'Admin',
-                        'photographer' => 'Fotografer',
-                        'customer'     => 'Customer',
-                    ];
-                @endphp
-                @foreach ($roles as $val => $label)
-                    <label class="cursor-pointer">
-                        <input type="radio" name="role" value="{{ $val }}"
-                            {{ $role === $val ? 'checked' : '' }}
-                            class="sr-only peer">
-                        <span class="inline-flex items-center px-3.5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all cursor-pointer
-                            peer-checked:bg-amber-800 peer-checked:text-white peer-checked:border-amber-800
-                            {{ $role !== $val ? 'bg-white text-slate-600 border-amber-300 hover:border-amber-400 hover:text-amber-800' : '' }}">
-                            {{ $label }}
-                        </span>
-                    </label>
-                @endforeach
+            <div class="relative min-w-[12rem] flex-shrink-0">
+                <select name="role" onchange="this.form.submit()"
+                    class="w-full appearance-none bg-white border border-amber-300 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 rounded-xl text-xs font-bold text-slate-800 pl-4 pr-10 py-2.5 focus:outline-none transition-all cursor-pointer">
+                    <option value="">Semua Role</option>
+                    <option value="admin" {{ $role === 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="photographer" {{ $role === 'photographer' ? 'selected' : '' }}>Fotografer</option>
+                    <option value="customer" {{ $role === 'customer' ? 'selected' : '' }}>Customer</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+                </div>
             </div>
 
             {{-- Submit --}}
@@ -124,8 +114,8 @@
 
     {{-- Result Info --}}
     <div class="px-6 pt-4 pb-2 flex items-center justify-between">
-        <p class="text-[10px] font-semibold text-slate-400">
-            Menampilkan <strong class="text-slate-700">{{ $users->count() }}</strong> user
+        <p class="text-[10px] font-semibold text-slate-900">
+            Menampilkan <strong class="text-slate-900">{{ $users->count() }}</strong> user
             @if ($search) • pencarian "<strong class="text-amber-800">{{ $search }}</strong>" @endif
             @if ($role) • filter "<strong class="text-amber-800">{{ ucfirst($role) }}</strong>" @endif
         </p>
@@ -146,12 +136,12 @@
                 <table class="w-full text-xs">
                     <thead>
                         <tr class="border-b border-slate-100">
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Nama</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Email</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Role</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Poin</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Bergabung</th>
-                            <th class="text-right text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pt-2">Aksi</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Nama</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Email</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Role</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Poin</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Bergabung</th>
+                            <th class="text-right text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pt-2">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
@@ -180,7 +170,7 @@
                             </td>
 
                             {{-- Email --}}
-                            <td class="py-3.5 pr-4 text-slate-500">{{ $user->email }}</td>
+                            <td class="py-3.5 pr-4 text-slate-900 font-medium">{{ $user->email }}</td>
 
                             {{-- Role Badge --}}
                             <td class="py-3.5 pr-4">
@@ -204,12 +194,12 @@
                                         {{ number_format($user->points) }}
                                     </span>
                                 @else
-                                    <span class="text-slate-300 text-[10px]">—</span>
+                                    <span class="text-slate-900 text-[10px]">—</span>
                                 @endif
                             </td>
 
                             {{-- Bergabung --}}
-                            <td class="py-3.5 pr-4 text-slate-400 text-[10px]">{{ $user->created_at?->format('d M Y') }}</td>
+                            <td class="py-3.5 pr-4 text-slate-900 text-[10px] font-medium">{{ $user->created_at?->format('d M Y') }}</td>
 
                             {{-- Aksi --}}
                             <td class="py-3.5 text-right">

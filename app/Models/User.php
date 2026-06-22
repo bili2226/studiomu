@@ -49,6 +49,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the bookings assigned to the photographer.
+     */
+    public function assignedBookings()
+    {
+        return $this->hasMany(Booking::class, 'photographer_id');
+    }
+
+    /**
      * Send the password reset notification.
      *
      * @param  string  $token

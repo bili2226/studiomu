@@ -34,6 +34,7 @@ class BookingController extends Controller
             'requests' => 'nullable|string',
             'payment_method' => 'nullable|string|in:Transfer,Cash',
             'reward_id' => 'nullable|integer|exists:rewards,id',
+            'addons' => 'nullable|array',
         ]);
 
         $user = Auth::user();
@@ -43,6 +44,15 @@ class BookingController extends Controller
 
         // Parse price to integer amount
         $originalAmount = $this->parsePriceToInteger($request->price);
+        
+        // Sum addon prices
+        $addonsPrice = 0;
+        $addons = $request->input('addons', []);
+        foreach ($addons as $addon) {
+            $addonsPrice += ((int) ($addon['qty'] ?? 0)) * ((int) ($addon['price'] ?? 0));
+        }
+        $originalAmount += $addonsPrice;
+
         $discount = 0;
         $pointsUsed = 0;
 
@@ -72,8 +82,14 @@ class BookingController extends Controller
 
         $paymentMethod = $request->payment_method ?? 'Transfer';
 
+        // Parse start time from session range (e.g. "09.00 - 10.00" or "09:00 WIB" -> "09:00")
+        $timeParts = explode('-', $request->time);
+        $startPart = trim($timeParts[0]);
+        $startPart = str_replace('.', ':', $startPart);
+        $startTime = trim(str_replace(' WIB', '', $startPart));
+
         // Save booking in database
-        $bookingDate = $request->date . ' ' . str_replace(' WIB', '', $request->time);
+        $bookingDate = $request->date . ' ' . $startTime;
         $booking = Booking::create([
             'id' => $bookingId,
             'user_id' => $user->id,
@@ -86,6 +102,7 @@ class BookingController extends Controller
             'payment_method' => $paymentMethod,
             'status' => 'Pending',
             'requests' => $request->requests,
+            'addons' => $addons,
         ]);
 
         if ($amount === 0) {
@@ -237,7 +254,7 @@ class BookingController extends Controller
                 'name' => $booking->user->name ?? 'User Terhapus',
                 'email' => $booking->user->email ?? '',
                 'service' => $booking->service_name,
-                'date' => $booking->booking_date->format('Y-m-d H:i'),
+                'date' => $booking->booking_date->format('d M Y') . ', ' . $booking->booking_date->format('H.i') . ' - ' . $booking->booking_date->copy()->addHour()->format('H.i'),
                 'amount' => 'Rp ' . number_format($booking->amount, 0, ',', '.'),
                 'status' => $booking->status,
                 'requests' => $booking->requests ?? '',
@@ -246,10 +263,63 @@ class BookingController extends Controller
                 'discount' => 'Rp ' . number_format($booking->discount, 0, ',', '.'),
                 'discount_raw' => $booking->discount,
                 'points_used' => $booking->points_used,
-                'points_earned' => $booking->points_earned
+                'points_earned' => $booking->points_earned,
+                'result_link' => $booking->result_link ?? '',
+                'addons' => $booking->addons
             ];
         }) : collect();
 
         return view('customer.history', compact('bookings'));
+    }
+
+    /**
+     * Photographer mark an assigned booking session as Completed.
+     */
+    public function completeSession(Request $request, $id)
+    {
+        $photographer = auth()->user();
+        if (!$photographer || $photographer->role !== 'photographer') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $booking = Booking::where('id', $id)
+            ->where('photographer_id', $photographer->id)
+            ->firstOrFail();
+
+        if ($booking->status !== 'Confirmed') {
+            return redirect()->back()->with('error', 'Hanya sesi terkonfirmasi yang dapat diselesaikan.');
+        }
+
+        $booking->status = 'Completed';
+        $booking->save();
+
+        return redirect()->back()->with('success', 'Sesi pemotretan ' . $booking->id . ' telah diselesaikan!');
+    }
+
+    /**
+     * Photographer update result link for an assigned booking.
+     */
+    public function updateResultLink(Request $request, $id)
+    {
+        $photographer = auth()->user();
+        if (!$photographer || $photographer->role !== 'photographer') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $booking = Booking::where('id', $id)
+            ->where('photographer_id', $photographer->id)
+            ->firstOrFail();
+
+        $request->validate([
+            'result_link' => 'required|url|max:2048',
+        ], [
+            'result_link.required' => 'Link hasil foto wajib diisi.',
+            'result_link.url' => 'Format link tidak valid. Pastikan diawali dengan http:// atau https://',
+        ]);
+
+        $booking->result_link = $request->result_link;
+        $booking->save();
+
+        return redirect()->back()->with('success', 'Link hasil foto untuk booking ' . $booking->id . ' berhasil diperbarui!');
     }
 }

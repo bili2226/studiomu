@@ -75,9 +75,7 @@ class AuthController extends Controller
             logger()->error('Failed to send registration welcome email: ' . $e->getMessage());
         }
 
-        Auth::login($user);
-
-        return redirect('/menu-utama');
+        return redirect()->route('login')->with('status', 'Registrasi berhasil! Silakan masuk dengan akun Anda.');
     }
 
     public function logout(Request $request)

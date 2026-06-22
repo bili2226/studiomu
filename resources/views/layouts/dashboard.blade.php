@@ -103,6 +103,14 @@
         .customer-nav .sidebar-item svg {
             margin-right: 8px !important;
         }
+
+        /* Force grey font classes to dark black/slate, excluding elements inside dark areas */
+        .text-slate-400:not(.bg-slate-800 *):not(.bg-slate-900 *):not(.bg-slate-950 *):not(.bg-primary-600 *):not(.bg-primary-950 *),
+        .text-slate-500:not(.bg-slate-800 *):not(.bg-slate-900 *):not(.bg-slate-950 *):not(.bg-primary-600 *):not(.bg-primary-950 *),
+        .text-gray-400:not(.bg-slate-800 *):not(.bg-slate-900 *):not(.bg-slate-950 *):not(.bg-primary-600 *):not(.bg-primary-950 *),
+        .text-gray-500:not(.bg-slate-800 *):not(.bg-slate-900 *):not(.bg-slate-950 *):not(.bg-primary-600 *):not(.bg-primary-950 *) {
+            color: #0f172a !important;
+        }
     </style>
 </head>
  <body class="antialiased font-sans text-slate-800 bg-slate-50">

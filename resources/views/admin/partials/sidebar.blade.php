@@ -3,10 +3,13 @@
     $isServices  = str_starts_with($currentRoute, 'admin/services');
     $isUsers     = str_starts_with($currentRoute, 'admin/users');
     $isBookings  = str_starts_with($currentRoute, 'admin/bookings');
+    $isRewards   = str_starts_with($currentRoute, 'admin/rewards');
+    $isHolidays  = str_starts_with($currentRoute, 'admin/holidays');
+    $isLoyalty   = str_starts_with($currentRoute, 'admin/loyalty');
     $isDashboard = $currentRoute === 'admin/dashboard';
 @endphp
 
-<a href="/admin/dashboard" class="sidebar-item {{ $isDashboard ? 'sidebar-item-active text-white' : 'text-slate-700 hover:text-slate-900' }} flex items-center w-full px-5 py-3.5 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
+<a href="/admin/dashboard" id="btn-overview" class="sidebar-item {{ $isDashboard ? 'sidebar-item-active text-white' : 'text-slate-700 hover:text-slate-900' }} flex items-center w-full px-5 py-3.5 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
     <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
     </svg>
@@ -34,16 +37,16 @@
     <span>Kelola User</span>
 </a>
 
-<button onclick="if(typeof switchTab === 'function') { switchTab('loyalty'); } else { window.location.href='/admin/dashboard#loyalty'; }" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
+<a href="{{ route('admin.loyalty.index') }}" class="sidebar-item {{ ($isLoyalty || $isRewards) ? 'sidebar-item-active text-white' : 'text-slate-700 hover:text-slate-900' }} flex items-center w-full px-5 py-3.5 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
     <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0V10.5m-2.25 13.5h13.5c.621 0 1.125-.504 1.125-1.125V11.25c0-.621-.504-1.125-1.125-1.125H5.25c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
     </svg>
     <span>Loyalty & Reward</span>
-</button>
+</a>
 
-<button onclick="if(typeof switchTab === 'function') { switchTab('holidays'); } else { window.location.href='/admin/dashboard#holidays'; }" class="sidebar-item flex items-center w-full px-5 py-3.5 text-slate-700 hover:text-slate-900 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
+<a href="{{ route('admin.holidays.index') }}" class="sidebar-item {{ $isHolidays ? 'sidebar-item-active text-white' : 'text-slate-700 hover:text-slate-900' }} flex items-center w-full px-5 py-3.5 transition-all text-left font-sans text-xs uppercase tracking-[0.18em] font-black mt-1">
     <svg class="w-4 h-4 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5" />
     </svg>
     <span>Kelola Hari Libur</span>
-</button>
+</a>

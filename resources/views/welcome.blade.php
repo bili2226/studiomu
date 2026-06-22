@@ -88,6 +88,14 @@
         /* Custom CSS to toggle icons via checkbox sibling hack */
         #menu-toggle:checked ~ div label #open-icon { display: none; }
         #menu-toggle:checked ~ div label #close-icon { display: block; }
+
+        /* Force grey font classes to dark black/slate, excluding dark sections */
+        .text-slate-400:not(#collections *):not(#contact *),
+        .text-slate-500:not(#collections *):not(#contact *),
+        .text-gray-400:not(#collections *):not(#contact *),
+        .text-gray-500:not(#collections *):not(#contact *) {
+            color: #0f172a !important;
+        }
     </style>
 </head>
 <body class="antialiased font-sans text-slate-900 bg-slate-50">
