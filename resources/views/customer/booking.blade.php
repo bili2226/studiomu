@@ -293,6 +293,49 @@
         return `/storage/${slide}`;
     }
 
+    function formatPriceDisplayJS(priceStr) {
+        if (!priceStr) return '';
+        let clean = priceStr.toLowerCase().trim();
+        let val = 0;
+        let isMulai = clean.includes('mulai');
+        
+        // Remove 'mulai' from clean for easier parsing
+        clean = clean.replace('mulai', '').trim();
+        
+        if (clean.endsWith('k')) {
+            let numberPart = clean.slice(0, -1);
+            numberPart = numberPart.replace(/\./g, '').trim();
+            val = parseFloat(numberPart) * 1000;
+        } else if (clean.includes('juta') || clean.includes('jt')) {
+            let numberPart = clean.replace(/rp|juta|jt/g, '').trim();
+            numberPart = numberPart.replace(/,/g, '.');
+            val = parseFloat(numberPart) * 1000000;
+        } else if (clean.includes('ribu') || clean.includes('rb')) {
+            let numberPart = clean.replace(/rp|ribu|rb/g, '').trim();
+            numberPart = numberPart.replace(/,/g, '.');
+            val = parseFloat(numberPart) * 1000;
+        } else {
+            let digits = clean.replace(/[^0-9]/g, '');
+            val = parseInt(digits) || 0;
+        }
+        
+        if (val === 0) return priceStr;
+        
+        let formatted = Math.round(val).toLocaleString('id-ID');
+        if (isMulai) {
+            return 'Mulai Rp ' + formatted;
+        }
+        return 'Rp ' + formatted;
+    }
+
+    function formatServiceNoteJS(noteStr) {
+        if (!noteStr) return '';
+        return noteStr.replace(/(\d+)k\b/gi, function(match, num) {
+            let val = parseInt(num) * 1000;
+            return 'Rp ' + val.toLocaleString('id-ID');
+        });
+    }
+
     const serviceData = {};
     dbServices.forEach(svc => {
         const key = getServiceKey(svc);
@@ -307,20 +350,20 @@
             title: svc.title,
             category: svc.title,
             description: svc.description || '',
-            starting: svc.starting || '',
-            note: svc.note || '',
+            starting: formatPriceDisplayJS(svc.starting || ''),
+            note: formatServiceNoteJS(svc.note || ''),
             slides: resolvedSlides,
             highlights: svc.highlights || [],
             col1: {
                 title: svc.col1?.title || 'BASIC',
-                oldPrice: svc.col1?.oldPrice || svc.col1?.old || '',
-                newPrice: svc.col1?.newPrice || svc.col1?.new || '',
+                oldPrice: formatPriceDisplayJS(svc.col1?.oldPrice || svc.col1?.old || ''),
+                newPrice: formatPriceDisplayJS(svc.col1?.newPrice || svc.col1?.new || ''),
                 features: svc.col1?.features || []
             },
             col2: {
                 title: svc.col2?.title || 'PREMIUM',
-                oldPrice: svc.col2?.oldPrice || svc.col2?.old || '',
-                newPrice: svc.col2?.newPrice || svc.col2?.new || '',
+                oldPrice: formatPriceDisplayJS(svc.col2?.oldPrice || svc.col2?.old || ''),
+                newPrice: formatPriceDisplayJS(svc.col2?.newPrice || svc.col2?.new || ''),
                 features: svc.col2?.features || []
             }
         };
@@ -339,8 +382,8 @@
         { id: 'BOOK-1005', name: 'Siti Aminah', email: 'siti@gmail.com', service: 'Komersial & Produk (STARTER KIT)', date: '2026-05-30 11:00', amount: 'Rp 1.200.000', status: 'Cancelled' }
     ];
 
-    const defaultTimeSlots = ["09.00 - 10.00", "11.30 - 12.30", "14.00 - 15.00", "16.30 - 17.30", "19.00 - 20.00", "21.00 - 22.00"];
-    const timeSlots = JSON.parse(localStorage.getItem('studio_time_slots')) || defaultTimeSlots;
+    const timeSlots = @json($timeSlots);
+    const holidays = @json($holidays);
     const serviceKey = "{{ $serviceKey }}";
 
     function initBookingPage() {
@@ -354,9 +397,9 @@
         // Set titles
         document.getElementById('booking-service-title').textContent = `Pesan Sesi: ${service.title}`;
         document.getElementById('booking-tier1-title').textContent = service.col1.title;
-        document.getElementById('booking-tier1-price').textContent = `Rp ${service.col1.newPrice}`;
+        document.getElementById('booking-tier1-price').textContent = service.col1.newPrice;
         document.getElementById('booking-tier2-title').textContent = service.col2.title;
-        document.getElementById('booking-tier2-price').textContent = `Rp ${service.col2.newPrice}`;
+        document.getElementById('booking-tier2-price').textContent = service.col2.newPrice;
 
         // Date min parameter
         const today = new Date().toISOString().split('T')[0];
@@ -537,13 +580,6 @@
 
         const alertContainer = document.getElementById('check-alert-container');
         alertContainer.classList.remove('hidden');
-
-        // Fetch holidays from localStorage
-        const defaultHolidays = [
-            { date: "2026-05-29", desc: "Hari Raya Waisak (Studio Libur)" },
-            { date: "2026-06-01", desc: "Hari Lahir Pancasila (Studio Libur)" }
-        ];
-        let holidays = JSON.parse(localStorage.getItem('studio_holidays')) || defaultHolidays;
 
         // Check if dateVal is a holiday
         let isHoliday = false;
@@ -775,11 +811,28 @@
 
     function parsePriceToIntegerJS(priceStr) {
         let clean = priceStr.toLowerCase().trim();
+        
+        // If it ends with "juta"
+        if (clean.includes('juta') || clean.includes('jt')) {
+            let numberPart = clean.replace('rp', '').replace('juta', '').replace('jt', '').trim();
+            numberPart = numberPart.replace(',', '.');
+            return parseFloat(numberPart) * 1000000;
+        }
+        
+        // If it ends with "ribu"
+        if (clean.includes('ribu') || clean.includes('rb')) {
+            let numberPart = clean.replace('rp', '').replace('ribu', '').replace('rb', '').trim();
+            numberPart = numberPart.replace(',', '.');
+            return parseFloat(numberPart) * 1000;
+        }
+
+        // If it still ends with 'k'
         if (clean.slice(-1) === 'k') {
             let numberPart = clean.slice(0, -1);
             numberPart = numberPart.replace('rp', '').replace(/\./g, '').trim();
             return parseInt(numberPart) * 1000;
         }
+        
         let digits = clean.replace(/[^0-9]/g, '');
         return parseInt(digits) || 0;
     }

@@ -123,15 +123,8 @@
 
 @section('scripts')
 <script>
-    const defaultHolidays = [
-        { date: "2026-05-29", desc: "Hari Raya Waisak (Studio Libur)" },
-        { date: "2026-06-01", desc: "Hari Lahir Pancasila (Studio Libur)" }
-    ];
-
-    const defaultTimeSlots = ["09.00 - 10.00", "11.30 - 12.30", "14.00 - 15.00", "16.30 - 17.30", "19.00 - 20.00", "21.00 - 22.00"];
-
-    let holidays = JSON.parse(localStorage.getItem('studio_holidays')) || defaultHolidays;
-    let timeSlots = JSON.parse(localStorage.getItem('studio_time_slots')) || defaultTimeSlots;
+    let holidays = @json($holidays);
+    let timeSlots = @json($timeSlots);
 
     // Toast Alert Trigger
     function triggerToast(message) {
@@ -211,27 +204,75 @@
             return;
         }
 
-        holidays.push({ date: dateVal, desc: descVal });
-        persistHolidays();
-        renderHolidays();
+        fetch('/admin/holidays', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ date: dateVal, desc: descVal })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                holidays.push(data.holiday);
+                
+                // Sort holidays by date
+                holidays.sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                renderHolidays();
 
-        dateInput.value = '';
-        descInput.value = '';
+                dateInput.value = '';
+                descInput.value = '';
 
-        triggerToast('Hari Libur Toko Berhasil Ditambahkan!');
+                triggerToast('Hari Libur Toko Berhasil Ditambahkan!');
+            } else {
+                alert('Gagal menyimpan hari libur.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'Terjadi kesalahan saat menyimpan hari libur.');
+        });
     }
 
     function deleteHoliday(index) {
         if (!confirm('Apakah Anda yakin ingin menghapus hari libur ini? Toko akan dibuka kembali pada tanggal tersebut.')) return;
         
-        holidays.splice(index, 1);
-        persistHolidays();
-        renderHolidays();
-        triggerToast('Hari Libur Toko Telah Dihapus.');
-    }
-
-    function persistHolidays() {
-        localStorage.setItem('studio_holidays', JSON.stringify(holidays));
+        const holidayId = holidays[index].id;
+        
+        fetch(`/admin/holidays/${holidayId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                holidays.splice(index, 1);
+                renderHolidays();
+                triggerToast('Hari Libur Toko Telah Dihapus.');
+            } else {
+                alert('Gagal menghapus hari libur.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus hari libur.');
+        });
     }
 
     /* ─── MANAGE SESSION HOURS ─── */
@@ -253,9 +294,11 @@
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
 
+            const timeStr = typeof slot === 'string' ? slot : slot.time;
+
             tr.innerHTML = `
                 <td class="px-4 py-4 text-slate-700 font-sans text-xs">${idx + 1}</td>
-                <td class="px-4 py-4 font-bold text-slate-900 font-sans text-xs">${slot}</td>
+                <td class="px-4 py-4 font-bold text-slate-900 font-sans text-xs">${timeStr}</td>
                 <td class="px-4 py-4 text-center">
                     <button onclick="deleteTimeSlot(${idx})" class="px-3.5 py-2 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Hapus</button>
                 </td>
@@ -273,43 +316,160 @@
             return;
         }
 
-        const exists = timeSlots.some(s => s.toLowerCase() === slotVal.toLowerCase());
+        const exists = timeSlots.some(s => {
+            const existingTime = typeof s === 'string' ? s : s.time;
+            return existingTime.toLowerCase() === slotVal.toLowerCase();
+        });
+        
         if (exists) {
             alert('Jam sesi tersebut sudah terdaftar!');
             return;
         }
 
-        timeSlots.push(slotVal);
-        timeSlots.sort((a, b) => {
-            const timeA = a.replace(/[^0-9:]/g, '');
-            const timeB = b.replace(/[^0-9:]/g, '');
-            return timeA.localeCompare(timeB);
+        fetch('/admin/slots', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ time: slotVal })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                timeSlots.push(data.slot);
+                
+                // Sort slots
+                timeSlots.sort((a, b) => {
+                    const timeA = (typeof a === 'string' ? a : a.time).replace(/[^0-9:]/g, '');
+                    const timeB = (typeof b === 'string' ? b : b.time).replace(/[^0-9:]/g, '');
+                    return timeA.localeCompare(timeB);
+                });
+
+                renderTimeSlots();
+
+                slotInput.value = '';
+                triggerToast('Jam Sesi Baru Berhasil Ditambahkan!');
+            } else {
+                alert('Gagal menyimpan jam sesi.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'Terjadi kesalahan saat menyimpan jam sesi.');
         });
-
-        persistTimeSlots();
-        renderTimeSlots();
-
-        slotInput.value = '';
-        triggerToast('Jam Sesi Baru Berhasil Ditambahkan!');
     }
 
     function deleteTimeSlot(index) {
         if (!confirm('Apakah Anda yakin ingin menghapus jam sesi ini? Pelanggan tidak akan dapat memilih jam ini untuk booking baru.')) return;
         
-        timeSlots.splice(index, 1);
-        persistTimeSlots();
-        renderTimeSlots();
-        triggerToast('Jam Sesi Telah Dihapus.');
-    }
+        const slotId = timeSlots[index].id;
 
-    function persistTimeSlots() {
-        localStorage.setItem('studio_time_slots', JSON.stringify(timeSlots));
+        fetch(`/admin/slots/${slotId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                timeSlots.splice(index, 1);
+                renderTimeSlots();
+                triggerToast('Jam Sesi Telah Dihapus.');
+            } else {
+                alert('Gagal menghapus jam sesi.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus jam sesi.');
+        });
     }
 
     // INITIALIZER
     window.addEventListener('DOMContentLoaded', () => {
         renderHolidays();
         renderTimeSlots();
+
+        // Sync LocalStorage to Database (Migration helper)
+        const localHols = JSON.parse(localStorage.getItem('studio_holidays'));
+        const localSlots = JSON.parse(localStorage.getItem('studio_time_slots'));
+
+        if (localHols && Array.isArray(localHols)) {
+            localHols.forEach(lh => {
+                const dateStr = typeof lh === 'string' ? lh : lh.date;
+                const descStr = typeof lh === 'string' ? 'Studio Libur Rutin' : lh.desc;
+
+                const exists = holidays.some(h => (typeof h === 'string' ? h : h.date) === dateStr);
+                if (!exists) {
+                    fetch('/admin/holidays', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ date: dateStr, desc: descStr })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            holidays.push(data.holiday);
+                            holidays.sort((a, b) => new Date(a.date) - new Date(b.date));
+                            renderHolidays();
+                        }
+                    })
+                    .catch(err => console.error(err));
+                }
+            });
+            localStorage.removeItem('studio_holidays');
+        }
+
+        if (localSlots && Array.isArray(localSlots)) {
+            localSlots.forEach(ls => {
+                const timeStr = typeof ls === 'string' ? ls : ls.time;
+
+                const exists = timeSlots.some(s => (typeof s === 'string' ? s : s.time).toLowerCase() === timeStr.toLowerCase());
+                if (!exists) {
+                    fetch('/admin/slots', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ time: timeStr })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            timeSlots.push(data.slot);
+                            timeSlots.sort((a, b) => {
+                                const timeA = (typeof a === 'string' ? a : a.time).replace(/[^0-9:]/g, '');
+                                const timeB = (typeof b === 'string' ? b : b.time).replace(/[^0-9:]/g, '');
+                                return timeA.localeCompare(timeB);
+                            });
+                            renderTimeSlots();
+                        }
+                    })
+                    .catch(err => console.error(err));
+                }
+            });
+            localStorage.removeItem('studio_time_slots');
+        }
     });
 </script>
 @endsection

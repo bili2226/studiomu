@@ -12,6 +12,7 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Service::truncate();
         $defaultServices = [
             [
                 'title' => 'Wedding & Pre-Wedding',
@@ -40,8 +41,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col1' => [
                     'title' => 'BASIC PREWEDD',
-                    'old' => '1.999k',
-                    'new' => '1.500k',
+                    'old' => 'Rp 1.999.000',
+                    'new' => 'Rp 1.500.000',
                     'features' => [
                         '2 Background Indoor Studio',
                         '2 Jam Sesi Photo',
@@ -53,8 +54,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col2' => [
                     'title' => 'EXCLUSIVE WEDDING',
-                    'old' => '3.999k',
-                    'new' => '3.200k',
+                    'old' => 'Rp 3.999.000',
+                    'new' => 'Rp 3.200.000',
                     'features' => [
                         'Full Day Coverage (10 Jam)',
                         '2 Professional Photographers',
@@ -74,8 +75,8 @@ class ServiceSeeder extends Seeder
                     <li class="flex flex-col gap-1.5">
                         <span class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Penambahan orang :</span>
                         <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : 50k</li>
-                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : 35k</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Dewasa : Rp 50.000</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/80 font-bold">›</span> Anak-anak : Rp 35.000</li>
                         </ul>
                     </li>
                     <li class="flex items-start gap-2"><span class="text-amber-600 font-bold">•</span> Diatas 14 orang pakai studio 3 (di lantai atas)</li>
@@ -92,8 +93,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col1' => [
                     'title' => 'BEST DEAL',
-                    'old' => '1.199k',
-                    'new' => '850k',
+                    'old' => 'Rp 1.199.000',
+                    'new' => 'Rp 850.000',
                     'features' => [
                         '2 Background Studio',
                         '1 Jam Sesi Foto',
@@ -106,8 +107,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col2' => [
                     'title' => 'SPECIAL PACKAGE',
-                    'old' => '1.599k',
-                    'new' => '1.200k',
+                    'old' => 'Rp 1.599.000',
+                    'new' => 'Rp 1.200.000',
                     'features' => [
                         '3 Background Studio + Outdoor Sesi',
                         '2 Jam Sesi Foto',
@@ -148,8 +149,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col1' => [
                     'title' => 'STARTER KIT',
-                    'old' => '1.599k',
-                    'new' => '1.200k',
+                    'old' => 'Rp 1.599.000',
+                    'new' => 'Rp 1.200.000',
                     'features' => [
                         'Minimalist Concept Styling',
                         '15 Produk Unggulan Sesi',
@@ -161,8 +162,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col2' => [
                     'title' => 'BRAND CHAMPION',
-                    'old' => '2.999k',
-                    'new' => '2.400k',
+                    'old' => 'Rp 2.999.000',
+                    'new' => 'Rp 2.400.000',
                     'features' => [
                         'Premium Concept & Storyboard',
                         'Unlimited Produk Sesi (4 Jam)',
@@ -178,12 +179,12 @@ class ServiceSeeder extends Seeder
                 'starting' => 'Mulai Rp 500.000',
                 'description' => 'Abadikan kehangatan kasih sayang keluarga dan perjalanan berharga kehamilan Anda dalam potret penuh makna.',
                 'note' => '<ul class="space-y-4 text-xs font-semibold text-slate-700 list-none p-0 m-0">
-                    <li class="flex items-start gap-2"><span class="text-amber-650 font-bold">•</span> Sesi foto maternity disarankan usia kehamilan 28-34 minggu</li>
+                    <li class="flex items-start gap-2"><span class="text-amber-655 font-bold">•</span> Sesi foto maternity disarankan usia kehamilan 28-34 minggu</li>
                     <li class="flex flex-col gap-1.5">
-                        <span class="flex items-start gap-2"><span class="text-amber-650 font-bold">•</span> Penambahan orang :</span>
+                        <span class="flex items-start gap-2"><span class="text-amber-655 font-bold">•</span> Penambahan orang :</span>
                         <ul class="pl-6 space-y-1 mt-0.5 list-none">
-                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/85 font-bold">›</span> Dewasa : 50k</li>
-                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/85 font-bold">›</span> Anak-anak : 35k</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/85 font-bold">›</span> Dewasa : Rp 50.000</li>
+                            <li class="flex items-center gap-2 text-slate-650"><span class="text-amber-500/85 font-bold">›</span> Anak-anak : Rp 35.000</li>
                         </ul>
                     </li>
                     <li class="flex items-start gap-2"><span class="text-amber-655 font-bold">•</span> Kostum bebas rapi (bawa sendiri)</li>
@@ -200,8 +201,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col1' => [
                     'title' => 'BEST DEAL',
-                    'old' => '699k',
-                    'new' => '500k',
+                    'old' => 'Rp 699.000',
+                    'new' => 'Rp 500.000',
                     'features' => [
                         '2 Background Photo',
                         '1 jam Photo Session',
@@ -214,8 +215,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col2' => [
                     'title' => 'SPECIAL PACKAGE',
-                    'old' => '999k',
-                    'new' => '800k',
+                    'old' => 'Rp 999.000',
+                    'new' => 'Rp 800.000',
                     'features' => [
                         '2 Background Photo',
                         '1 jam Photo Session',
@@ -256,8 +257,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col1' => [
                     'title' => 'BASIC PORTRAIT',
-                    'old' => '899k',
-                    'new' => '650k',
+                    'old' => 'Rp 899.000',
+                    'new' => 'Rp 650.000',
                     'features' => [
                         '1 Background Pilihan',
                         '45 Menit Sesi Foto',
@@ -270,8 +271,8 @@ class ServiceSeeder extends Seeder
                 ],
                 'col2' => [
                     'title' => 'PREMIUM BRANDING',
-                    'old' => '1.499k',
-                    'new' => '1.100k',
+                    'old' => 'Rp 1.499.000',
+                    'new' => 'Rp 1.100.000',
                     'features' => [
                         '3 Pilihan Background',
                         '1.5 Jam Sesi Foto',
@@ -284,6 +285,7 @@ class ServiceSeeder extends Seeder
                 ]
             ]
         ];
+
 
         foreach ($defaultServices as $service) {
             \App\Models\Service::create($service);

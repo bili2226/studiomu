@@ -88,16 +88,32 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/{service}', function ($service) {
         $rewards = \App\Models\Reward::active()->orderBy('points_required')->get();
         $services = \App\Models\Service::all();
+        $holidays = \App\Models\Holiday::orderBy('date')->get()->map(function($h) {
+            return [
+                'date' => $h->date->format('Y-m-d'),
+                'desc' => $h->desc
+            ];
+        });
+        $timeSlots = \App\Models\TimeSlot::all()->sortBy(function($slot) {
+            return preg_replace('/[^0-9]/', '', $slot->time);
+        })->pluck('time');
+
         return view('customer.booking', [
             'serviceKey' => $service,
             'rewards' => $rewards,
             'userPoints' => Auth::user()->points ?? 0,
-            'services' => $services
+            'services' => $services,
+            'holidays' => $holidays,
+            'timeSlots' => $timeSlots
         ]);
     })->name('customer.booking')->middleware('role:customer');
 
     Route::get('/admin/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard')->middleware('role:admin');
     Route::get('/admin/holidays', [\App\Http\Controllers\AdminController::class, 'holidaysIndex'])->name('admin.holidays.index')->middleware('role:admin');
+    Route::post('/admin/holidays', [\App\Http\Controllers\AdminController::class, 'storeHoliday'])->name('admin.holidays.store')->middleware('role:admin');
+    Route::delete('/admin/holidays/{id}', [\App\Http\Controllers\AdminController::class, 'deleteHoliday'])->name('admin.holidays.destroy')->middleware('role:admin');
+    Route::post('/admin/slots', [\App\Http\Controllers\AdminController::class, 'storeTimeSlot'])->name('admin.slots.store')->middleware('role:admin');
+    Route::delete('/admin/slots/{id}', [\App\Http\Controllers\AdminController::class, 'deleteTimeSlot'])->name('admin.slots.destroy')->middleware('role:admin');
     Route::get('/admin/loyalty', [\App\Http\Controllers\AdminController::class, 'loyaltyIndex'])->name('admin.loyalty.index')->middleware('role:admin');
 
 

@@ -51,15 +51,15 @@
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-5 font-bold text-amber-800 font-sans text-xs">{{ $svc->starting }}</td>
+                    <td class="px-6 py-5 font-bold text-amber-800 font-sans text-xs">{{ \App\Models\Service::formatPrice($svc->starting) }}</td>
                     <td class="px-6 py-5 text-slate-700 text-[11px] leading-relaxed max-w-xs font-semibold">{{ Str::limit($svc->description, 50) }}</td>
                     <td class="px-6 py-5 font-semibold text-slate-800">
                         <span class="text-[9px] font-black uppercase tracking-wider block text-slate-500 mb-1">{{ $svc->col1['title'] ?? '' }}</span>
-                        <span class="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 inline-block">Rp {{ $svc->col1['new'] ?? '' }} <span class="text-[10px] text-slate-400 font-semibold line-through ml-1">({{ $svc->col1['old'] ?? '' }})</span></span>
+                        <span class="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 inline-block">{{ \App\Models\Service::formatPrice($svc->col1['new'] ?? '') }} <span class="text-[10px] text-slate-400 font-semibold line-through ml-1">({{ \App\Models\Service::formatPrice($svc->col1['old'] ?? '') }})</span></span>
                     </td>
                     <td class="px-6 py-5 font-semibold text-slate-800">
                         <span class="text-[9px] font-black uppercase tracking-wider block text-slate-500 mb-1">{{ $svc->col2['title'] ?? '' }}</span>
-                        <span class="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 inline-block">Rp {{ $svc->col2['new'] ?? '' }} <span class="text-[10px] text-slate-400 font-semibold line-through ml-1">({{ $svc->col2['old'] ?? '' }})</span></span>
+                        <span class="text-xs font-bold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 inline-block">{{ \App\Models\Service::formatPrice($svc->col2['new'] ?? '') }} <span class="text-[10px] text-slate-400 font-semibold line-through ml-1">({{ \App\Models\Service::formatPrice($svc->col2['old'] ?? '') }})</span></span>
                     </td>
                     <td class="px-6 py-5 text-center">
                         <div class="flex items-center justify-center gap-2">

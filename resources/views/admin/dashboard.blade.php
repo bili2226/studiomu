@@ -750,12 +750,7 @@
         });
 
         // Format to Indonesian Rupiah Millions/Thousands
-        let formattedRevenue = 'Rp 0';
-        if (totalRevenue >= 1000000) {
-            formattedRevenue = 'Rp ' + (totalRevenue / 1000000).toFixed(1) + ' Jt';
-        } else {
-            formattedRevenue = 'Rp ' + totalRevenue.toLocaleString('id-ID');
-        }
+        let formattedRevenue = 'Rp ' + totalRevenue.toLocaleString('id-ID');
 
         document.getElementById('stat-revenue').textContent = formattedRevenue;
         document.getElementById('stat-pending').textContent = pendingCount;

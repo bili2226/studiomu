@@ -18,7 +18,7 @@ CREATE TABLE `users` (
   `role` ENUM('customer', 'admin', 'photographer') NOT NULL DEFAULT 'customer',
   `points` INT UNSIGNED NOT NULL DEFAULT 0,
   `email_verified_at` TIMESTAMP NULL DEFAULT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL
   `remember_token` VARCHAR(100) NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP NULL DEFAULT NULL,
@@ -133,7 +133,6 @@ CREATE TABLE `services` (
   `highlights` JSON NULL DEFAULT NULL,
   `col1` JSON NULL DEFAULT NULL,
   `col2` JSON NULL DEFAULT NULL,
-  `addons` JSON NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -175,7 +174,6 @@ CREATE TABLE `bookings` (
   `payment_method` VARCHAR(255) NOT NULL DEFAULT 'Transfer',
   `status` VARCHAR(255) NOT NULL DEFAULT 'Pending',
   `requests` TEXT NULL DEFAULT NULL,
-  `addons` JSON NULL DEFAULT NULL,
   `result_link` TEXT NULL DEFAULT NULL,
   `snap_token` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` TIMESTAMP NULL DEFAULT NULL,
@@ -209,8 +207,7 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2026_06_12_232244_add_loyalty_fields_to_bookings_table', 1),
 ('2026_06_13_082102_add_points_credited_to_bookings_table', 1),
 ('2026_06_17_052039_add_photographer_id_to_bookings_table', 1),
-('2026_06_17_054958_add_result_link_to_bookings_table', 1),
-('2026_06_18_060610_add_addons_to_services_and_bookings_tables', 1);
+('2026_06_17_054958_add_result_link_to_bookings_table', 1);
 
 -- Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;

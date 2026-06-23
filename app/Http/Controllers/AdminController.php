@@ -348,7 +348,97 @@ class AdminController extends Controller
      */
     public function holidaysIndex()
     {
-        return view('admin.holidays.index');
+        $holidays = \App\Models\Holiday::orderBy('date')->get()->map(function($h) {
+            return [
+                'id' => $h->id,
+                'date' => $h->date->format('Y-m-d'),
+                'desc' => $h->desc
+            ];
+        });
+        
+        $timeSlots = \App\Models\TimeSlot::all()->sortBy(function($slot) {
+            return preg_replace('/[^0-9]/', '', $slot->time);
+        })->map(function($s) {
+            return [
+                'id' => $s->id,
+                'time' => $s->time
+            ];
+        })->values();
+
+        return view('admin.holidays.index', compact('holidays', 'timeSlots'));
+    }
+
+    /**
+     * Store a newly created holiday.
+     */
+    public function storeHoliday(Request $request)
+    {
+        $request->validate([
+            'date' => 'required|date|unique:holidays,date',
+            'desc' => 'nullable|string'
+        ]);
+
+        $holiday = \App\Models\Holiday::create([
+            'date' => $request->date,
+            'desc' => $request->desc ?? 'Studio Libur'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'holiday' => [
+                'id' => $holiday->id,
+                'date' => $holiday->date->format('Y-m-d'),
+                'desc' => $holiday->desc
+            ]
+        ]);
+    }
+
+    /**
+     * Remove the specified holiday.
+     */
+    public function deleteHoliday($id)
+    {
+        $holiday = \App\Models\Holiday::findOrFail($id);
+        $holiday->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    /**
+     * Store a newly created operational time slot.
+     */
+    public function storeTimeSlot(Request $request)
+    {
+        $request->validate([
+            'time' => 'required|string|unique:time_slots,time'
+        ]);
+
+        $slot = \App\Models\TimeSlot::create([
+            'time' => $request->time
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'slot' => [
+                'id' => $slot->id,
+                'time' => $slot->time
+            ]
+        ]);
+    }
+
+    /**
+     * Remove the specified operational time slot.
+     */
+    public function deleteTimeSlot($id)
+    {
+        $slot = \App\Models\TimeSlot::findOrFail($id);
+        $slot->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
