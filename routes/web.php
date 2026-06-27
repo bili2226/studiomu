@@ -128,6 +128,7 @@ Route::middleware('auth')->group(function () {
     })->name('customer.booking')->middleware('role:customer');
 
     Route::get('/admin/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard')->middleware('role:admin');
+    Route::get('/admin/dashboard/data', [\App\Http\Controllers\AdminController::class, 'dashboardData'])->name('admin.dashboard.data')->middleware('role:admin');
     Route::get('/admin/holidays', [\App\Http\Controllers\AdminController::class, 'holidaysIndex'])->name('admin.holidays.index')->middleware('role:admin');
     Route::post('/admin/holidays', [\App\Http\Controllers\AdminController::class, 'storeHoliday'])->name('admin.holidays.store')->middleware('role:admin');
     Route::delete('/admin/holidays/{id}', [\App\Http\Controllers\AdminController::class, 'deleteHoliday'])->name('admin.holidays.destroy')->middleware('role:admin');

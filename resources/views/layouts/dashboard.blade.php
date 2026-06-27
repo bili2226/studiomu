@@ -157,11 +157,6 @@
         .admin-layout .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 > div svg {
             color: #D4AF37 !important;
         }
-        .admin-layout .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 > div span {
-            background-color: rgba(212, 175, 55, 0.1) !important;
-            border-color: rgba(212, 175, 55, 0.25) !important;
-            color: #D4AF37 !important;
-        }
         .admin-layout .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-4 > div .w-12.h-12 {
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
             border-color: #fde68a !important;

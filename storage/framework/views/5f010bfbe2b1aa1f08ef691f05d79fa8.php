@@ -7,37 +7,46 @@
 <?php $__env->startSection('content'); ?>
     
     <div id="tab-panel-overview" class="tab-panel transition-opacity duration-300 opacity-100 block">
+        <div class="flex justify-between items-end mb-6">
+            <div>
+                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Ringkasan Studio</h2>
+                <p class="text-sm font-medium text-slate-500 mt-1">Performa bisnis secara keseluruhan</p>
+            </div>
+            <div>
+                <select id="timeFilter" onchange="updateFilter(this.value)" class="bg-white border-2 border-slate-300 text-slate-700 text-sm font-bold rounded-xl focus:ring-amber-500 focus:border-amber-500 block w-full p-2.5 shadow-sm cursor-pointer hover:bg-slate-50 transition-colors">
+                    <option value="month" <?php echo e(request('filter', 'month') == 'month' ? 'selected' : ''); ?>>Bulan Ini</option>
+                    <option value="quarter" <?php echo e(request('filter') == 'quarter' ? 'selected' : ''); ?>>Triwulan Ini</option>
+                    <option value="year" <?php echo e(request('filter') == 'year' ? 'selected' : ''); ?>>Tahun Ini (<?php echo e(date('Y')); ?>)</option>
+                    <option value="2025" <?php echo e(request('filter') == '2025' ? 'selected' : ''); ?>>Tahun 2025</option>
+                    <option value="2024" <?php echo e(request('filter') == '2024' ? 'selected' : ''); ?>>Tahun 2024</option>
+                    <option value="2023" <?php echo e(request('filter') == '2023' ? 'selected' : ''); ?>>Tahun 2023</option>
+                    <option value="all" <?php echo e(request('filter') == 'all' ? 'selected' : ''); ?>>Semua Waktu</option>
+                </select>
+            </div>
+        </div>
         <!-- Cards Stats -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
             
             <div class="bg-white p-7 rounded-[2rem] border border-slate-200 shadow-md shadow-slate-100 hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-100/30 rounded-full blur-2xl group-hover:bg-amber-100/50 transition-all duration-500"></div>
                 <div class="flex justify-between items-start mb-3 relative z-10">
                     <div>
-                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-700">Total Pendapatan</p>
-                        <h3 id="stat-revenue" class="text-3xl font-serif italic font-bold mt-2 text-amber-800">Rp 0</h3>
+                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-[#D4AF37]">Total Pendapatan</p>
+                        <h3 id="stat-revenue" class="text-2xl font-serif italic font-bold mt-2 text-amber-400">Rp <?php echo e(number_format($totalRevenue, 0, ',', '.')); ?></h3>
                     </div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 text-amber-800 flex items-center justify-center border border-amber-200 shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.007m0-.007A2.25 2.25 0 0 1 6 2.25h2.25A2.25 2.25 0 0 1 10.5 4.5v.007m-6.75-.007a2.25 2.25 0 0 0-2.25 2.25v.007M3.75 6.75h.007m-.007 0A2.25 2.25 0 0 1 6 4.5h2.25a2.25 2.25 0 0 1 2.25 2.25v.007M3.75 6.75a2.25 2.25 0 0 0-2.25 2.25v.007M3.75 9h.007M3.75 9a2.25 2.25 0 0 1 2.25-2.25h2.25A2.25 2.25 0 0 1 10.5 9v.007M3.75 9a2.25 2.25 0 0 0-2.25 2.25v.007M3.75 11.25h.007M3.75 11.25A2.25 2.25 0 0 1 6 9h2.25a2.25 2.25 0 0 1 2.25 2.25v.007M3.75 11.25a2.25 2.25 0 0 0-2.25 2.25v.007M3.75 13.5h.007M3.75 13.5a2.25 2.25 0 0 1 2.25-2.25h2.25A2.25 2.25 0 0 1 10.5 13.5v.007M3.75 13.5a2.25 2.25 0 0 0-2.25 2.25v.007M3.75 15.75h.007M3.75 15.75a2.25 2.25 0 0 1 2.25-2.25h2.25a2.25 2.25 0 0 1 2.25 2.25v.007M3.75 15.75a2.25 2.25 0 0 0-2.25 2.25v.007M3.75 18h.007M3.75 18A2.25 2.25 0 0 1 6 15.75h2.25a2.25 2.25 0 0 1 2.25 2.25v.007M3.75 18a2.25 2.25 0 0 0-2.25 2.25v.007" />
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3" />
                         </svg>
                     </div>
-                </div>
-                <div class="relative z-10">
-                    <span class="text-[9px] font-black text-amber-800 inline-flex items-center gap-1 uppercase tracking-widest bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 shadow-sm shadow-amber-100">
-                        <svg class="w-2.5 h-2.5 animate-bounce" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L10 10.586 13.586 7H12z" clip-rule="evenodd"></path></svg>
-                        ↑ 12% BULAN INI
-                    </span>
                 </div>
             </div>
             
             
             <div class="bg-white p-7 rounded-[2rem] border border-slate-200 shadow-md shadow-slate-100 hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-100/30 rounded-full blur-2xl group-hover:bg-amber-100/50 transition-all duration-500"></div>
                 <div class="flex justify-between items-start mb-3 relative z-10">
                     <div>
-                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-700">Booking Pending</p>
-                        <h3 id="stat-pending" class="text-3xl font-serif italic font-bold mt-2 text-amber-800">0</h3>
+                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-[#D4AF37]">Booking Pending</p>
+                        <h3 id="stat-pending" class="text-2xl font-serif italic font-bold mt-2 text-amber-400"><?php echo e($pendingBookingsCount); ?></h3>
                     </div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 text-amber-800 flex items-center justify-center border border-amber-200 shadow-sm">
                         <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -45,20 +54,14 @@
                         </svg>
                     </div>
                 </div>
-                <div class="relative z-10">
-                    <span id="stat-pending-badge" class="text-[9px] font-black text-amber-800 inline-block uppercase tracking-widest bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 shadow-sm shadow-amber-100">
-                        Menunggu Approval
-                    </span>
-                </div>
             </div>
             
             
             <div class="bg-white p-7 rounded-[2rem] border border-slate-200 shadow-md shadow-slate-100 hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-100/30 rounded-full blur-2xl group-hover:bg-amber-100/50 transition-all duration-500"></div>
                 <div class="flex justify-between items-start mb-3 relative z-10">
                     <div>
-                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-700">Layanan Aktif</p>
-                        <h3 class="text-3xl font-black mt-2 text-slate-900"><?php echo e($services->count()); ?></h3>
+                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-[#D4AF37]">Layanan Aktif</p>
+                        <h3 id="stat-services" class="text-2xl font-serif italic font-bold mt-2 text-amber-400"><?php echo e($services->count()); ?></h3>
                     </div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 text-amber-800 flex items-center justify-center border border-amber-200 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -67,115 +70,79 @@
                         </svg>
                     </div>
                 </div>
-                <div class="relative z-10">
-                    <span class="text-[9px] font-black text-amber-800 inline-block uppercase tracking-widest bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 shadow-sm shadow-amber-100">
-                        Tersedia di Landing
-                    </span>
-                </div>
             </div>
             
             
             <div class="bg-white p-7 rounded-[2rem] border border-slate-200 shadow-md shadow-slate-100 hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-violet-100/30 rounded-full blur-2xl group-hover:bg-violet-100/50 transition-all duration-500"></div>
                 <div class="flex justify-between items-start mb-3 relative z-10">
                     <div>
-                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-slate-700">Basis Pelanggan</p>
-                        <h3 class="text-3xl font-black mt-2 text-slate-900"><?php echo e($totalCustomers); ?></h3>
+                        <p class="text-[9px] font-black uppercase tracking-[0.25em] text-[#D4AF37]">Total Poin Beredar</p>
+                        <h3 class="text-2xl font-serif italic font-bold mt-2 text-amber-400"><?php echo e(number_format($totalPointsInCirculation, 0, ',', '.')); ?></h3>
                     </div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-50 to-violet-100 text-violet-850 flex items-center justify-center border border-violet-200 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.97 5.97 0 0 0-.75-2.985m-.94-3.198A5.977 5.977 0 0 0 15 10c0-1.88-.65-3.59-1.74-4.96A9.092 9.092 0 0 1 18 8.08a3 3 0 0 1 3 3c0 .888-.387 1.685-1 2.23M12 2a5 5 0 0 1 5 5v3a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                         </svg>
                     </div>
-                </div>
-                <div class="relative z-10">
-                    <span class="text-[9px] font-black text-violet-850 inline-block uppercase tracking-widest bg-violet-50 px-2.5 py-1 rounded-lg border border-violet-200 shadow-sm shadow-violet-100">
-                        Sistem Loyalitas Aktif
-                    </span>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
-            <!-- Analytic minimalist SVG Line Chart -->
+            <!-- Line Chart: Tren Pendapatan -->
             <div class="lg:col-span-8 admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
                 <div class="flex justify-between items-center mb-8">
                     <div>
                         <p class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-700">Analisis Pendapatan</p>
-                        <h4 class="text-lg font-serif italic font-bold text-slate-900 mt-1">Tren Bulanan (2026)</h4>
-                    </div>
-                    <div class="flex gap-4 text-[9px] font-black uppercase tracking-wider text-slate-700">
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-slate-400 rounded-sm"></span> TARGET</span>
-                        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-amber-600 rounded-sm"></span> REALISASI</span>
+                        <h4 class="text-lg font-serif italic font-bold text-slate-900 mt-1">Tren Bulanan (<?php echo e(date('Y')); ?>)</h4>
                     </div>
                 </div>
-                <!-- Elegant SVG mockup graph -->
-                <div class="w-full h-64 bg-gradient-to-b from-slate-50 to-white rounded-2xl border border-slate-200 relative overflow-hidden flex items-end p-4 shadow-inner">
-                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 600 240" fill="none" preserveAspectRatio="none">
-                        <!-- Grid lines -->
-                        <line x1="0" y1="40" x2="600" y2="40" stroke="#e2e8f0" stroke-width="1"></line>
-                        <line x1="0" y1="100" x2="600" y2="100" stroke="#e2e8f0" stroke-width="1"></line>
-                        <line x1="0" y1="160" x2="600" y2="160" stroke="#e2e8f0" stroke-width="1"></line>
-                        
-                        <!-- Line 1: Target (Minimalist dashed) -->
-                        <path d="M0,180 Q100,160 200,120 T400,90 T600,60" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,6" fill="none"></path>
-                        <!-- Line 2: Realisasi -->
-                        <path d="M0,190 C100,170 150,110 250,95 S400,110 500,70 L600,45" stroke="#b28e1d" stroke-width="3" fill="none" filter="url(#glow)"></path>
-                        <!-- Gradient Fill under realisasi -->
-                        <path d="M0,190 C100,170 150,110 250,95 S400,110 500,70 L600,45 L600,240 L0,240 Z" fill="url(#chart-grad)" opacity="0.12"></path>
-                        
-                        <!-- Glowing coordinators -->
-                        <circle cx="250" cy="95" r="5" fill="#b28e1d" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle>
-                        <circle cx="500" cy="70" r="5" fill="#b28e1d" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle>
-                        <circle cx="600" cy="45" r="5" fill="#b28e1d" stroke="#ffffff" stroke-width="2" filter="url(#glow)"></circle>
-                        
-                        <defs>
-                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                                <feGaussianBlur stdDeviation="3" result="blur" />
-                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                            </filter>
-                            <linearGradient id="chart-grad" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#b28e1d"></stop>
-                                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <div class="absolute bottom-2 left-0 right-0 flex justify-between px-6 text-[8px] font-black uppercase tracking-wider text-slate-700 z-10">
-                        <span>Jan</span>
-                        <span>Feb</span>
-                        <span>Mar</span>
-                        <span>Apr</span>
-                        <span>Mei (Kini)</span>
-                        <span>Jun</span>
-                    </div>
+                <div class="w-full h-72 relative">
+                    <canvas id="revenueChart"></canvas>
                 </div>
             </div>
  
             <!-- Activity Logs Feed -->
-            <div class="lg:col-span-4 admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
-                <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-slate-900">Aktivitas Sistem</h4>
-                <div class="space-y-6 relative border-l-2 border-slate-200 pl-6 ml-2">
-                    <div class="relative">
-                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-slate-300 border-4 border-white ring-4 ring-slate-100"></div>
-                        <p class="text-[9px] font-bold text-slate-700 uppercase tracking-widest">10 Menit Lalu</p>
-                        <h5 class="text-xs font-bold text-slate-900 mt-1 uppercase tracking-wide">Pendaftaran Pengguna Baru</h5>
-                        <p class="text-[11px] text-slate-800 mt-0.5 font-medium leading-relaxed">Admin menambahkan fotografer baru: "Photographer Two"</p>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-white ring-4 ring-amber-100"></div>
-                        <p class="text-[9px] font-bold text-slate-700 uppercase tracking-widest">2 Jam Lalu</p>
-                        <h5 class="text-xs font-bold text-slate-900 mt-1 uppercase tracking-wide">Booking Baru Terdaftar</h5>
-                        <p class="text-[11px] text-slate-800 mt-0.5 font-medium leading-relaxed">Budi Santoso memesan Wedding & Pre-Wedding</p>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-amber-600 border-4 border-white ring-4 ring-amber-100"></div>
-                        <p class="text-[9px] font-bold text-slate-700 uppercase tracking-widest">1 Hari Lalu</p>
-                        <h5 class="text-xs font-bold text-slate-900 mt-1 uppercase tracking-wide">Penukaran Reward Sukses</h5>
-                        <p class="text-[11px] text-slate-800 mt-0.5 font-medium leading-relaxed">Customer User menukarkan 200 pts dengan Frame 16R</p>
-                    </div>
+            <div class="lg:col-span-4 admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100 h-full">
+                <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-slate-900">Aktivitas Booking Terbaru</h4>
+                <div id="recent-bookings-list" class="space-y-6 relative border-l-2 border-slate-200 pl-6 ml-2">
+                    <?php echo $__env->make('admin.partials.recent_bookings', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
                 </div>
             </div>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <!-- Pie Chart: Status Booking -->
+            <div class="admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
+                <div class="mb-6 text-center">
+                    <h4 class="text-sm font-black uppercase tracking-[0.1em] text-slate-900">Distribusi Status</h4>
+                </div>
+                <div class="w-full h-56 relative flex justify-center">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart: Layanan Terpopuler -->
+            <div class="admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
+                <div class="mb-6 text-center">
+                    <h4 class="text-sm font-black uppercase tracking-[0.1em] text-slate-900">Layanan Terpopuler</h4>
+                </div>
+                <div class="w-full h-56 relative flex justify-center">
+                    <canvas id="serviceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart: Beban Fotografer -->
+            <div class="admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
+                <div class="mb-6 text-center">
+                    <h4 class="text-sm font-black uppercase tracking-[0.1em] text-slate-900">Kinerja Fotografer</h4>
+                </div>
+                <div class="w-full h-56 relative flex justify-center">
+                    <canvas id="photographerChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 
@@ -240,15 +207,15 @@
             <div class="space-y-5">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Nama Pengguna</label>
-                    <input type="text" id="form-user-name" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
+                    <input type="text" id="form-user-name" class="w-full bg-white shadow-sm border border-slate-200 focus:border-slate-800 focus:ring-4 focus:ring-slate-800/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Email Address</label>
-                    <input type="email" id="form-user-email" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
+                    <input type="email" id="form-user-email" class="w-full bg-white shadow-sm border border-slate-200 focus:border-slate-800 focus:ring-4 focus:ring-slate-800/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Peran (Role)</label>
-                    <select id="form-user-role" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-black uppercase tracking-wider text-slate-750 focus:outline-none cursor-pointer transition-all duration-300">
+                    <select id="form-user-role" class="w-full bg-white shadow-sm border border-slate-200 focus:border-slate-800 focus:ring-4 focus:ring-slate-800/10 rounded-2xl px-4 py-3.5 text-xs font-black uppercase tracking-wider text-slate-750 focus:outline-none cursor-pointer transition-all duration-300">
                         <option value="admin">ADMIN</option>
                         <option value="photographer">PHOTOGRAPHER</option>
                         <option value="customer">CUSTOMER</option>
@@ -256,10 +223,14 @@
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Password</label>
-                    <input type="password" id="form-user-password" placeholder="Kosongkan jika tidak ingin diubah (default: password)" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
+                    <input type="password" id="form-user-password" placeholder="Kosongkan jika tidak ingin diubah (default: password)" class="w-full bg-white shadow-sm border border-slate-200 focus:border-slate-800 focus:ring-4 focus:ring-slate-800/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Konfirmasi Password</label>
+                    <input type="password" id="form-user-password-confirmation" placeholder="Ulangi password di atas" class="w-full bg-white shadow-sm border border-slate-200 focus:border-slate-800 focus:ring-4 focus:ring-slate-800/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
                 </div>
             </div>
-            <button onclick="saveUser()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-4 w-full rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 mt-8 border border-amber-200">
+            <button onclick="saveUser()" class="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-[10px] py-4 w-full rounded-2xl transition-all shadow-md shadow-slate-900/10 active:scale-95 mt-8 border border-slate-800">
                 SIMPAN DATA USER
             </button>
         </div>
@@ -372,7 +343,192 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
+    let revenueChart, statusChart, serviceChart, photographerChart;
+
+    // --- CHART INITIALIZATION ---
+    function initCharts() {
+        try {
+            console.log("initCharts started. Chart object:", typeof Chart !== 'undefined' ? Chart : 'undefined');
+            
+            if (typeof Chart === 'undefined') {
+                console.error("Chart.js is not loaded!");
+                alert("Gagal memuat Chart.js dari CDN. Pastikan koneksi internet aktif atau CDN tidak diblokir.");
+                return;
+            }
+
+            // Shared Chart Options
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#64748b'; // slate-500
+            
+            if (Chart.defaults.plugins && Chart.defaults.plugins.tooltip) {
+                Chart.defaults.plugins.tooltip.backgroundColor = '#1e293b';
+                Chart.defaults.plugins.tooltip.padding = 10;
+                Chart.defaults.plugins.tooltip.cornerRadius = 8;
+            }
+            
+            console.log("Initializing Revenue Chart...");
+            const revElement = document.getElementById('revenueChart');
+            if (!revElement) console.error("revenueChart canvas not found!");
+            
+            // 1. Revenue Chart (Line)
+            const ctxRevenue = revElement.getContext('2d');
+            const gradientRevenue = ctxRevenue.createLinearGradient(0, 0, 0, 300);
+            gradientRevenue.addColorStop(0, 'rgba(217, 119, 6, 0.2)'); // amber-600/20
+            gradientRevenue.addColorStop(1, 'rgba(217, 119, 6, 0)');
+
+            revenueChart = new Chart(ctxRevenue, {
+                type: 'line',
+                data: {
+                    labels: <?php echo json_encode($monthlyRevenueLabels); ?>,
+                    datasets: [{
+                        label: 'Pendapatan (Rp)',
+                        data: <?php echo json_encode($monthlyRevenueData); ?>,
+                        borderColor: '#d97706', // amber-600
+                        backgroundColor: gradientRevenue,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#d97706',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9', drawBorder: false },
+                            ticks: {
+                                callback: function(value) {
+                                    if (value >= 1000000) return (value / 1000000) + 'Jt';
+                                    if (value >= 1000) return (value / 1000) + 'Rb';
+                                    return value;
+                                }
+                            }
+                        },
+                        x: {
+                            grid: { display: false, drawBorder: false }
+                        }
+                    }
+                }
+            });
+
+            console.log("Initializing Status Chart...");
+            // 2. Status Chart (Doughnut)
+            const statusElement = document.getElementById('statusChart');
+            if (!statusElement) console.error("statusChart canvas not found!");
+            const ctxStatus = statusElement.getContext('2d');
+            statusChart = new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: <?php echo json_encode($statusLabels ?? []); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($statusData ?? []); ?>,
+                        backgroundColor: [
+                            '#fbbf24', // amber-400 (Pending)
+                            '#3b82f6', // blue-500 (Confirmed)
+                            '#10b981', // emerald-500 (Completed)
+                            '#f43f5e'  // rose-500 (Cancelled)
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+                    }
+                }
+            });
+
+            console.log("Initializing Service Chart...");
+            // 3. Service Popularity (Pie)
+            const serviceElement = document.getElementById('serviceChart');
+            if (!serviceElement) console.error("serviceChart canvas not found!");
+            const ctxService = serviceElement.getContext('2d');
+            serviceChart = new Chart(ctxService, {
+                type: 'pie',
+                data: {
+                    labels: <?php echo json_encode($serviceLabels ?? []); ?>,
+                    datasets: [{
+                        label: 'Jumlah Booking',
+                        data: <?php echo json_encode($serviceData ?? []); ?>,
+                        backgroundColor: [
+                            '#8b5cf6', // violet-500
+                            '#d946ef', // fuchsia-500
+                            '#ec4899', // pink-500
+                            '#f43f5e', // rose-500
+                            '#f97316', // orange-500
+                            '#eab308', // yellow-500
+                            '#84cc16', // lime-500
+                            '#10b981', // emerald-500
+                            '#06b6d4', // cyan-500
+                            '#3b82f6', // blue-500
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+                    }
+                }
+            });
+
+            console.log("Initializing Photographer Chart...");
+            // 4. Photographer Workload (Bar)
+            const photoElement = document.getElementById('photographerChart');
+            if (!photoElement) console.error("photographerChart canvas not found!");
+            const ctxPhoto = photoElement.getContext('2d');
+            photographerChart = new Chart(ctxPhoto, {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($photographerLabels ?? []); ?>,
+                    datasets: [{
+                        label: 'Sesi Diselesaikan',
+                        data: <?php echo json_encode($photographerData ?? []); ?>,
+                        backgroundColor: '#0ea5e9', // sky-500
+                        borderRadius: 6,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal bar
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { stepSize: 1 } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            console.log("All charts initialized successfully.");
+        } catch (error) {
+            console.error("Error in initCharts:", error);
+            alert("Gagal memuat grafik: " + error.message);
+        }
+    }        
+
+
     // Tab switching engine
     function switchTab(tabId) {
         // Toggle tab panels display
@@ -725,46 +881,64 @@
         }, 3500);
     }
 
+    function updateFilter(val) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('filter', val);
+        window.history.pushState({}, '', url);
+        fetchDashboardData();
+    }
+
+    // Fetch real-time dashboard data (AJAX Polling)
+    function fetchDashboardData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentFilter = urlParams.get('filter') || document.getElementById('timeFilter').value || 'month';
+        
+        fetch('/admin/dashboard/data?filter=' + currentFilter)
+            .then(res => res.json())
+            .then(data => {
+                // Update Top Stats
+                if (document.getElementById('stat-revenue')) document.getElementById('stat-revenue').textContent = 'Rp ' + Number(data.totalRevenue).toLocaleString('id-ID');
+                if (document.getElementById('stat-pending')) document.getElementById('stat-pending').textContent = data.pendingBookingsCount;
+                if (document.getElementById('stat-services')) document.getElementById('stat-services').textContent = data.services.length;
+
+                // Update Recent Bookings Feed
+                if (document.getElementById('recent-bookings-list') && data.recentBookingsHtml) {
+                    document.getElementById('recent-bookings-list').innerHTML = data.recentBookingsHtml;
+                }
+
+                // Update Charts
+                if (revenueChart) {
+                    revenueChart.data.labels = data.monthlyRevenueLabels;
+                    revenueChart.data.datasets[0].data = data.monthlyRevenueData;
+                    revenueChart.update();
+                }
+                if (statusChart) {
+                    statusChart.data.labels = data.statusLabels;
+                    statusChart.data.datasets[0].data = data.statusData;
+                    statusChart.update();
+                }
+                if (serviceChart) {
+                    serviceChart.data.labels = data.serviceLabels;
+                    serviceChart.data.datasets[0].data = data.serviceData;
+                    serviceChart.update();
+                }
+                if (photographerChart) {
+                    photographerChart.data.labels = data.photographerLabels;
+                    photographerChart.data.datasets[0].data = data.photographerData;
+                    photographerChart.update();
+                }
+            })
+            .catch(err => console.error("Error polling dashboard data:", err));
+    }
+
     // Save functions to Local Storage
     function persistData(key, data) {
         localStorage.setItem(key, JSON.stringify(data));
-        updateOverviewStats();
     }
 
     // Update Overview Stats values
     function updateOverviewStats() {
-        // Stats calculations
-        let totalRevenue = 0;
-        let pendingCount = 0;
         
-        transactions.forEach(tx => {
-            if (tx.status === 'Confirmed' || tx.status === 'Completed') {
-                const numericPrice = parseInt(tx.amount.replace(/[^0-9]/g, ''));
-                totalRevenue += numericPrice;
-            }
-            if (tx.status === 'Pending') {
-                pendingCount++;
-            }
-        });
-
-        // Format to Indonesian Rupiah Millions/Thousands
-        let formattedRevenue = 'Rp ' + totalRevenue.toLocaleString('id-ID');
-
-        document.getElementById('stat-revenue').textContent = formattedRevenue;
-        document.getElementById('stat-pending').textContent = pendingCount;
-        
-        // Dynamic badge text for pending
-        const pendingBadge = document.getElementById('stat-pending-badge');
-        if (pendingCount > 0) {
-            pendingBadge.textContent = 'Butuh Tindakan Admin';
-            pendingBadge.className = 'text-[9px] font-black text-rose-400 mt-4 inline-block uppercase tracking-widest bg-rose-500/10 px-2.5 py-1 rounded border border-rose-500/20 animate-pulse shadow-sm shadow-rose-500/5';
-        } else {
-            pendingBadge.textContent = 'Semua Bersih';
-            pendingBadge.className = 'text-[9px] font-black text-slate-400 mt-4 inline-block uppercase tracking-widest bg-slate-800/50 px-2.5 py-1 rounded border border-slate-700/50';
-        }
-
-        document.getElementById('stat-services').textContent = <?php echo e(\App\Models\Service::count()); ?>;
-        document.getElementById('stat-customers').textContent = users.filter(u => u.role === 'customer').length;
     }
 
 
@@ -840,6 +1014,8 @@
         document.getElementById('form-user-role').value = 'customer';
         document.getElementById('form-user-password').value = '';
         document.getElementById('form-user-password').placeholder = 'Password (default: password)';
+        document.getElementById('form-user-password-confirmation').value = '';
+        document.getElementById('form-user-password-confirmation').parentElement.style.display = 'block';
         openModal('modal-user');
     }
 
@@ -854,6 +1030,8 @@
         document.getElementById('form-user-role').value = usr.role;
         document.getElementById('form-user-password').value = '';
         document.getElementById('form-user-password').placeholder = 'Kosongkan jika tidak ingin diubah';
+        document.getElementById('form-user-password-confirmation').value = '';
+        document.getElementById('form-user-password-confirmation').parentElement.style.display = 'none'; // Sembunyikan konfirmasi saat edit
         openModal('modal-user');
     }
 
@@ -863,9 +1041,15 @@
         const email = document.getElementById('form-user-email').value.trim();
         const role = document.getElementById('form-user-role').value;
         const password = document.getElementById('form-user-password').value;
+        const passwordConfirmation = document.getElementById('form-user-password-confirmation').value;
 
         if (!name || !email) {
             alert('Mohon isi seluruh data form secara lengkap!');
+            return;
+        }
+
+        if (index === -1 && password && password !== passwordConfirmation) {
+            alert('Konfirmasi password tidak cocok!');
             return;
         }
 
@@ -1028,11 +1212,22 @@
 
 
     // INITIALIZER
-    window.addEventListener('DOMContentLoaded', () => {
+    console.log("Running initializer...");
+    try {
         updateOverviewStats();
         renderUsers();
         switchTab('overview');
-    });
+        
+        // Wait for tab animation to finish before rendering charts
+        setTimeout(() => {
+            initCharts();
+            // Start AJAX Polling every 10 seconds
+            setInterval(fetchDashboardData, 10000);
+        }, 150);
+    } catch (e) {
+        alert("Error di Initializer: " + e.message);
+    }
+
 </script>
 <?php $__env->stopSection(); ?>
 
