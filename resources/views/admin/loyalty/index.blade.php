@@ -24,16 +24,16 @@
     <!-- Settings Loyalty Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-stretch">
         <!-- Points Multiplier Setup -->
-        <div class="lg:col-span-4 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50 flex flex-col justify-between">
+        <div class="lg:col-span-4 admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50 flex flex-col justify-between">
             <div>
                 <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-2">Skema Loyalitas</h4>
                 <h3 class="text-xl font-serif italic font-bold text-slate-900 mb-6">Konfigurasi Rasio Poin</h3>
                 <div class="space-y-6">
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-wider text-slate-755 mb-2">Nilai Transaksi per 1 Poin</label>
-                        <div class="relative rounded-2xl border border-slate-200 focus-within:border-amber-600 focus-within:ring-4 focus-within:ring-amber-500/10 overflow-hidden flex items-center px-4 bg-slate-50 transition-all duration-300">
-                            <span class="text-xs font-black text-slate-700 mr-2">Rp</span>
-                            <input type="number" id="setting-multiplier" value="{{ $multiplier }}" class="w-full bg-transparent py-3.5 text-xs font-semibold focus:outline-none text-slate-900">
+                        <div class="relative rounded-2xl border border-white focus-within:border-white focus-within:ring-4 focus-within:ring-white/20 overflow-hidden flex items-center px-4 bg-transparent transition-all duration-300">
+                            <span class="text-xs font-black text-white mr-2">Rp</span>
+                            <input type="number" id="setting-multiplier" value="{{ $multiplier }}" class="w-full bg-transparent border-0 py-3.5 text-xs font-semibold focus:outline-none text-white focus:ring-0" style="background-color: transparent !important;">
                         </div>
                     </div>
                     <div>
@@ -48,8 +48,8 @@
         </div>
 
         <!-- Loyalty Catalogue Table -->
-        <div class="lg:col-span-8 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100/50">
-            <div class="flex justify-between items-center mb-6">
+        <div class="lg:col-span-8 admin-card-blue bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden flex flex-col" style="border-left: 2px solid #111827 !important; border-right: 2px solid #111827 !important;">
+            <div class="flex justify-between items-center p-8 pb-6 bg-white">
                 <div>
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700">Katalog Voucher</h4>
                     <h3 class="text-xl font-serif italic font-bold text-slate-900 mt-1">Reward Penukaran Poin</h3>
@@ -59,23 +59,23 @@
                     Kelola Katalog
                 </a>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs border-collapse">
+            <div class="overflow-hidden flex-1">
+                <table class="w-full table-fixed text-left text-xs border-collapse">
                     <thead>
-                        <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                            <th class="px-4 py-4">Kode Voucher</th>
-                            <th class="px-4 py-4">Nama Reward</th>
-                            <th class="px-4 py-4">Biaya Poin</th>
-                            <th class="px-4 py-4">Status</th>
+                        <tr style="background: linear-gradient(135deg, #0f2942 0%, #0d3d5e 100%);">
+                            <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[22%]">Kode Voucher</th>
+                            <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[38%]">Nama Reward</th>
+                            <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[20%]">Biaya Poin</th>
+                            <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[20%]">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 font-semibold text-slate-800 bg-white">
+                    <tbody class="font-semibold text-slate-800 bg-white">
                         @forelse ($rewards as $reward)
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-4 py-3.5"><span class="bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-black uppercase tracking-widest font-sans inline-block shadow-sm">{{ $reward->code }}</span></td>
-                            <td class="px-4 py-3.5 text-slate-900">{{ $reward->name }}</td>
-                            <td class="px-4 py-3.5"><span class="text-amber-800 font-extrabold font-sans text-[10px] bg-amber-50 border border-amber-200 rounded-full px-3 py-1 inline-block shadow-sm">{{ $reward->points_required }} PTS</span></td>
-                            <td class="px-4 py-3.5">
+                        <tr class="hover:bg-slate-50 transition-colors border-b border-black">
+                            <td class="px-6 py-3.5"><span class="bg-slate-50 text-slate-800 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-black uppercase tracking-widest font-sans inline-block shadow-sm">{{ $reward->code }}</span></td>
+                            <td class="px-6 py-3.5 text-slate-900">{{ $reward->name }}</td>
+                            <td class="px-6 py-3.5"><span class="text-amber-800 font-extrabold font-sans text-[10px] bg-amber-50 border border-amber-200 rounded-full px-3 py-1 inline-block shadow-sm">{{ $reward->points_required }} PTS</span></td>
+                            <td class="px-6 py-3.5">
                                 @if ($reward->status === 'active')
                                     <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider inline-block shadow-sm">AKTIF</span>
                                 @else
@@ -85,7 +85,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-6 text-center text-slate-500 font-semibold italic text-xs">Belum ada reward terdaftar di database.</td>
+                            <td colspan="4" class="px-6 py-6 text-center text-slate-500 font-semibold italic text-xs">Belum ada reward terdaftar di database.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -95,7 +95,7 @@
     </div>
 
     <!-- Loyalty Points Table balance -->
-    <div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
+    <div class="admin-card-gold bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12" style="border-left: 2px solid #111827 !important; border-right: 2px solid #111827 !important;">
         <div class="p-6 sm:p-8 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
             <div>
                 <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-1">Database Poin</h4>
@@ -104,18 +104,18 @@
             <input type="text" id="search-loyalty" oninput="renderLoyalty()" placeholder="Cari pelanggan..." class="border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-2.5 text-xs focus:outline-none font-semibold min-w-[200px] bg-white text-slate-900 transition-all duration-300">
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+        <div class="overflow-hidden">
+            <table class="w-full table-fixed text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
-                        <th class="px-6 py-4">Pelanggan</th>
-                        <th class="px-6 py-4">Alamat Email</th>
-                        <th class="px-6 py-4">Total Poin Terkumpul</th>
-                        <th class="px-6 py-4">Tingkat Membership (Tier)</th>
-                        <th class="px-6 py-4 text-center">Aksi Penyesuaian</th>
+                    <tr style="background: linear-gradient(135deg, #0f2942 0%, #0d3d5e 100%);">
+                        <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[20%]">Pelanggan</th>
+                        <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[22%]">Alamat Email</th>
+                        <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[18%]">Total Poin</th>
+                        <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 w-[18%]">Tier Member</th>
+                        <th class="px-6 py-4 text-[9px] font-black uppercase tracking-widest text-amber-400 text-center w-[22%]">Aksi Penyesuaian</th>
                     </tr>
                 </thead>
-                <tbody id="loyalty-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-800 bg-white">
+                <tbody id="loyalty-table-body" class="text-xs font-semibold text-slate-800 bg-white">
                     <!-- Loaded dynamically -->
                 </tbody>
             </table>
@@ -135,17 +135,14 @@
             <input type="hidden" id="form-points-email">
             <input type="hidden" id="form-points-user-id">
             <div class="space-y-5">
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Metode Penyesuaian</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <button onclick="setPointsMethod('ADD')" id="btn-points-add" class="py-3.5 px-4 bg-amber-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center shadow-md shadow-amber-500/10 border border-amber-600">TAMBAH (+)</button>
-                        <button onclick="setPointsMethod('SUB')" id="btn-points-sub" class="py-3.5 px-4 border border-slate-200 hover:border-slate-350 font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center text-slate-500 hover:text-slate-700 bg-slate-50">KURANG (-)</button>
-                    </div>
-                    <input type="hidden" id="form-points-method" value="ADD">
-                </div>
+                <input type="hidden" id="form-points-method" value="ADD">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-2">Jumlah Poin</label>
-                    <input type="number" id="form-points-value" value="50" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-4 py-3.5 text-xs font-semibold focus:outline-none text-slate-900 transition-all duration-300">
+                    <div class="relative flex items-center">
+                        <button type="button" onclick="document.getElementById('form-points-value').stepDown()" class="absolute left-2 w-9 h-9 flex items-center justify-center bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl transition-all font-black text-lg focus:outline-none">-</button>
+                        <input type="number" id="form-points-value" value="50" min="1" class="w-full bg-slate-50 border border-slate-200 focus:border-amber-600 focus:ring-4 focus:ring-amber-500/10 rounded-2xl px-12 py-3.5 text-center text-lg font-bold focus:outline-none text-slate-900 transition-all duration-300">
+                        <button type="button" onclick="document.getElementById('form-points-value').stepUp()" class="absolute right-2 w-9 h-9 flex items-center justify-center bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl transition-all font-black text-lg focus:outline-none">+</button>
+                    </div>
                 </div>
             </div>
             <button onclick="savePointsAdjust()" class="bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-500 hover:to-amber-600 text-amber-800 hover:text-white font-black uppercase tracking-widest text-[9px] py-4 w-full rounded-2xl transition-all shadow-md shadow-amber-500/5 active:scale-95 mt-8 border border-amber-200">
@@ -271,7 +268,7 @@
 
         filtered.forEach(member => {
             const tr = document.createElement('tr');
-            tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-200 last:border-0';
+            tr.className = 'hover:bg-slate-50 transition-colors border-b border-black last:border-0';
 
             // Determine loyalty level tier
             let tierName = 'Bronze Member';
@@ -307,11 +304,11 @@
                 <td class="px-6 py-4 text-center">
                     <div class="flex items-center justify-center gap-2">
                         <button onclick="openPointsModal('${member.email}', '${member.name.replace(/'/g, "\\'")}', ${member.points}, ${member.id})" 
-                                class="px-3.5 py-2 bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">
+                                class="px-3.5 py-2 bg-amber-500 text-white border border-transparent hover:bg-amber-600 text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">
                             Sesuaikan Poin
                         </button>
                         <button onclick="openRedeemModal('${member.email}', '${member.name.replace(/'/g, "\\'")}', ${member.points}, ${member.id})" 
-                                class="px-3.5 py-2 bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-900 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">
+                                class="px-3.5 py-2 bg-slate-600 text-white border border-transparent hover:bg-slate-700 text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">
                             Klaim Voucher
                         </button>
                     </div>
@@ -360,23 +357,9 @@
         document.getElementById('modal-points-subtitle').textContent = `Customer: ${name} (${email}) - Poin Sekarang: ${points} pts`;
         document.getElementById('form-points-email').value = email;
         document.getElementById('form-points-user-id').value = id;
-        document.getElementById('form-points-value').value = 50;
-        setPointsMethod('ADD');
+        document.getElementById('form-points-value').value = points;
+        document.getElementById('form-points-method').value = 'SET';
         openModal('modal-points');
-    }
-
-    function setPointsMethod(method) {
-        document.getElementById('form-points-method').value = method;
-        const addBtn = document.getElementById('btn-points-add');
-        const subBtn = document.getElementById('btn-points-sub');
-
-        if (method === 'ADD') {
-            addBtn.className = 'py-3.5 px-4 bg-amber-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center shadow-md shadow-amber-500/10 border border-amber-600';
-            subBtn.className = 'py-3.5 px-4 border border-slate-200 hover:border-slate-350 font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center text-slate-500 hover:text-slate-700 bg-slate-50';
-        } else {
-            subBtn.className = 'py-3.5 px-4 bg-rose-600 text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center shadow-md shadow-rose-500/10 border border-rose-600';
-            addBtn.className = 'py-3.5 px-4 border border-slate-200 hover:border-slate-350 font-black text-xs uppercase tracking-wider rounded-2xl transition-all text-center text-slate-500 hover:text-slate-700 bg-slate-50';
-        }
     }
 
     function savePointsAdjust() {
@@ -384,12 +367,12 @@
         const value = parseInt(document.getElementById('form-points-value').value);
         const method = document.getElementById('form-points-method').value;
 
-        if (isNaN(value) || value < 1) {
-            alert('Jumlah poin harus berupa angka positif minimal 1!');
+        if (isNaN(value) || value < 0) {
+            alert('Jumlah poin harus berupa angka positif!');
             return;
         }
 
-        const actionParam = method === 'ADD' ? 'add' : 'sub';
+        const actionParam = method === 'SET' ? 'set' : (method === 'ADD' ? 'add' : 'sub');
 
         fetch(`/admin/users/${userId}/points`, {
             method: 'POST',

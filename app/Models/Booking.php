@@ -22,6 +22,7 @@ class Booking extends Model
         'requests',
         'addons',
         'result_link',
+        'review',
         'snap_token',
         'discount',
         'points_used',
@@ -53,6 +54,14 @@ class Booking extends Model
     public function photographer()
     {
         return $this->belongsTo(User::class, 'photographer_id');
+    }
+
+    /**
+     * Get the refund associated with the booking.
+     */
+    public function refund()
+    {
+        return $this->hasOne(Refund::class, 'booking_id');
     }
 
     /**

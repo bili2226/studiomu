@@ -27,7 +27,7 @@ class AuthEmailTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertRedirect('/menu-utama');
+        $response->assertRedirect(route('login'));
         $this->assertDatabaseHas('users', [
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',

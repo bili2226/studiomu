@@ -5,7 +5,13 @@
 @section('sidebar')
     <a href="{{ url('/photographer/jadwal') }}" class="sidebar-item sidebar-item-active flex items-center px-6 py-4 rounded-2xl mx-2">
         <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-        Jadwal Saya
+        <span class="font-bold">Jadwal Saya</span>
+    </a>
+    <a href="{{ route('photographer.reviews') }}" class="sidebar-item flex items-center px-6 py-4 rounded-2xl mx-2 mt-2 text-slate-500 hover:text-slate-900 transition-all">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
+        </svg>
+        <span class="font-bold">Ulasan Pelanggan</span>
     </a>
 @endsection
 
@@ -24,150 +30,152 @@
         </div>
     @endif
 
-    <div class="flex flex-col sm:flex-row gap-6 justify-between sm:items-center mb-12 animate-fade-in-up">
-        <div>
-            <h3 class="text-3xl font-serif italic font-bold tracking-tight text-slate-900">Jadwal Harian</h3>
-            <p class="text-amber-700 text-[10px] font-black uppercase tracking-[0.3em] mt-2">{{ date('d F Y') }}</p>
-        </div>
-        <div class="flex flex-wrap gap-4">
-            <span class="text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-800 px-4 py-2 rounded-xl border border-emerald-200 flex items-center gap-2">
-                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                {{ $completedCount }} Selesai
-            </span>
-            <span class="text-[10px] font-black uppercase tracking-widest bg-amber-50 text-amber-800 px-4 py-2 rounded-xl border border-amber-200 flex items-center gap-2">
-                <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
-                {{ $pendingCount }} Menunggu
-            </span>
-        </div>
-    </div>
-
-    <div class="space-y-6 animate-fade-in-up" style="animation-delay: 0.1s;">
-        @if($bookings->isEmpty())
-            <div class="bg-white border border-slate-200 rounded-[2rem] p-12 text-center text-slate-400 shadow-sm">
-                <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5"/></svg>
-                <p class="text-sm font-semibold mb-1">Belum Ada Sesi Pemotretan</p>
-                <p class="text-xs">Anda belum ditugaskan untuk sesi pemotretan apa pun oleh admin.</p>
+    <div class="bg-slate-900 rounded-[2rem] border-[3px] border-black shadow-2xl shadow-slate-900/50 mb-12 animate-fade-in-up overflow-hidden flex flex-col" style="animation-delay: 0.1s;">
+        <!-- Header Hitam -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-8 bg-slate-900 border-b-[2.5px] border-black">
+            <div>
+                <span class="inline-flex items-center px-3 py-1.5 bg-slate-800 text-slate-300 text-[9px] font-black uppercase tracking-[0.2em] rounded-lg mb-2 border border-slate-700">
+                    Tugas & Jadwal
+                </span>
+                <h3 class="text-2xl font-serif italic font-bold tracking-tight text-amber-400">
+                    Daftar Sesi Pemotretan
+                </h3>
             </div>
-        @else
-            @foreach($bookings as $booking)
-                @php
-                    $isCompleted = $booking->status === 'Completed';
-                    $isCancelled = $booking->status === 'Cancelled';
-                    $isPending = $booking->status === 'Pending';
-                    $isConfirmed = $booking->status === 'Confirmed';
-                @endphp
-
-                @if($isCompleted || $isCancelled)
-                    {{-- Completed/Cancelled Session Card (Dimmed/Grayed out) --}}
-                    <div class="bg-slate-50 rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between shadow-sm border border-slate-200 opacity-60 grayscale gap-6 md:gap-0">
-                        <div class="flex flex-col sm:flex-row items-center sm:text-left text-center gap-6 sm:gap-12 w-full md:w-auto">
-                            <div class="sm:pr-12 sm:border-r border-slate-200 pb-4 sm:pb-0 border-b sm:border-b-0 w-full sm:w-auto">
-                                <p class="text-xl font-black text-slate-600 font-sans">{{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}</p>
-                                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mt-1 font-sans">{{ $booking->booking_date->format('d M Y') }}</p>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="text-lg font-black text-slate-600">{{ $booking->service_name }}</h4>
-                                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 mt-2">
-                                    <p class="text-[10px] font-bold text-slate-650 uppercase tracking-widest">Klien: <span class="text-slate-900 font-semibold">{{ $booking->user->name ?? 'User Terhapus' }}</span></p>
-                                    @if($booking->requests)
-                                        <span class="hidden sm:inline w-1 h-1 bg-slate-300 rounded-full"></span>
-                                        <p class="text-[10px] text-slate-600 font-medium italic">"{{ Str::limit($booking->requests, 40) }}"</p>
-                                    @endif
-                                </div>
-                                @if(!empty($booking->addons) && is_array($booking->addons))
-                                    <div class="mt-2 flex flex-wrap gap-1 justify-center sm:justify-start">
-                                        @foreach($booking->addons as $addon)
-                                            @if(($addon['qty'] ?? 0) > 0)
-                                                <span class="inline-flex items-center px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[9px] text-slate-600 font-bold">
-                                                    + {{ $addon['name'] }} ({{ $addon['qty'] }}x)
-                                                </span>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 border-t border-slate-200 pt-4 md:pt-0 md:border-t-0 w-full md:w-auto">
-                            <button onclick="showBookingDetail('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}', '{{ $booking->status }}', '{{ addslashes($booking->requests ?? '') }}', '{{ $booking->result_link ?? '' }}', '{{ e(json_encode($booking->addons ?? [])) }}')" 
-                                class="text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1 w-full sm:w-auto cursor-pointer">
-                                Lihat Detail
-                            </button>
-                            <span class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border {{ $isCompleted ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-rose-50 text-rose-800 border-rose-200' }}">
-                                {{ $isCompleted ? 'Selesai' : 'Dibatalkan' }}
-                            </span>
-                        </div>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-xs font-black text-slate-300">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full bg-amber-500 border border-amber-600"></span>
+                        <span class="text-[10px]">Menunggu</span>
                     </div>
-                @else
-                    {{-- Active Session Card (Vibrant/Colored) --}}
-                    <div class="bg-white rounded-[2rem] p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between border border-slate-200 shadow-md shadow-slate-100/80 hover:shadow-lg hover:shadow-slate-200/50 hover:-translate-y-1.5 transition-all duration-300 group gap-6 md:gap-0 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full blur-2xl group-hover:bg-amber-100/50 transition-all duration-500"></div>
-                        <div class="flex flex-col sm:flex-row items-center sm:text-left text-center gap-6 sm:gap-12 relative z-10 w-full md:w-auto">
-                            <div class="sm:pr-12 sm:border-r border-slate-200 pb-4 sm:pb-0 border-b sm:border-b-0 w-full sm:w-auto">
-                                <p class="text-2xl font-black text-slate-900 font-sans">{{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}</p>
-                                <p class="text-[9px] font-black text-amber-700 uppercase tracking-widest mt-1 font-sans">{{ $booking->booking_date->format('d M Y') }}</p>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="text-lg font-serif italic font-bold text-slate-900 group-hover:text-amber-800 transition-colors">{{ $booking->service_name }}</h4>
-                                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 mt-2">
-                                    <p class="text-[10px] font-bold text-slate-650 uppercase tracking-widest">Klien: <span class="text-slate-900 font-semibold">{{ $booking->user->name ?? 'User Terhapus' }}</span></p>
-                                    @if($booking->requests)
-                                        <span class="hidden sm:inline w-1 h-1 bg-slate-300 rounded-full"></span>
-                                        <p class="text-[10px] text-slate-600 font-medium italic">"{{ $booking->requests }}"</p>
-                                    @endif
-                                </div>
-                                @if(!empty($booking->addons) && is_array($booking->addons))
-                                    <div class="mt-2 flex flex-wrap gap-1 justify-center sm:justify-start">
-                                        @foreach($booking->addons as $addon)
-                                            @if(($addon['qty'] ?? 0) > 0)
-                                                <span class="inline-flex items-center px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[9px] text-slate-600 font-bold">
-                                                    + {{ $addon['name'] }} ({{ $addon['qty'] }}x)
-                                                </span>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 border-t border-slate-100 pt-4 md:pt-0 md:border-t-0 w-full md:w-auto relative z-10">
-                            <button onclick="showBookingDetail('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}', '{{ $booking->status }}', '{{ addslashes($booking->requests ?? '') }}', '{{ $booking->result_link ?? '' }}', '{{ e(json_encode($booking->addons ?? [])) }}')" 
-                                class="text-[10px] font-black uppercase tracking-widest text-slate-650 hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1 w-full sm:w-auto cursor-pointer">
-                                Lihat Detail
-                            </button>
-                            @if($isConfirmed)
-                                <form action="{{ route('photographer.bookings.complete', $booking->id) }}" method="POST" class="w-full sm:w-auto" onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan sesi pemotretan ini?')">
-                                    @csrf
-                                    <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white border border-amber-600 px-8 sm:px-10 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-md shadow-amber-900/10 active:scale-95 w-full sm:w-auto cursor-pointer">
-                                        Selesaikan Sesi
-                                    </button>
-                                </form>
-                            @else
-                                <span class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border bg-amber-50 text-amber-800 border-amber-250">
-                                    {{ $booking->status }}
-                                </span>
-                            @endif
-                        </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 border border-emerald-600"></span>
+                        <span class="text-[10px]">Selesai</span>
                     </div>
-                @endif
-            @endforeach
-        @endif
-    </div>
-
-    <div class="mt-24 animate-fade-in-up" style="animation-delay: 0.2s;">
-        <h4 class="text-[11px] font-black uppercase tracking-[0.4em] mb-10 text-slate-650 text-center">Ringkasan Mingguan</h4>
-        <div class="flex overflow-x-auto pb-4 gap-4 snap-x md:grid md:grid-cols-7 md:gap-6 md:pb-0 md:overflow-x-visible">
-            @for ($i = 0; $i < 7; $i++)
-                <div class="flex-shrink-0 snap-center min-w-[100px] md:min-w-0 md:flex-shrink-1 bg-gradient-to-b {{ $i == 0 ? 'from-amber-50 to-white border-amber-400 shadow-md shadow-amber-100' : 'from-white to-slate-50/50 border-slate-200 shadow-sm' }} p-6 md:p-8 rounded-3xl border text-center group hover-lift transition-all duration-300">
-                    <p class="text-[10px] font-black {{ $i == 0 ? 'text-amber-800' : 'text-slate-600' }} uppercase tracking-widest">{{ date('D', strtotime("+$i days")) }}</p>
-                    <p class="text-2xl font-black mt-3 {{ $i == 0 ? 'text-amber-900 font-extrabold' : 'text-slate-900' }}">{{ date('d', strtotime("+$i days")) }}</p>
-                    @if($i == 0 || $i == 2)
-                    <div class="flex justify-center mt-5 gap-1.5">
-                        <div class="w-1.5 h-1.5 bg-amber-600 rounded-full shadow-sm shadow-amber-500/30 animate-pulse"></div>
-                        <div class="w-1.5 h-1.5 bg-amber-600/60 rounded-full"></div>
-                    </div>
-                    @endif
                 </div>
-            @endfor
+                <div class="relative w-full sm:w-auto ml-0 sm:ml-2">
+                    <select id="booking-time-filter" onchange="filterBookings(this.value)" class="appearance-none w-full sm:w-36 bg-slate-800 border border-slate-700 text-amber-400 text-[9px] font-bold rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 cursor-pointer shadow-sm uppercase tracking-wider">
+                        <option value="all">Semua Waktu</option>
+                        <option value="today">Hari Ini</option>
+                        <option value="this_week">Minggu Ini</option>
+                        <option value="this_month">Bulan Ini</option>
+                        <option value="this_year">Tahun Ini</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-amber-500">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 w-full" style="background-color: #ffffff !important;">
+            @if($bookings->isEmpty())
+                <div class="text-center py-16 px-8">
+                    <div class="w-16 h-16 border border-slate-200 rounded-[1.2rem] flex items-center justify-center mx-auto mb-4 shadow-sm" style="background-color: #ffffff !important; color: #94a3b8 !important;">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-wider" style="color: #0f172a !important;">Belum Ada Sesi Pemotretan</p>
+                    <p class="text-[11px] font-medium mt-1" style="color: #64748b !important;">Anda belum ditugaskan untuk sesi pemotretan apa pun oleh admin.</p>
+                </div>
+            @else
+                <div class="overflow-x-auto w-full">
+                    <table class="w-full text-xs border-collapse">
+                        <thead style="background-color: #000000 !important;">
+                            <tr class="border-b" style="border-color: #000000 !important;">
+                                <th class="text-left text-[9px] font-black uppercase tracking-widest py-4 pr-4 pl-8" style="color: #fbbf24 !important;">ID / Waktu</th>
+                                <th class="text-left text-[9px] font-black uppercase tracking-widest py-4 pr-4" style="color: #fbbf24 !important;">Layanan & Klien</th>
+                                <th class="text-left text-[9px] font-black uppercase tracking-widest py-4 pr-4" style="color: #fbbf24 !important;">Catatan Tambahan</th>
+                                <th class="text-center text-[9px] font-black uppercase tracking-widest py-4 pr-4" style="color: #fbbf24 !important;">Status</th>
+                                <th class="text-right text-[9px] font-black uppercase tracking-widest py-4 pr-8" style="color: #fbbf24 !important;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-semibold">
+                            @foreach($bookings as $booking)
+                                @php
+                                    $isCompleted = $booking->status === 'Completed';
+                                    $isCancelled = $booking->status === 'Cancelled';
+                                    $isPending = $booking->status === 'Pending';
+                                    $isConfirmed = $booking->status === 'Confirmed';
+                                    
+                                    $statusClass = 'px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full inline-block leading-none shadow-sm';
+                                    $statusText = $booking->status;
+                                    
+                                    if ($isPending) {
+                                        $statusClass .= ' bg-amber-500 text-white border-transparent';
+                                        $statusText = 'Pending';
+                                    } elseif ($isConfirmed) {
+                                        $statusClass .= ' bg-sky-500 text-white border-transparent';
+                                        $statusText = 'Terkonfirmasi';
+                                    } elseif ($isCompleted) {
+                                        $statusClass .= ' bg-emerald-500 text-white border-transparent';
+                                        $statusText = 'Selesai';
+                                    } else {
+                                        $statusClass .= ' bg-rose-600 text-white border-transparent';
+                                        $statusText = 'Dibatalkan';
+                                    }
+                                @endphp
+                                <tr class="group transition-colors border-b" style="border-color: #000000 !important; background-color: {{ $isCompleted || $isCancelled ? '#f8fafc' : '#ffffff' }} !important;" data-date="{{ $booking->booking_date->format('Y-m-d') }}">
+                                    <td class="py-4 pr-4 pl-8 text-xs align-top">
+                                        <p class="font-bold font-sans tracking-wide" style="color: #0f172a !important;">BOOK-{{ $booking->id }}</p>
+                                        <p class="mt-2 font-sans font-black" style="color: #475569 !important;">{{ $booking->booking_date->format('d M Y') }}</p>
+                                        <p class="font-medium text-[10px]" style="color: #64748b !important;">{{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }} WIB</p>
+                                    </td>
+                                    <td class="py-4 pr-4 text-xs align-top">
+                                        <p class="font-bold leading-snug" style="color: #0f172a !important;">{{ $booking->service_name }}</p>
+                                        <p class="text-[10px] font-bold uppercase tracking-wider mt-1" style="color: #64748b !important;">Klien: <span style="color: #1e293b !important;">{{ $booking->user->name ?? 'User Terhapus' }}</span></p>
+                                    </td>
+                                    <td class="py-4 pr-4 text-xs align-top">
+                                        @if($booking->requests)
+                                            <p class="text-[10px] font-medium italic mb-1" style="color: #475569 !important;">"{{ $booking->requests }}"</p>
+                                        @endif
+                                        @if(!empty($booking->addons) && is_array($booking->addons))
+                                            <div class="flex flex-wrap gap-1 mt-1">
+                                                @foreach($booking->addons as $addon)
+                                                    @if(($addon['qty'] ?? 0) > 0)
+                                                        <span class="inline-flex items-center px-1.5 py-0.5 border rounded text-[9px] font-bold" style="background-color: #f1f5f9 !important; border-color: #e2e8f0 !important; color: #475569 !important;">
+                                                            + {{ $addon['name'] }} ({{ $addon['qty'] }}x)
+                                                        </span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                        @if(!$booking->requests && empty($booking->addons))
+                                            <span class="italic text-[10px]" style="color: #94a3b8 !important;">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="py-4 pr-4 text-center align-middle">
+                                        <span class="{{ $statusClass }}">{{ $statusText }}</span>
+                                    </td>
+                                    <td class="py-4 text-right pr-8 align-middle">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <button onclick="showBookingDetail('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}', '{{ $booking->status }}', '{{ addslashes($booking->requests ?? '') }}', '{{ $booking->result_link ?? '' }}', '{{ e(json_encode($booking->addons ?? [])) }}', '{{ addslashes($booking->review ?? '') }}')" 
+                                                class="px-4 py-2 hover:bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-colors cursor-pointer shadow-sm" style="background-color: #1e293b !important;">
+                                                Detail
+                                            </button>
+                                            
+                                            @if($isConfirmed)
+                                                <form action="{{ route('photographer.bookings.complete', $booking->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan sesi pemotretan ini?')">
+                                                    @csrf
+                                                    <button type="submit" class="px-4 py-2 hover:bg-emerald-600 text-white font-black uppercase tracking-widest text-[9px] rounded-full shadow-sm transition-all active:scale-95 cursor-pointer border-none flex items-center gap-1" style="background-color: #10b981 !important;">
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                                                        Selesaikan
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+        
+        <!-- Footer Hitam -->
+        <div class="h-10 bg-slate-900 border-t-[2.5px] border-black w-full"></div>
     </div>
 @endsection
 
@@ -214,6 +222,10 @@
                     <span class="text-slate-500 uppercase tracking-wider text-[9px]">Layanan Tambahan (Add-ons)</span>
                     <div id="modal-addons-list" class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col gap-2 text-slate-700 font-medium"></div>
                 </div>
+                <div id="modal-review-container" class="hidden flex flex-col gap-2 pt-2">
+                    <span class="text-emerald-600 uppercase tracking-wider text-[9px] font-black">Ulasan Evaluasi Klien</span>
+                    <p id="modal-review" class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 italic text-emerald-800 font-medium leading-relaxed text-xs"></p>
+                </div>
             </div>
 
             <div class="pt-6" id="modal-link-section">
@@ -235,7 +247,7 @@
 
 @section('scripts')
 <script>
-    function showBookingDetail(id, client, email, service, date, status, requests, link, addonsJson) {
+    function showBookingDetail(id, client, email, service, date, status, requests, link, addonsJson, reviewText) {
         document.getElementById('modal-booking-id').textContent = '#' + id;
         document.getElementById('modal-client-name').textContent = client;
         document.getElementById('modal-client-email').textContent = email;
@@ -293,6 +305,16 @@
             addonsContainer.classList.add('hidden');
         }
 
+        // Review Section Setup
+        const reviewContainer = document.getElementById('modal-review-container');
+        const reviewTextEl = document.getElementById('modal-review');
+        if (reviewText) {
+            reviewContainer.classList.remove('hidden');
+            reviewTextEl.textContent = '"' + reviewText + '"';
+        } else {
+            reviewContainer.classList.add('hidden');
+        }
+
         // Link Section Form Setup
         const linkSection = document.getElementById('modal-link-section');
         const form = document.getElementById('modal-link-form');
@@ -344,6 +366,47 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
             document.body.style.overflow = '';
         }, 300);
+    }
+    function filterBookings(filter) {
+        const rows = document.querySelectorAll('tbody tr');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Calculate start of week (Sunday)
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay());
+        
+        // Calculate end of week (Saturday)
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+        rows.forEach(row => {
+            const dateStr = row.getAttribute('data-date');
+            if (!dateStr) return;
+
+            const rowDate = new Date(dateStr);
+            rowDate.setHours(0, 0, 0, 0);
+            
+            let show = false;
+
+            if (filter === 'all') {
+                show = true;
+            } else if (filter === 'today') {
+                show = rowDate.getTime() === today.getTime();
+            } else if (filter === 'this_week') {
+                show = rowDate >= startOfWeek && rowDate <= endOfWeek;
+            } else if (filter === 'this_month') {
+                show = rowDate.getMonth() === today.getMonth() && rowDate.getFullYear() === today.getFullYear();
+            } else if (filter === 'this_year') {
+                show = rowDate.getFullYear() === today.getFullYear();
+            }
+
+            if (show) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     }
 </script>
 @endsection

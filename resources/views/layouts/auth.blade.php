@@ -214,7 +214,7 @@
     <div class="auth-right">
 
         {{-- Mobile top bar --}}
-        <div class="lg:hidden flex items-center justify-between px-6 pt-5 pb-3 border-b border-slate-100 flex-shrink-0">
+        <div class="lg:hidden flex items-center justify-between px-6 pt-5 pb-3 border-b border-white flex-shrink-0">
             <a href="/"><img src="{{ asset('img/logo.png') }}" alt="Studio.mu" class="h-7 w-auto"></a>
             <a href="/" class="flex items-center text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-slate-900 transition-colors group">
                 <svg class="w-3.5 h-3.5 mr-1.5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,7 +242,7 @@
         </div>
 
         {{-- Mobile footer --}}
-        <div class="lg:hidden border-t border-slate-100 py-4 px-6 text-center text-[9px] font-bold uppercase tracking-widest text-slate-400 flex-shrink-0">
+        <div class="lg:hidden border-t border-white py-4 px-6 text-center text-[9px] font-bold uppercase tracking-widest text-slate-400 flex-shrink-0">
             <p>&copy; {{ date('Y') }} Studio.mu Visual Art</p>
         </div>
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\Refund;
 use App\Models\User;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -105,8 +107,23 @@ class BookingController extends Controller
             'addons' => $addons,
         ]);
 
+        // Notify all admins about new booking
+        NotificationController::notifyAdmins(
+            'booking_new',
+            '📋 Booking Baru Masuk',
+            'Booking baru #' . $bookingId . ' dari ' . $user->name . ' untuk ' . $request->service_title . ' pada ' . $bookingDate . '.',
+            route('admin.bookings.index')
+        );
+
         if ($amount === 0) {
             $booking->update(['status' => 'Confirmed']);
+            // Notify customer
+            NotificationController::notify(
+                $user->id, 'booking_confirmed',
+                '✅ Booking Terkonfirmasi',
+                'Booking #' . $bookingId . ' Anda telah terkonfirmasi menggunakan potongan poin penuh!',
+                route('customer.history')
+            );
             return response()->json([
                 'success' => true,
                 'booking' => $booking,
@@ -174,6 +191,24 @@ class BookingController extends Controller
         $booking->status = $request->status;
         $booking->save();
 
+        // Notify the booking's customer about the status change
+        if ($booking->user) {
+            $messages = [
+                'Confirmed'  => ['✅ Booking Terkonfirmasi', 'Booking #' . $booking->id . ' Anda telah dikonfirmasi oleh admin. Sampai jumpa di sesi foto!'],
+                'Cancelled'  => ['❌ Booking Dibatalkan', 'Booking #' . $booking->id . ' Anda telah dibatalkan. Hubungi admin untuk informasi lebih lanjut.'],
+                'Completed'  => ['🎉 Sesi Foto Selesai', 'Sesi foto untuk booking #' . $booking->id . ' telah selesai. Terima kasih telah menggunakan Studio.mu!'],
+            ];
+            if (isset($messages[$request->status])) {
+                NotificationController::notify(
+                    $booking->user->id,
+                    'booking_' . strtolower($request->status),
+                    $messages[$request->status][0],
+                    $messages[$request->status][1],
+                    route('customer.history')
+                );
+            }
+        }
+
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -196,6 +231,29 @@ class BookingController extends Controller
 
         return redirect()->route('admin.bookings.index')
             ->with('success', 'Status booking ' . $booking->id . ' berhasil diubah menjadi ' . $displayStatus . '!');
+    }
+
+    /**
+     * Submit a review for a completed booking.
+     */
+    public function submitReview(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+        
+        // Only allow submitting review if the booking is completed
+        if ($booking->status !== 'Completed') {
+            return response()->json(['success' => false, 'message' => 'Hanya booking yang selesai yang bisa diulas.']);
+        }
+
+        $request->validate([
+            'review' => 'required|string',
+        ]);
+
+        $booking->update([
+            'review' => $request->review,
+        ]);
+
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -265,7 +323,8 @@ class BookingController extends Controller
                 'points_used' => $booking->points_used,
                 'points_earned' => $booking->points_earned,
                 'result_link' => $booking->result_link ?? '',
-                'addons' => $booking->addons
+                'addons' => $booking->addons,
+                'raw_date' => $booking->booking_date->format('Y-m-d H:i:s')
             ];
         }) : collect();
 
@@ -274,6 +333,7 @@ class BookingController extends Controller
 
     /**
      * Photographer mark an assigned booking session as Completed.
+     * Only allowed on the same calendar day as the booking_date.
      */
     public function completeSession(Request $request, $id)
     {
@@ -288,6 +348,17 @@ class BookingController extends Controller
 
         if ($booking->status !== 'Confirmed') {
             return redirect()->back()->with('error', 'Hanya sesi terkonfirmasi yang dapat diselesaikan.');
+        }
+
+        // Validate: can only complete on the same calendar day as the booking
+        $bookingDay = $booking->booking_date->toDateString();   // e.g. 2026-06-24
+        $today      = now()->toDateString();
+
+        if ($bookingDay !== $today) {
+            $formattedDay = $booking->booking_date->translatedFormat('l, d F Y');
+            return redirect()->back()->with('error',
+                'Sesi ' . $booking->id . ' hanya dapat diselesaikan pada hari sesi berlangsung, yaitu ' . $formattedDay . '.'
+            );
         }
 
         $booking->status = 'Completed';
@@ -321,5 +392,134 @@ class BookingController extends Controller
         $booking->save();
 
         return redirect()->back()->with('success', 'Link hasil foto untuk booking ' . $booking->id . ' berhasil diperbarui!');
+    }
+    /**
+     * Check cancel eligibility info (JSON API for modal).
+     */
+    public function checkCancelInfo($id)
+    {
+        $user = Auth::user();
+        $booking = Booking::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+
+        if (!in_array($booking->status, ['Pending', 'Confirmed'])) {
+            return response()->json(['eligible' => false, 'error' => 'Booking tidak dapat dibatalkan.'], 422);
+        }
+
+        $hoursUntilSession = now()->diffInHours($booking->booking_date, false);
+        $eligibleForRefund = $hoursUntilSession >= 24;
+        $refundAmount = $eligibleForRefund ? (int) round($booking->amount * 0.7) : 0;
+
+        return response()->json([
+            'eligible_for_refund' => $eligibleForRefund,
+            'hours_until_session' => $hoursUntilSession,
+            'total_amount'        => $booking->amount,
+            'refund_amount'       => $refundAmount,
+            'booking_id'          => $booking->id,
+            'service_name'        => $booking->service_name,
+            'booking_date'        => $booking->booking_date->format('d M Y, H:i'),
+        ]);
+    }
+
+    /**
+     * Customer cancel a booking.
+     */
+    public function cancelBooking(Request $request, $id)
+    {
+        $user = Auth::user();
+        $booking = Booking::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+
+        if (!in_array($booking->status, ['Pending', 'Confirmed'])) {
+            return response()->json(['success' => false, 'message' => 'Booking tidak dapat dibatalkan karena statusnya sudah ' . $booking->status . '.'], 422);
+        }
+
+        $hoursUntilSession = now()->diffInHours($booking->booking_date, false);
+        $eligibleForRefund = $hoursUntilSession >= 24;
+
+        if ($eligibleForRefund) {
+            $request->validate([
+                'bank_name'        => 'required|string|max:100',
+                'account_number'   => 'required|string|max:50',
+                'account_holder'   => 'required|string|max:100',
+            ], [
+                'bank_name.required'      => 'Nama bank wajib diisi.',
+                'account_number.required' => 'Nomor rekening wajib diisi.',
+                'account_holder.required' => 'Nama pemilik rekening wajib diisi.',
+            ]);
+
+            $refundAmount = (int) round($booking->amount * 0.7);
+
+            // Create refund record
+            Refund::create([
+                'booking_id'      => $booking->id,
+                'amount'          => $refundAmount,
+                'bank_name'       => $request->bank_name,
+                'account_number'  => $request->account_number,
+                'account_holder'  => $request->account_holder,
+                'status'          => 'pending',
+            ]);
+
+            // Notify admins about pending refund
+            NotificationController::notifyAdmins(
+                'refund_request',
+                '💰 Permintaan Refund Baru',
+                'Booking #' . $booking->id . ' atas nama ' . $user->name . ' telah dibatalkan dan mengajukan refund sebesar Rp ' . number_format($refundAmount, 0, ',', '.') . '. Silakan proses di halaman Kelola Refund.',
+                route('admin.refunds.index')
+            );
+        }
+
+        // Cancel the booking — this also triggers points refund in Booking::booted()
+        $booking->update(['status' => 'Cancelled']);
+
+        // Notify the customer
+        $message = $eligibleForRefund
+            ? 'Booking #' . $booking->id . ' berhasil dibatalkan. Permintaan refund sebesar Rp ' . number_format((int) round($booking->amount * 0.7), 0, ',', '.') . ' sedang diproses oleh admin.'
+            : 'Booking #' . $booking->id . ' berhasil dibatalkan. Sesuai kebijakan Studio.mu, pembatalan kurang dari 24 jam sebelum sesi tidak mendapatkan refund.';
+
+        NotificationController::notify(
+            $user->id,
+            'booking_cancelled',
+            '❌ Booking Dibatalkan',
+            $message,
+            route('customer.history')
+        );
+
+        return response()->json([
+            'success'           => true,
+            'eligible_for_refund' => $eligibleForRefund,
+            'message'           => $eligibleForRefund
+                ? 'Booking berhasil dibatalkan. Permintaan refund Anda sedang diproses oleh admin.'
+                : 'Booking berhasil dibatalkan.',
+        ]);
+    }
+
+    public function customerReviews()
+    {
+        $user = auth()->user();
+        if (!$user || $user->role !== 'customer') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $reviews = $user->bookings()
+            ->whereNotNull('review')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('customer.reviews', compact('reviews'));
+    }
+
+    public function photographerReviews()
+    {
+        $user = auth()->user();
+        if (!$user || $user->role !== 'photographer') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $reviews = Booking::with('user')
+            ->where('photographer_id', $user->id)
+            ->whereNotNull('review')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('photographer.reviews', compact('reviews'));
     }
 }

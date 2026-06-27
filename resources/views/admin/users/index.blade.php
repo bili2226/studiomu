@@ -38,7 +38,7 @@
 {{-- Stats Cards --}}
 <div class="grid grid-cols-3 gap-4 mb-6">
     <a href="{{ route('admin.users.index', ['role' => 'admin', 'search' => $search]) }}"
-        class="group bg-white border-2 {{ $role === 'admin' ? 'border-violet-400 bg-violet-50/40' : 'border-amber-300 hover:border-violet-300' }} rounded-2xl p-5 text-center shadow-sm transition-all">
+        class="admin-filter-card group bg-white border-2 {{ $role === 'admin' ? 'border-violet-400 bg-violet-50/40' : 'border-amber-300 hover:border-violet-300' }} rounded-2xl p-5 text-center shadow-sm transition-all">
         <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center mx-auto mb-2">
             <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
         </div>
@@ -46,7 +46,7 @@
         <p class="text-[10px] font-bold uppercase tracking-widest {{ $role === 'admin' ? 'text-violet-500' : 'text-slate-400' }} mt-0.5">Admin</p>
     </a>
     <a href="{{ route('admin.users.index', ['role' => 'photographer', 'search' => $search]) }}"
-        class="group bg-white border-2 {{ $role === 'photographer' ? 'border-sky-400 bg-sky-50/40' : 'border-amber-300 hover:border-sky-300' }} rounded-2xl p-5 text-center shadow-sm transition-all">
+        class="admin-filter-card group bg-white border-2 {{ $role === 'photographer' ? 'border-sky-400 bg-sky-50/40' : 'border-amber-300 hover:border-sky-300' }} rounded-2xl p-5 text-center shadow-sm transition-all">
         <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center mx-auto mb-2">
             <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         </div>
@@ -54,7 +54,7 @@
         <p class="text-[10px] font-bold uppercase tracking-widest {{ $role === 'photographer' ? 'text-sky-500' : 'text-slate-400' }} mt-0.5">Fotografer</p>
     </a>
     <a href="{{ route('admin.users.index', ['role' => 'customer', 'search' => $search]) }}"
-        class="group bg-white border-2 {{ $role === 'customer' ? 'border-amber-400 bg-amber-50/40' : 'border-amber-300 hover:border-amber-300' }} rounded-2xl p-5 text-center shadow-sm transition-all">
+        class="admin-filter-card group bg-white border-2 {{ $role === 'customer' ? 'border-amber-400 bg-amber-50/40' : 'border-amber-300 hover:border-amber-300' }} rounded-2xl p-5 text-center shadow-sm transition-all">
         <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-2">
             <svg class="w-4 h-4 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </div>
@@ -64,7 +64,7 @@
 </div>
 
 {{-- Main Panel --}}
-<div class="bg-white border border-amber-300 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
+<div class="admin-card-slate bg-white border border-amber-300 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12" style="border-left: 2px solid #111827 !important; border-right: 2px solid #111827 !important;">
 
     {{-- Search & Filter Bar --}}
     <div class="p-5 sm:p-6 border-b border-slate-100 bg-slate-50/60">
@@ -104,7 +104,7 @@
             </button>
             @if ($search || $role)
                 <a href="{{ route('admin.users.index') }}"
-                    class="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 font-bold text-[10px] px-3 py-2.5 rounded-xl border border-amber-300 hover:border-slate-400 transition-all flex-shrink-0">
+                    class="flex items-center gap-1.5 bg-slate-200 text-slate-900 hover:bg-slate-300 font-bold text-[10px] px-3 py-2.5 rounded-xl border border-slate-300 hover:border-slate-400 transition-all flex-shrink-0">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
                     Reset
                 </a>
@@ -113,8 +113,8 @@
     </div>
 
     {{-- Result Info --}}
-    <div class="px-6 pt-4 pb-2 flex items-center justify-between">
-        <p class="text-[10px] font-semibold text-slate-900">
+    <div class="admin-meta-info px-6 flex items-center justify-between">
+        <p class="text-xs font-bold text-white tracking-wide">
             Menampilkan <strong class="text-slate-900">{{ $users->count() }}</strong> user
             @if ($search) • pencarian "<strong class="text-amber-800">{{ $search }}</strong>" @endif
             @if ($role) • filter "<strong class="text-amber-800">{{ ucfirst($role) }}</strong>" @endif
@@ -122,9 +122,9 @@
     </div>
 
     {{-- Table --}}
-    <div class="px-6 pb-6">
+    <div class="pb-6">
         @if ($users->isEmpty())
-            <div class="text-center py-16 text-slate-400">
+            <div class="text-center py-16 text-slate-400 px-6">
                 <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/>
                 </svg>
@@ -132,23 +132,23 @@
                 <p class="text-xs">Coba ubah kata kunci pencarian atau filter.</p>
             </div>
         @else
-            <div class="overflow-x-auto">
-                <table class="w-full text-xs">
+            <div class="overflow-hidden">
+                <table class="w-full table-fixed text-xs border-collapse">
                     <thead>
-                        <tr class="border-b border-slate-100">
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Nama</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Email</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Role</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Poin</th>
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pr-4 pt-2">Bergabung</th>
-                            <th class="text-right text-[9px] font-black uppercase tracking-widest text-slate-900 pb-3 pt-2">Aksi</th>
+                        <tr style="background: linear-gradient(135deg, #0f2942 0%, #0d3d5e 100%);">
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-amber-400 py-4 pr-4 pl-6 w-[22%]">Nama</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-amber-400 py-4 pr-4 w-[24%]">Email</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-amber-400 py-4 pr-4 w-[14%]">Role</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-amber-400 py-4 pr-4 w-[10%]">Poin</th>
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-amber-400 py-4 pr-4 w-[14%]">Bergabung</th>
+                            <th class="text-right text-[9px] font-black uppercase tracking-widest text-amber-400 py-4 pr-6 w-[16%]">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50">
+                    <tbody>
                         @foreach ($users as $user)
-                        <tr class="group hover:bg-slate-50/60 transition-colors">
+                        <tr class="group hover:bg-slate-50/60 transition-colors border-b border-black">
                             {{-- Nama --}}
-                            <td class="py-3.5 pr-4">
+                            <td class="py-3.5 pr-4 pl-6">
                                 <div class="flex items-center gap-3">
                                     @php
                                         $avatarColor = match($user->role) {
@@ -202,23 +202,23 @@
                             <td class="py-3.5 pr-4 text-slate-900 text-[10px] font-medium">{{ $user->created_at?->format('d M Y') }}</td>
 
                             {{-- Aksi --}}
-                            <td class="py-3.5 text-right">
+                            <td class="py-3.5 text-right pr-6">
                                 <div class="flex items-center justify-end gap-2">
                                     @if ($user->role === 'customer')
                                         <button onclick="document.getElementById('points-modal-{{ $user->id }}').showModal()"
-                                            class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold rounded-xl text-[10px] transition-all border border-amber-200">
+                                            class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-[10px] transition-all border border-transparent shadow-sm">
                                             ★ Poin
                                         </button>
                                     @endif
                                     <a href="{{ route('admin.users.edit', $user->id) }}"
-                                        class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-[10px] transition-all">
+                                        class="px-3 py-1.5 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl text-[10px] transition-all shadow-sm">
                                         Edit
                                     </a>
                                     @if ($user->id !== Auth::id())
                                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                             onsubmit="return confirm('Hapus akun {{ addslashes($user->name) }}?')">
                                             @csrf @method('DELETE')
-                                            <button class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-xl text-[10px] transition-all">
+                                            <button class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-[10px] transition-all shadow-sm">
                                                 Hapus
                                             </button>
                                         </form>

@@ -55,7 +55,7 @@
 </div>
 
 {{-- Main Panel --}}
-<div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
+<div class="admin-card-blue bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12" style="border-left: 2px solid #111827 !important; border-right: 2px solid #111827 !important;">
 
     {{-- Search & Filter --}}
     <div class="p-5 sm:p-6 border-b border-slate-100 bg-slate-50/60">
@@ -92,7 +92,7 @@
             </button>
             @if ($search || $status)
                 <a href="{{ route('admin.rewards.index') }}"
-                    class="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 font-bold text-[10px] px-3 py-2.5 rounded-xl border border-slate-200 hover:border-slate-400 transition-all flex-shrink-0">
+                    class="flex items-center gap-1.5 bg-slate-200 text-slate-900 hover:bg-slate-300 font-bold text-[10px] px-3 py-2.5 rounded-xl border border-slate-300 hover:border-slate-400 transition-all flex-shrink-0">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
                     Reset
                 </a>
@@ -208,15 +208,15 @@
                             </button>
                         </form>
                         <a href="{{ route('admin.rewards.edit', $reward->id) }}"
-                            class="flex-1 py-2 text-center rounded-xl text-[10px] font-black uppercase tracking-widest bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition-all">
+                            class="flex-1 py-2 text-center rounded-xl text-[10px] font-black uppercase tracking-widest bg-sky-500 hover:bg-sky-600 text-white border border-transparent shadow-sm transition-all">
                             Edit
                         </a>
                         <form action="{{ route('admin.rewards.destroy', $reward->id) }}" method="POST"
-                            onsubmit="return confirm('Hapus reward \'{{ addslashes($reward->name) }}\'?')">
+                            onsubmit="return confirm('Hapus reward \'{{ addslashes($reward->name) }}\'?')" class="flex-1">
                             @csrf @method('DELETE')
                             <button type="submit"
-                                class="py-2 px-3 rounded-xl text-[10px] font-black bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-all">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                class="w-full py-2 text-center rounded-xl text-[10px] font-black uppercase tracking-widest bg-rose-600 hover:bg-rose-700 text-white border border-transparent shadow-sm transition-all">
+                                Hapus
                             </button>
                         </form>
                     </div>

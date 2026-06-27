@@ -100,7 +100,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
             <!-- Analytic minimalist SVG Line Chart -->
-            <div class="lg:col-span-8 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
+            <div class="lg:col-span-8 admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
                 <div class="flex justify-between items-center mb-8">
                     <div>
                         <p class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-700">Analisis Pendapatan</p>
@@ -154,7 +154,7 @@
             </div>
  
             <!-- Activity Logs Feed -->
-            <div class="lg:col-span-4 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
+            <div class="lg:col-span-4 admin-card-dark bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-100">
                 <h4 class="text-xs font-black uppercase tracking-[0.2em] mb-6 text-slate-900">Aktivitas Sistem</h4>
                 <div class="space-y-6 relative border-l-2 border-slate-200 pl-6 ml-2">
                     <div class="relative">
@@ -790,7 +790,7 @@
 
             if (matchesSearch && matchesRole) {
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50 transition-all duration-350 border-b border-slate-200';
+                tr.className = 'hover:bg-slate-50 transition-all duration-350 border-b border-black';
 
                 // Unique color badges for roles
                 let badgeClass = '';

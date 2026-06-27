@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="bg-white border border-amber-300 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
+<div class="admin-card-gold bg-white border border-amber-300 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
 
     {{-- Header --}}
     <div class="p-6 sm:p-8 border-b border-amber-300 bg-slate-50 flex items-center justify-between">

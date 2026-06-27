@@ -19,6 +19,9 @@ class User extends Authenticatable
         'password',
         'role',
         'points',
+        'avatar',
+        'phone',
+        'bio',
     ];
 
     protected $hidden = [
@@ -38,6 +41,17 @@ class User extends Authenticatable
             'password'          => 'hashed',
             'points'            => 'integer',
         ];
+    }
+
+    /**
+     * Get the user's avatar URL.
+     */
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($this->avatar)) {
+            return asset('storage/' . $this->avatar);
+        }
+        return null;
     }
 
     /**

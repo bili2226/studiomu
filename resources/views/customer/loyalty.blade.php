@@ -27,6 +27,12 @@
         </svg>
         <span>Poin Loyalitas</span>
     </a>
+    <a href="{{ route('customer.reviews') }}" class="sidebar-item flex items-center px-5 py-3.5 text-black hover:text-black transition-all font-bold">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
+        </svg>
+        <span>Ulasan Evaluasi</span>
+    </a>
 @endsection
 
 @section('content')
@@ -53,7 +59,7 @@
         <div class="absolute -right-10 -top-10 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl"></div>
         <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
 
-        <div class="relative z-10 max-w-3xl">
+        <div class="relative z-10 w-full">
             <span class="inline-flex items-center px-3 py-1 bg-white/10 backdrop-blur-md text-[#D4AF37] text-[8px] font-black uppercase tracking-[0.25em] rounded-md mb-4 border border-white/10">
                 Program Loyalitas Klien
             </span>

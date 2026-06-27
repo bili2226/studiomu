@@ -82,7 +82,7 @@
                         class="auth-input pr-12">
                     <button type="button" onclick="togglePassword('password', 'eye-login')"
                         class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 transition-colors p-0.5">
-                        <svg id="eye-login" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4.5 h-4.5">
+                        <svg id="eye-login" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.644C3.301 8.844 6.136 6 10.15 6c3.992 0 6.827 2.844 8.09 6.322a1.012 1.012 0 0 1 0 .644C16.927 15.156 14.092 18 10.15 18c-3.992 0-6.827-2.844-8.09-6.322Z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                         </svg>

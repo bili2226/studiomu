@@ -40,12 +40,18 @@ Route::middleware('auth')->group(function () {
                 'snap_token' => $booking->snap_token ?? '',
                 'payment_method' => $booking->payment_method ?? 'Transfer',
                 'result_link' => $booking->result_link ?? '',
-                'photographer_name' => $booking->photographer->name ?? 'Belum Ditugaskan'
+                'photographer_name' => $booking->photographer->name ?? 'Belum Ditugaskan',
+                'raw_date' => $booking->booking_date->format('Y-m-d H:i:s')
             ];
         }) : collect();
         $rewards = \App\Models\Reward::active()->orderBy('points_required')->get();
         $services = \App\Models\Service::all();
-        return view('customer.dashboard', compact('bookings', 'rewards', 'services'));
+        
+        $settingsPath = storage_path('app/settings.json');
+        $settings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        $mapLinkUrl = $settings['map_link_url'] ?? 'https://maps.google.com/?q=-6.227561,106.812239';
+
+        return view('customer.dashboard', compact('bookings', 'rewards', 'services', 'mapLinkUrl'));
     })->name('customer.dashboard')->middleware('role:customer');
 
     Route::get('/poin-loyalitas', function () {
@@ -63,6 +69,10 @@ Route::middleware('auth')->group(function () {
     })->name('customer.loyalty')->middleware(['role:customer']);
 
     Route::get('/riwayat-booking', [BookingController::class, 'historyIndex'])->name('customer.history')->middleware('role:customer');
+    Route::post('/customer/bookings/{id}/review', [BookingController::class, 'submitReview'])->name('customer.review.submit')->middleware('role:customer');
+    Route::get('/ulasan-evaluasi', [BookingController::class, 'customerReviews'])->name('customer.reviews')->middleware('role:customer');
+    Route::get('/customer/bookings/{id}/cancel-info', [BookingController::class, 'checkCancelInfo'])->name('customer.booking.cancelInfo')->middleware('role:customer');
+    Route::post('/customer/bookings/{id}/cancel', [BookingController::class, 'cancelBooking'])->name('customer.booking.cancel')->middleware('role:customer');
 
     Route::get('/galeri-foto', function () {
         $user = Auth::user();
@@ -98,13 +108,22 @@ Route::middleware('auth')->group(function () {
             return preg_replace('/[^0-9]/', '', $slot->time);
         })->pluck('time');
 
+        $settingsPath = storage_path('app/settings.json');
+        $settings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        $mapAddress = $settings['map_address'] ?? 'Studio.mu Building, Jl. Sunset Boulevard No. 101, Jakarta Selatan, Indonesia';
+        $mapIframeUrl = $settings['map_iframe_url'] ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.273617300705!2d106.81223961529528!3d-6.227561862725514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f15049cf525b%3A0x6b9d6287bc1a28a3!2sSenayan%20City!5e0!3m2!1sid!2sid!4v1652885955681!5m2!1sid!2sid';
+        $mapLinkUrl = $settings['map_link_url'] ?? 'https://maps.google.com/?q=-6.227561,106.812239';
+
         return view('customer.booking', [
             'serviceKey' => $service,
             'rewards' => $rewards,
             'userPoints' => Auth::user()->points ?? 0,
             'services' => $services,
             'holidays' => $holidays,
-            'timeSlots' => $timeSlots
+            'timeSlots' => $timeSlots,
+            'mapAddress' => $mapAddress,
+            'mapIframeUrl' => $mapIframeUrl,
+            'mapLinkUrl' => $mapLinkUrl
         ]);
     })->name('customer.booking')->middleware('role:customer');
 
@@ -118,9 +137,13 @@ Route::middleware('auth')->group(function () {
 
 
     // Admin Booking/Transaction Management Routes
+    Route::get('/admin/bookings/export/csv', [\App\Http\Controllers\AdminController::class, 'exportBookingsCsv'])->name('admin.bookings.exportCsv')->middleware('role:admin');
+    Route::get('/admin/bookings/export/word', [\App\Http\Controllers\AdminController::class, 'exportBookingsWord'])->name('admin.bookings.exportWord')->middleware('role:admin');
     Route::get('/admin/bookings', [\App\Http\Controllers\AdminController::class, 'bookingsIndex'])->name('admin.bookings.index')->middleware('role:admin');
     Route::post('/admin/bookings/{id}/assign', [\App\Http\Controllers\AdminController::class, 'assignPhotographer'])->name('admin.bookings.assign')->middleware('role:admin');
     Route::post('/admin/bookings/auto-assign', [\App\Http\Controllers\AdminController::class, 'autoAssignPhotographers'])->name('admin.bookings.autoAssign')->middleware('role:admin');
+    Route::put('/admin/bookings/{id}/status', [\App\Http\Controllers\AdminController::class, 'updateBookingStatus'])->name('admin.bookings.updateStatus')->middleware('role:admin');
+    Route::get('/admin/reviews', [\App\Http\Controllers\AdminController::class, 'reviewsIndex'])->name('admin.reviews.index')->middleware('role:admin');
 
     // Admin User Management Routes
     Route::get('/admin/users', [\App\Http\Controllers\AdminController::class, 'usersIndex'])->name('admin.users.index')->middleware('role:admin');
@@ -161,6 +184,10 @@ Route::middleware('auth')->group(function () {
         return view('photographer.dashboard', compact('bookings', 'completedCount', 'pendingCount'));
     })->name('photographer.dashboard')->middleware('role:photographer');
 
+    Route::get('/photographer/reviews', [\App\Http\Controllers\BookingController::class, 'photographerReviews'])
+        ->name('photographer.reviews')
+        ->middleware('role:photographer');
+
     Route::post('/photographer/bookings/{id}/complete', [\App\Http\Controllers\BookingController::class, 'completeSession'])
         ->name('photographer.bookings.complete')
         ->middleware('role:photographer');
@@ -178,6 +205,19 @@ Route::middleware('auth')->group(function () {
     // Admin Booking & Settings Routes
     Route::put('/admin/bookings/{id}/status', [BookingController::class, 'updateStatus'])->name('admin.bookings.updateStatus')->middleware('role:admin');
     Route::post('/admin/settings/multiplier', [\App\Http\Controllers\AdminController::class, 'saveMultiplier'])->name('admin.settings.multiplier')->middleware('role:admin');
+    Route::post('/admin/settings/location', [\App\Http\Controllers\AdminController::class, 'saveLocationSettings'])->name('admin.settings.location')->middleware('role:admin');
+    // Profile Routes (for all authenticated users)
+    Route::get('/profil', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profil', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+    // Notification Routes (for all authenticated users)
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::delete('/notifications/{id}', [\App\Http\Controllers\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    // Admin Refund Management Routes
+    Route::get('/admin/refunds', [\App\Http\Controllers\AdminController::class, 'refundsIndex'])->name('admin.refunds.index')->middleware('role:admin');
+    Route::post('/admin/refunds/{id}/process', [\App\Http\Controllers\AdminController::class, 'processRefund'])->name('admin.refunds.process')->middleware('role:admin');
 });
 
 // Midtrans Webhook Callback Route (must be outside auth middleware, and CSRF is excluded in bootstrap/app.php)

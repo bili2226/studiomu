@@ -36,21 +36,21 @@
         <div class="absolute inset-0 bg-gradient-to-t from-slate-100 via-slate-50/90 to-slate-100 -z-10"></div>
 
         <!-- Booking Page pristine white card -->
-        <div class="bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl w-full max-w-4xl overflow-hidden relative z-10 flex flex-col my-4">
+        <div class="bg-white border-2 border-black rounded-[2rem] shadow-2xl w-full max-w-4xl overflow-hidden relative z-10 flex flex-col my-4">
             
-            <!-- Breadcrumbs Header inside card -->
-            <div class="p-8 sm:p-10 border-b border-slate-100 bg-slate-50/50">
-                <nav class="text-xs font-semibold text-slate-500 mb-3 flex items-center gap-1.5 font-sans tracking-wide">
-                    <a href="{{ url('/menu-utama') }}" class="hover:text-primary-700 transition-colors font-semibold">Dashboard</a>
-                    <span class="text-slate-400 font-bold font-serif">&rsaquo;</span>
-                    <span class="text-slate-800 font-black">Booking</span>
+            <!-- Header Hitam -->
+            <div class="p-8 sm:p-10 bg-slate-900 border-b-[2.5px] border-amber-400">
+                <nav class="text-xs font-semibold text-slate-400 mb-3 flex items-center gap-1.5 font-sans tracking-wide">
+                    <a href="{{ url('/menu-utama') }}" class="hover:text-amber-400 transition-colors font-semibold text-slate-400">Dashboard</a>
+                    <span class="text-slate-600 font-bold font-serif">&rsaquo;</span>
+                    <span class="text-amber-400 font-black">Booking</span>
                 </nav>
                 
-                <span class="inline-flex items-center px-3.5 py-1.5 bg-primary-50 text-primary-700 text-[8px] font-black uppercase tracking-[0.25em] rounded-lg mb-3 border border-primary-100/60 shadow-sm">
+                <span class="inline-flex items-center px-3.5 py-1.5 bg-slate-800 text-slate-300 text-[8px] font-black uppercase tracking-[0.25em] rounded-lg mb-3 border border-slate-700 shadow-sm">
                     Form Reservasi Sesi Foto
                 </span>
-                <h2 id="booking-service-title" class="text-3xl font-serif italic font-bold text-slate-900 leading-tight">Pesan Sesi Foto</h2>
-                <p class="text-xs text-slate-500 mt-1.5 font-medium tracking-wide">Silakan tentukan jadwal pemotretan Anda dan lengkapi detail pemesanan di bawah.</p>
+                <h2 id="booking-service-title" class="text-3xl font-serif italic font-bold text-amber-400 leading-tight">Pesan Sesi Foto</h2>
+                <p class="text-xs text-slate-400 mt-1.5 font-medium tracking-wide">Silakan tentukan jadwal pemotretan Anda dan lengkapi detail pemesanan di bawah.</p>
             </div>
 
             <!-- Card Body (Two-Column Grid Layout) -->
@@ -86,7 +86,7 @@
                             <div>
                                 <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-450">Lokasi & Alamat</h4>
                                 <p class="text-xs font-semibold text-slate-700 mt-1 leading-relaxed">
-                                    Studio.mu Building, Jl. Sunset Boulevard No. 101, Jakarta Selatan, Indonesia
+                                    {{ $mapAddress }}
                                 </p>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                         <!-- Embedded Responsive Google Maps iframe -->
                         <div class="w-full h-40 rounded-xl overflow-hidden border border-slate-300 shadow-inner relative group bg-slate-100">
                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.273617300705!2d106.81223961529528!3d-6.227561862725514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f15049cf525b%3A0x6b9d6287bc1a28a3!2sSenayan%20City!5e0!3m2!1sid!2sid!4v1652885955681!5m2!1sid!2sid" 
+                                src="{{ $mapIframeUrl }}" 
                                 class="absolute inset-0 w-full h-full border-none transition-opacity duration-300"
                                 allowfullscreen="" 
                                 loading="lazy" 
@@ -103,7 +103,7 @@
                         </div>
 
                         <!-- Open Maps Link Button -->
-                        <a href="https://maps.google.com/?q=-6.227561,106.812239" target="_blank" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm cursor-pointer">
+                        <a href="{{ $mapLinkUrl }}" target="_blank" class="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-white border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm cursor-pointer">
                             <span>Buka di Google Maps</span>
                             <svg class="w-3.5 h-3.5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
@@ -255,11 +255,11 @@
             </div>
 
             <!-- Footer Buttons -->
-            <div class="p-8 sm:p-10 border-t border-slate-100 flex flex-col sm:flex-row gap-4 justify-end bg-slate-50/50">
-                <a href="{{ url('/menu-utama') }}" class="w-full sm:w-auto px-8 py-3.5 border border-slate-200 hover:border-slate-350 hover:bg-slate-50 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-center flex items-center justify-center">
+            <div class="p-8 sm:p-10 border-t-[2.5px] border-amber-400 flex flex-col sm:flex-row gap-4 justify-end bg-slate-900">
+                <a href="{{ url('/menu-utama') }}" class="w-full sm:w-auto px-8 py-3.5 border border-slate-600 hover:border-slate-500 hover:bg-slate-800 text-slate-300 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-center flex items-center justify-center">
                     Batal
                 </a>
-                <button type="button" id="booking-confirm-btn" onclick="submitBooking()" class="w-full sm:w-auto px-10 py-3.5 bg-gradient-to-r from-primary-600 to-primary-800 hover:from-primary-700 hover:to-primary-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg shadow-primary-500/20 transform active:scale-95 border-none cursor-pointer opacity-45 pointer-events-none">
+                <button type="button" id="booking-confirm-btn" onclick="submitBooking()" class="w-full sm:w-auto px-10 py-3.5 bg-amber-500 hover:bg-amber-600 text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg shadow-amber-500/20 transform active:scale-95 border-none cursor-pointer opacity-45 pointer-events-none">
                     Konfirmasi Booking Sesi
                 </button>
             </div>

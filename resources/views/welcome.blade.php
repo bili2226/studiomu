@@ -64,7 +64,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #ffffff;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.9);
@@ -362,7 +362,7 @@
                     </a>
                 </div>
             </div>
-            <div class="pt-12 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
+            <div class="pt-12 border-t border-white/20 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
                 <p>&copy; {{ date('Y') }} Studio.mu Visual Art. All rights reserved.</p>
                 <div class="mt-8 md:mt-0 space-x-10">
                     <a href="#" class="hover:text-white">Kebijakan Privasi</a>

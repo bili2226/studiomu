@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Refund;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -106,6 +108,163 @@ class AdminController extends Controller
             'totalPending', 'totalConfirmed', 'totalCompleted', 'totalCancelled',
             'photographers'
         ));
+    }
+
+    private function getFilteredBookingsQuery(Request $request)
+    {
+        $status = $request->query('status', '');
+        $search = trim($request->query('search', ''));
+        $dateRange = $request->query('date_range', '');
+
+        $query = \App\Models\Booking::with(['user', 'photographer'])->orderBy('created_at', 'desc');
+
+        if ($status && in_array($status, ['Pending', 'Confirmed', 'Completed', 'Cancelled'])) {
+            $query->where('status', $status);
+        }
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhere('service_name', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($uq) use ($search) {
+                      $uq->where('name', 'like', "%{$search}%")
+                         ->orWhere('email', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($dateRange === 'today') {
+            $query->whereDate('booking_date', \Carbon\Carbon::today());
+        } elseif ($dateRange === 'this_week') {
+            $query->whereBetween('booking_date', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()]);
+        } elseif ($dateRange === 'this_month') {
+            $query->whereMonth('booking_date', \Carbon\Carbon::now()->month)
+                  ->whereYear('booking_date', \Carbon\Carbon::now()->year);
+        }
+
+        return $query;
+    }
+
+    public function exportBookingsCsv(Request $request)
+    {
+        $bookings = $this->getFilteredBookingsQuery($request)->get();
+
+        $fileName = 'laporan_transaksi_studio_' . date('Y-m-d') . '.csv';
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = [
+            'ID Booking', 'Tanggal Dibuat', 'Jadwal Sesi', 'Pelanggan', 'Email', 
+            'Layanan', 'Total Biaya', 'Metode Pembayaran', 'Status', 'Fotografer', 'Catatan Khusus'
+        ];
+
+        $callback = function() use($bookings, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($bookings as $booking) {
+                $row = [
+                    $booking->id,
+                    $booking->created_at->format('Y-m-d H:i:s'),
+                    $booking->booking_date->format('Y-m-d H:i:s'),
+                    $booking->user->name ?? 'User Terhapus',
+                    $booking->user->email ?? '',
+                    $booking->service_name,
+                    $booking->amount,
+                    $booking->payment_method ?? 'Transfer',
+                    $booking->status,
+                    $booking->photographer->name ?? 'Belum Ditugaskan',
+                    $booking->requests ?? '-'
+                ];
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function exportBookingsWord(Request $request)
+    {
+        $status = $request->query('status', '');
+        $dateRange = $request->query('date_range', '');
+        $bookings = $this->getFilteredBookingsQuery($request)->get();
+
+        $totalBookings = $bookings->count();
+        $totalRevenue = $bookings->where('status', 'Completed')->sum('amount');
+        
+        $photographerStats = [];
+        $photographers = User::where('role', 'photographer')->get();
+        foreach ($photographers as $photographer) {
+            $count = $bookings->where('photographer_id', $photographer->id)->count();
+            if ($count >= 0) {
+                $photographerStats[] = [
+                    'name' => $photographer->name,
+                    'count' => $count
+                ];
+            }
+        }
+        usort($photographerStats, function($a, $b) {
+            return $b['count'] <=> $a['count'];
+        });
+
+        // QuickChart Pie Chart Base64
+        $serviceCounts = [];
+        foreach($bookings as $booking) {
+            $service = $booking->service_name;
+            $serviceCounts[$service] = ($serviceCounts[$service] ?? 0) + 1;
+        }
+        $pieConfig = [
+            'type' => 'pie',
+            'data' => [
+                'labels' => array_keys($serviceCounts),
+                'datasets' => [['data' => array_values($serviceCounts)]]
+            ]
+        ];
+        
+        // Use stream context to avoid timeouts/SSL issues if any
+        $context = stream_context_create([
+            "http" => ["method" => "GET", "timeout" => 10, "ignore_errors" => true],
+            "ssl" => ["verify_peer" => false, "verify_peer_name" => false],
+        ]);
+
+        $pieChartUrl = 'https://quickchart.io/chart?w=350&h=200&c=' . urlencode(json_encode($pieConfig));
+        $pieChartData = @file_get_contents($pieChartUrl, false, $context);
+        $pieChartBase64 = $pieChartData ? 'data:image/png;base64,' . base64_encode($pieChartData) : '';
+
+        // QuickChart Bar Chart Base64
+        $barConfig = [
+            'type' => 'bar',
+            'data' => [
+                'labels' => array_column($photographerStats, 'name'),
+                'datasets' => [[
+                    'label' => 'Total Sesi',
+                    'data' => array_column($photographerStats, 'count')
+                ]]
+            ]
+        ];
+        $barChartUrl = 'https://quickchart.io/chart?w=400&h=200&c=' . urlencode(json_encode($barConfig));
+        $barChartData = @file_get_contents($barChartUrl, false, $context);
+        $barChartBase64 = $barChartData ? 'data:image/png;base64,' . base64_encode($barChartData) : '';
+
+        $fileName = 'laporan_transaksi_studio_' . date('Y-m-d') . '.doc';
+        $headers = [
+            "Content-type"        => "application/vnd.ms-word",
+            "Content-Disposition" => "attachment;Filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        return response()->view('admin.bookings.report', compact(
+            'bookings', 'status', 'dateRange', 'totalBookings', 'totalRevenue', 'photographerStats',
+            'pieChartBase64', 'barChartBase64'
+        ), 200, $headers);
     }
 
     /**
@@ -327,6 +486,19 @@ class AdminController extends Controller
 
         $user->save();
 
+        // Notify the customer about their points update
+        if ($user->role === 'customer') {
+            $action_labels = ['add' => 'ditambahkan', 'sub' => 'dikurangi', 'set' => 'disesuaikan'];
+            $label = $action_labels[$request->action] ?? 'diperbarui';
+            NotificationController::notify(
+                $user->id,
+                'points_updated',
+                '🌟 Poin Loyalitas Diperbarui',
+                'Poin Anda telah ' . $label . ' oleh admin. Total poin Anda sekarang: ' . $user->points . ' poin.',
+                route('customer.loyalty')
+            );
+        }
+
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
@@ -365,7 +537,13 @@ class AdminController extends Controller
             ];
         })->values();
 
-        return view('admin.holidays.index', compact('holidays', 'timeSlots'));
+        $settingsPath = storage_path('app/settings.json');
+        $settings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        $mapAddress = $settings['map_address'] ?? 'Studio.mu Building, Jl. Sunset Boulevard No. 101, Jakarta Selatan, Indonesia';
+        $mapIframeUrl = $settings['map_iframe_url'] ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.273617300705!2d106.81223961529528!3d-6.227561862725514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f15049cf525b%3A0x6b9d6287bc1a28a3!2sSenayan%20City!5e0!3m2!1sid!2sid!4v1652885955681!5m2!1sid!2sid';
+        $mapLinkUrl = $settings['map_link_url'] ?? 'https://maps.google.com/?q=-6.227561,106.812239';
+
+        return view('admin.holidays.index', compact('holidays', 'timeSlots', 'mapAddress', 'mapIframeUrl', 'mapLinkUrl'));
     }
 
     /**
@@ -484,18 +662,14 @@ class AdminController extends Controller
         $request->validate([
             'title'    => 'required|string',
             'starting' => 'required|string',
-            'slide_1'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_2'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_3'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_4'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_5'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'slides.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
         ]);
 
-        // Upload each slide slot individually
+        // Upload multiple slides
         $slidePaths = [];
-        for ($i = 1; $i <= 5; $i++) {
-            if ($request->hasFile("slide_{$i}")) {
-                $slidePaths[] = $request->file("slide_{$i}")->store('services', 'public');
+        if ($request->hasFile('slides')) {
+            foreach ($request->file('slides') as $file) {
+                $slidePaths[] = $file->store('services', 'public');
             }
         }
 
@@ -552,28 +726,32 @@ class AdminController extends Controller
         $request->validate([
             'title'    => 'required|string',
             'starting' => 'required|string',
-            'slide_1'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_2'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_3'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_4'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-            'slide_5'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+            'slides.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
         ]);
 
         $oldSlides = $service->slides ?? [];
-        $slidePaths = [];
-
-        // For each slot: if new file uploaded → replace old, else keep old
-        for ($i = 1; $i <= 5; $i++) {
-            $oldPath = $oldSlides[$i - 1] ?? null;
-            if ($request->hasFile("slide_{$i}")) {
-                // Delete old file if it exists
-                if ($oldPath) {
-                    Storage::disk('public')->delete($oldPath);
+        
+        // Handle deletions of existing photos
+        $deletedSlides = $request->input('delete_slides', []);
+        if (!empty($deletedSlides)) {
+            foreach ($deletedSlides as $delPath) {
+                if (in_array($delPath, $oldSlides)) {
+                    Storage::disk('public')->delete($delPath);
                 }
-                $slidePaths[] = $request->file("slide_{$i}")->store('services', 'public');
-            } elseif ($oldPath) {
-                // Keep the existing photo for this slot
-                $slidePaths[] = $oldPath;
+            }
+            // Remove deleted items from $oldSlides
+            $oldSlides = array_filter($oldSlides, function($path) use ($deletedSlides) {
+                return !in_array($path, $deletedSlides);
+            });
+        }
+
+        // Initialize slide paths with remaining old slides (re-indexed)
+        $slidePaths = array_values($oldSlides);
+
+        // Append new files if uploaded
+        if ($request->hasFile('slides')) {
+            foreach ($request->file('slides') as $file) {
+                $slidePaths[] = $file->store('services', 'public');
             }
         }
 
@@ -642,5 +820,90 @@ class AdminController extends Controller
         file_put_contents($settingsPath, json_encode($settings));
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Save map and location settings.
+     */
+    public function saveLocationSettings(Request $request)
+    {
+        $request->validate([
+            'map_address' => 'required|string',
+            'map_iframe_url' => 'required|string',
+            'map_link_url' => 'required|string',
+        ]);
+
+        $settingsPath = storage_path('app/settings.json');
+        $settings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        
+        $settings['map_address'] = $request->map_address;
+        $settings['map_iframe_url'] = $request->map_iframe_url;
+        $settings['map_link_url'] = $request->map_link_url;
+
+        if (!file_exists(dirname($settingsPath))) {
+            mkdir(dirname($settingsPath), 0755, true);
+        }
+        file_put_contents($settingsPath, json_encode($settings));
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Show reviews from customers.
+     */
+    public function reviewsIndex()
+    {
+        $reviews = \App\Models\Booking::with(['user', 'photographer'])
+            ->whereNotNull('review')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('admin.reviews.index', compact('reviews'));
+    }
+
+    /**
+     * Show all pending and processed refunds.
+     */
+    public function refundsIndex()
+    {
+        $refunds = Refund::with(['booking.user'])
+            ->orderByRaw("FIELD(status, 'pending', 'completed')")
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $pendingCount = $refunds->where('status', 'pending')->count();
+
+        return view('admin.refunds.index', compact('refunds', 'pendingCount'));
+    }
+
+    /**
+     * Mark a refund as completed (admin has transferred the funds).
+     */
+    public function processRefund(Request $request, $id)
+    {
+        $refund = Refund::with('booking.user')->findOrFail($id);
+
+        if ($refund->status === 'completed') {
+            return redirect()->route('admin.refunds.index')->with('info', 'Refund ini sudah diproses sebelumnya.');
+        }
+
+        $refund->update([
+            'status'       => 'completed',
+            'processed_at' => now(),
+        ]);
+
+        // Notify the customer that refund is done
+        if ($refund->booking && $refund->booking->user) {
+            $customer = $refund->booking->user;
+            NotificationController::notify(
+                $customer->id,
+                'refund_completed',
+                '✅ Refund Berhasil Dikirim',
+                'Dana refund untuk Booking #' . $refund->booking_id . ' sebesar Rp ' . number_format($refund->amount, 0, ',', '.') . ' telah berhasil ditransfer ke rekening Anda (' . $refund->account_holder . ' — ' . $refund->bank_name . ' ' . $refund->account_number . '). Terima kasih!',
+                route('customer.history')
+            );
+        }
+
+        return redirect()->route('admin.refunds.index')->with('success', 'Refund #' . $refund->id . ' berhasil ditandai selesai. Notifikasi telah dikirim ke customer.');
     }
 }

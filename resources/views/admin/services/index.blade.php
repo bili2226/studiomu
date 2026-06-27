@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
+<div class="admin-card-blue bg-white border border-slate-200 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12" style="border-left: 2px solid #111827 !important; border-right: 2px solid #111827 !important;">
     <div class="p-6 sm:p-8 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50">
         <div>
             <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-700 mb-1">Layanan Studio.mu</h4>
@@ -28,7 +28,7 @@
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead>
-                <tr class="border-b border-slate-200 text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
+                <tr class="border-b border-black text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50">
                     <th class="px-6 py-4">Foto / Layanan</th>
                     <th class="px-6 py-4">Mulai Harga</th>
                     <th class="px-6 py-4">Deskripsi Singkat</th>
@@ -37,9 +37,9 @@
                     <th class="px-6 py-4 text-center">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100 text-xs font-semibold text-slate-800 bg-white">
+            <tbody class="text-xs font-semibold text-slate-800 bg-white">
                 @forelse($services as $svc)
-                <tr class="hover:bg-slate-50 transition-all duration-350 border-b border-slate-200">
+                <tr class="hover:bg-slate-50 transition-all duration-350 border-b border-black">
                     <td class="px-6 py-5">
                         <div class="flex items-center gap-3.5">
                             <div class="w-12 h-12 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-center font-serif text-[11px] font-black uppercase text-amber-800 shadow-md shadow-amber-100/50 flex-shrink-0 tracking-wider leading-none p-1 text-center">
@@ -63,11 +63,11 @@
                     </td>
                     <td class="px-6 py-5 text-center">
                         <div class="flex items-center justify-center gap-2">
-                            <a href="{{ route('admin.services.edit', $svc->id) }}" class="px-4 py-2 bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm inline-block">Edit</a>
+                            <a href="{{ route('admin.services.edit', $svc->id) }}" class="px-4 py-2 bg-sky-500 text-white border border-transparent hover:bg-sky-600 text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-md inline-block">Edit</a>
                             <form action="{{ route('admin.services.destroy', $svc->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus layanan ini?');" class="inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-4 py-2 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-600 hover:text-white text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-sm">Hapus</button>
+                                <button type="submit" class="px-4 py-2 bg-rose-600 text-white border border-transparent hover:bg-rose-700 text-[9px] font-black uppercase tracking-widest rounded-full transition-all duration-300 active:scale-95 shadow-md">Hapus</button>
                             </form>
                         </div>
                     </td>

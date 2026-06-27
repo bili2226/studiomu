@@ -27,6 +27,12 @@
         </svg>
         <span>Poin Loyalitas</span>
     </a>
+    <a href="{{ route('customer.reviews') }}" class="sidebar-item flex items-center px-5 py-3.5 text-slate-500 hover:text-slate-900 transition-all">
+        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
+        </svg>
+        <span>Ulasan Evaluasi</span>
+    </a>
 @endsection
 
 @section('content')
@@ -48,7 +54,7 @@
         <div class="absolute -right-10 -top-10 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl"></div>
         <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
 
-        <div class="relative z-10 max-w-2xl">
+        <div class="relative z-10 w-full">
             <span class="inline-flex items-center px-3 py-1 bg-white/10 backdrop-blur-md text-[#D4AF37] text-[8px] font-black uppercase tracking-[0.25em] rounded-md mb-4 border border-white/10">
                 Studio.mu Visual Art
             </span>
@@ -124,9 +130,10 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-8 relative z-10">
-                <a href="#creative-services" class="text-primary-400 hover:text-primary-300 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-colors group">
-                    <span>Mulai Reservasi</span>
+            <div class="mt-8 relative z-10 flex flex-col gap-1.5">
+                <span class="text-[10px] font-semibold text-white tracking-wide">Menuju ke lokasi studio kami?</span>
+                <a href="{{ $mapLinkUrl ?? 'https://maps.google.com/?q=-6.227561,106.812239' }}" target="_blank" class="text-primary-400 hover:text-primary-300 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-colors group w-fit">
+                    <span>Buka Google Maps</span>
                     <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                     </svg>
@@ -509,9 +516,31 @@
         const detailEl = document.getElementById('upcoming-session-detail');
         const statusEl = document.getElementById('upcoming-session-status');
 
-        if (myBookings.length > 0) {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+
+        let nearestBooking = null;
+        let minTime = Infinity;
+
+        myBookings.forEach(tx => {
+            if (tx.status === 'Pending' || tx.status === 'Confirmed') {
+                const bookingDate = new Date(tx.raw_date.replace(/-/g, '/'));
+                const bookingDay = new Date(bookingDate);
+                bookingDay.setHours(0, 0, 0, 0);
+
+                if (bookingDay >= now) {
+                    const timeVal = bookingDate.getTime();
+                    if (timeVal < minTime) {
+                        minTime = timeVal;
+                        nearestBooking = tx;
+                    }
+                }
+            }
+        });
+
+        if (nearestBooking) {
             // Find active/newest booking (Pending or Confirmed)
-            const activeBooking = myBookings.find(tx => tx.status === 'Pending' || tx.status === 'Confirmed') || myBookings[0];
+            const activeBooking = nearestBooking;
             
             const paymentMethodText = activeBooking.payment_method === 'Cash' ? 'Cash' : 'Transfer';
             detailEl.innerHTML = `
@@ -534,7 +563,7 @@
             }
             statusEl.classList.remove('hidden');
         } else {
-            detailEl.textContent = "Belum ada sesi pemotretan aktif.";
+            detailEl.textContent = "Tidak ada jadwal sesi foto.";
             statusEl.classList.add('hidden');
         }
     }

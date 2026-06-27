@@ -36,22 +36,13 @@
         <p class="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400 mb-1">Manajemen Transaksi</p>
         <h1 class="text-2xl font-serif italic font-bold text-slate-900">Kelola Transaksi</h1>
     </div>
-    <div class="flex-shrink-0">
-        <form method="POST" action="{{ route('admin.bookings.autoAssign') }}" onsubmit="return confirm('Apakah Anda yakin ingin membagikan sesi pemotretan terkonfirmasi yang belum memiliki fotografer secara merata?')">
-            @csrf
-            <button type="submit" class="bg-gradient-to-r from-sky-650 to-sky-750 hover:from-sky-700 hover:to-sky-800 text-white font-black uppercase tracking-widest text-[10px] px-6 py-3.5 rounded-2xl transition-all shadow-md shadow-sky-900/10 active:scale-95 flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94-3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
-                Bagi Sesi Secara Merata
-            </button>
-        </form>
-    </div>
 </div>
 
 {{-- Stats Cards / Filter Quick Links --}}
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
     {{-- Card 1: Pending --}}
     <a href="{{ route('admin.bookings.index', ['status' => 'Pending', 'search' => $search, 'date_range' => $dateRange]) }}"
-        class="group bg-white border-2 {{ $status === 'Pending' ? 'border-amber-400 bg-amber-50/40' : 'border-amber-300 hover:border-amber-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
+        class="admin-filter-card group bg-white border-2 {{ $status === 'Pending' ? 'border-amber-400 bg-amber-50/40' : 'border-amber-300 hover:border-amber-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-2 text-amber-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
         </div>
@@ -61,7 +52,7 @@
 
     {{-- Card 2: Confirmed --}}
     <a href="{{ route('admin.bookings.index', ['status' => 'Confirmed', 'search' => $search, 'date_range' => $dateRange]) }}"
-        class="group bg-white border-2 {{ $status === 'Confirmed' ? 'border-sky-400 bg-sky-50/40' : 'border-amber-300 hover:border-sky-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
+        class="admin-filter-card group bg-white border-2 {{ $status === 'Confirmed' ? 'border-sky-400 bg-sky-50/40' : 'border-amber-300 hover:border-sky-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center mx-auto mb-2 text-sky-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>
         </div>
@@ -71,7 +62,7 @@
 
     {{-- Card 3: Completed --}}
     <a href="{{ route('admin.bookings.index', ['status' => 'Completed', 'search' => $search, 'date_range' => $dateRange]) }}"
-        class="group bg-white border-2 {{ $status === 'Completed' ? 'border-emerald-400 bg-emerald-50/40' : 'border-amber-300 hover:border-emerald-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
+        class="admin-filter-card group bg-white border-2 {{ $status === 'Completed' ? 'border-emerald-400 bg-emerald-50/40' : 'border-amber-300 hover:border-emerald-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-2 text-emerald-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
         </div>
@@ -81,7 +72,7 @@
 
     {{-- Card 4: Cancelled --}}
     <a href="{{ route('admin.bookings.index', ['status' => 'Cancelled', 'search' => $search, 'date_range' => $dateRange]) }}"
-        class="group bg-white border-2 {{ $status === 'Cancelled' ? 'border-rose-400 bg-rose-50/40' : 'border-amber-300 hover:border-rose-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
+        class="admin-filter-card group bg-white border-2 {{ $status === 'Cancelled' ? 'border-rose-400 bg-rose-50/40' : 'border-amber-300 hover:border-rose-300' }} rounded-2xl p-4 text-center shadow-sm transition-all duration-300">
         <div class="w-8 h-8 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center mx-auto mb-2 text-rose-700 group-hover:scale-105 transition-transform">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
         </div>
@@ -91,7 +82,7 @@
 </div>
 
 {{-- Main Control Panel --}}
-<div class="bg-white border border-amber-300 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12">
+<div class="admin-card-blue bg-white border border-amber-300 rounded-[2rem] shadow-xl shadow-slate-100/50 overflow-hidden mb-12" style="border-left: 2px solid #111827 !important; border-right: 2px solid #111827 !important;">
     
     {{-- Search & Filter Bar --}}
     <div class="p-5 sm:p-6 border-b border-slate-100 bg-slate-50/60">
@@ -138,24 +129,32 @@
             </div>
 
             {{-- Submit and Reset buttons --}}
-            <div class="flex items-center gap-2">
-                <button type="submit" class="bg-amber-800 hover:bg-amber-900 text-white font-black uppercase tracking-widest text-[10px] px-6 py-3 rounded-xl transition-all active:scale-95 shadow-sm h-11 flex items-center justify-center">
-                    Filter
-                </button>
+            <div class="flex items-center gap-2 w-full sm:w-auto mt-3 lg:mt-0 lg:ml-auto">
+
                 @if ($search || $status || $dateRange)
                     <a href="{{ route('admin.bookings.index') }}"
-                        class="flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-800 font-bold text-[10px] px-4 py-3 rounded-xl border border-amber-300 hover:border-slate-400 transition-all h-11">
+                        class="flex items-center justify-center gap-1.5 bg-slate-200 text-slate-900 hover:bg-slate-300 font-bold text-[10px] px-4 py-3 rounded-xl border border-slate-300 hover:border-slate-400 transition-all h-11">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
                         Reset
                     </a>
                 @endif
+                <a href="{{ route('admin.bookings.exportCsv', ['status' => $status, 'search' => $search, 'date_range' => $dateRange]) }}"
+                    class="bg-slate-900 hover:bg-slate-800 text-white font-black uppercase tracking-widest text-[10px] px-5 py-3 rounded-xl transition-all active:scale-95 shadow-sm h-11 flex items-center justify-center gap-2 border-2 border-black ml-auto lg:ml-2">
+                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                    Unduh CSV
+                </a>
+                <a href="{{ route('admin.bookings.exportWord', ['status' => $status, 'search' => $search, 'date_range' => $dateRange]) }}"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-[10px] px-5 py-3 rounded-xl transition-all active:scale-95 shadow-sm h-11 flex items-center justify-center gap-2 border-2 border-black lg:ml-2">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                    Unduh Word
+                </a>
             </div>
         </form>
     </div>
 
     {{-- Result Meta Info --}}
-    <div class="px-6 pt-4 pb-2">
-        <p class="text-[10px] font-semibold text-slate-400">
+    <div class="admin-meta-info px-6">
+        <p class="text-xs font-bold text-white tracking-wide">
             Menampilkan <strong class="text-slate-700">{{ $bookings->count() }}</strong> transaksi
             @if ($search) • pencarian "<strong class="text-amber-800">{{ $search }}</strong>" @endif
             @if ($status) 
@@ -188,9 +187,9 @@
     </div>
 
     {{-- Bookings Table --}}
-    <div class="px-6 pb-6">
+    <div class="pb-6">
         @if ($bookings->isEmpty())
-            <div class="text-center py-16 text-slate-400">
+            <div class="text-center py-16 text-slate-400 px-6">
                 <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-5.625-12h17.25c.621 0 1.125.504 1.125 1.125v13.5c0 .621-.504 1.125-1.125 1.125H3.375a1.125 1.125 0 0 1-1.125-1.125V3.375c0-.621.504-1.125 1.125-1.125Z"/></svg>
                 <p class="text-sm font-semibold mb-1">Tidak ada transaksi ditemukan</p>
                 <p class="text-xs">Coba ganti kata kunci pencarian atau ubah filter status.</p>
@@ -199,8 +198,8 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-xs border-collapse">
                     <thead>
-                        <tr class="border-b border-slate-100">
-                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">ID Booking</th>
+                        <tr class="border-b border-black">
+                            <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2 pl-6">ID Booking</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Pelanggan</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Layanan & Sesi</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Metode</th>
@@ -208,14 +207,14 @@
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Fotografer</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Total Biaya</th>
                             <th class="text-left text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pr-4 pt-2">Status</th>
-                            <th class="text-right text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pt-2">Aksi Pengelolaan</th>
+                            <th class="text-right text-[9px] font-black uppercase tracking-widest text-slate-400 pb-3 pt-2 pr-6">Aksi Pengelolaan</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50 font-semibold text-slate-800">
+                    <tbody class="font-semibold text-slate-800">
                         @foreach ($bookings as $booking)
-                        <tr class="group hover:bg-slate-50/60 transition-colors">
+                        <tr class="group hover:bg-slate-50/60 transition-colors border-b border-black">
                             {{-- ID Booking --}}
-                            <td class="py-4 pr-4 font-bold text-slate-900 font-sans tracking-wide text-xs">
+                            <td class="py-4 pr-4 pl-6 font-bold text-slate-900 font-sans tracking-wide text-xs">
                                 {{ $booking->id }}
                             </td>
 
@@ -284,11 +283,11 @@
                             <td class="py-4 pr-4">
                                 @php
                                     $badgeStyle = match($booking->status) {
-                                        'Pending' => 'bg-amber-50 text-amber-800 border-amber-200',
-                                        'Confirmed' => 'bg-sky-50 text-sky-800 border-sky-200',
-                                        'Completed' => 'bg-emerald-50 text-emerald-800 border-emerald-200',
-                                        'Cancelled' => 'bg-rose-50 text-rose-800 border-rose-200',
-                                        default => 'bg-slate-50 text-slate-800 border-amber-300',
+                                        'Pending' => 'bg-amber-500 text-white border-transparent',
+                                        'Confirmed' => 'bg-sky-500 text-white border-transparent',
+                                        'Completed' => 'bg-emerald-500 text-white border-transparent',
+                                        'Cancelled' => 'bg-rose-600 text-white border-transparent',
+                                        default => 'bg-slate-500 text-white border-transparent',
                                     };
                                 @endphp
                                 <span class="px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border {{ $badgeStyle }} inline-block leading-none shadow-sm">
@@ -305,20 +304,20 @@
                             </td>
 
                             {{-- Aksi Pengelolaan --}}
-                            <td class="py-4 text-right">
+                            <td class="py-4 text-right pr-6">
                                 <div class="flex items-center justify-end gap-1.5">
                                     @if ($booking->status === 'Pending')
                                         <form action="{{ route('admin.bookings.updateStatus', $booking->id) }}" method="POST" class="inline">
                                             @csrf @method('PUT')
                                             <input type="hidden" name="status" value="Confirmed">
-                                            <button type="submit" class="px-3 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-600 hover:text-white font-black uppercase text-[9px] tracking-wider rounded-xl transition-all duration-300 active:scale-95 shadow-sm">
+                                            <button type="submit" class="px-3 py-1.5 bg-emerald-500 text-white border border-emerald-600 hover:bg-emerald-600 font-black uppercase text-[9px] tracking-wider rounded-xl transition-all duration-300 active:scale-95 shadow-sm shadow-emerald-500/30">
                                                 Setujui
                                             </button>
                                         </form>
                                         <form action="{{ route('admin.bookings.updateStatus', $booking->id) }}" method="POST" class="inline">
                                             @csrf @method('PUT')
                                             <input type="hidden" name="status" value="Cancelled">
-                                            <button type="submit" class="px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-600 hover:text-white font-black uppercase text-[9px] tracking-wider rounded-xl transition-all duration-300 active:scale-95 shadow-sm"
+                                            <button type="submit" class="px-3 py-1.5 bg-rose-500 text-white border border-rose-600 hover:bg-rose-600 font-black uppercase text-[9px] tracking-wider rounded-xl transition-all duration-300 active:scale-95 shadow-sm shadow-rose-500/30"
                                                 onsubmit="return confirm('Tolak booking {{ $booking->id }} ini?')">
                                                 Tolak
                                             </button>
@@ -327,15 +326,15 @@
                                         <form action="{{ route('admin.bookings.updateStatus', $booking->id) }}" method="POST" class="inline">
                                             @csrf @method('PUT')
                                             <input type="hidden" name="status" value="Completed">
-                                            <button type="submit" class="px-3 py-1.5 bg-amber-600 text-white font-black uppercase text-[9px] tracking-wider rounded-xl hover:bg-amber-700 border border-amber-700 shadow-md shadow-amber-900/10 transition-all duration-300 active:scale-95">
+                                            <button type="submit" class="px-3 py-1.5 bg-sky-500 text-white font-black uppercase text-[9px] tracking-wider rounded-xl hover:bg-sky-600 border border-sky-600 shadow-sm shadow-sky-500/30 transition-all duration-300 active:scale-95">
                                                 Selesaikan
                                             </button>
                                         </form>
                                     @endif
 
                                     <button type="button"
-                                        onclick="showBill('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}', 'Rp {{ number_format($booking->amount, 0, ',', '.') }}', '{{ $booking->status }}', '{{ $booking->payment_method ?? 'Transfer' }}', 'Rp {{ number_format($booking->discount, 0, ',', '.') }}', '{{ e(json_encode($booking->addons ?? [])) }}')"
-                                        class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-amber-300 hover:border-slate-350 font-bold rounded-xl text-[9px] uppercase tracking-wider transition-all duration-300 active:scale-95">
+                                        onclick="showBill('{{ $booking->id }}', '{{ addslashes($booking->user->name ?? 'User Terhapus') }}', '{{ $booking->user->email ?? '' }}', '{{ addslashes($booking->service_name) }}', '{{ $booking->booking_date->format('d M Y') }}, {{ $booking->booking_date->format('H.i') }} - {{ $booking->booking_date->copy()->addHour()->format('H.i') }}', 'Rp {{ number_format($booking->amount, 0, ',', '.') }}', '{{ $booking->status }}', '{{ $booking->payment_method ?? 'Transfer' }}', 'Rp {{ number_format($booking->discount, 0, ',', '.') }}', '{{ e(json_encode($booking->addons ?? [])) }}', '{{ addslashes($booking->review ?? '') }}')"
+                                        class="px-3 py-1.5 bg-amber-400 hover:bg-amber-500 text-amber-900 border border-amber-500 hover:border-amber-600 font-black rounded-xl text-[9px] uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-sm shadow-amber-400/30">
                                         Tagihan
                                     </button>
                                 </div>
@@ -399,6 +398,11 @@
                 <div id="bill-addons-section" class="hidden border-t border-dashed border-amber-300 pt-3.5 mt-3.5 space-y-2">
                     <span class="text-slate-500 uppercase tracking-wider text-[9px] block">Layanan Tambahan (Add-ons)</span>
                     <div id="bill-addons-list" class="space-y-1.5"></div>
+                </div>
+                
+                <div id="bill-review-section" class="hidden border-t border-dashed border-amber-300 pt-3.5 mt-3.5 space-y-2">
+                    <span class="text-emerald-600 uppercase tracking-wider text-[9px] font-black block">Ulasan Klien</span>
+                    <p id="bill-review-text" class="text-[11px] text-emerald-800 italic font-medium bg-emerald-50 p-3 rounded-xl border border-emerald-200"></p>
                 </div>
             </div>
 
@@ -466,7 +470,7 @@
 @section('scripts')
 <script>
     // Modal Utils
-    function showBill(id, client, email, service, date, amount, status, paymentMethod, discount, addonsJson) {
+    function showBill(id, client, email, service, date, amount, status, paymentMethod, discount, addonsJson, reviewText) {
         document.getElementById('bill-booking-id').textContent = '#' + id;
         document.getElementById('bill-client').textContent = client;
         document.getElementById('bill-email').textContent = email;
@@ -531,6 +535,18 @@
             addonsSection.classList.remove('hidden');
         } else {
             addonsSection.classList.add('hidden');
+        }
+
+        // Review Section
+        const reviewSection = document.getElementById('bill-review-section');
+        const reviewTextEl = document.getElementById('bill-review-text');
+        
+        if (reviewText) {
+            reviewSection.classList.remove('hidden');
+            reviewTextEl.textContent = '"' + reviewText + '"';
+        } else {
+            reviewSection.classList.add('hidden');
+            reviewTextEl.textContent = '';
         }
 
         openModal('modal-bill');
